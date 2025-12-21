@@ -1,39 +1,45 @@
+// @ts-nocheck
 "use client"
 
+import { X, Building2, MapPin, Share2, Briefcase, DollarSign, Calendar, CheckCircle2, Clock } from "lucide-react"
 import styles from "./index.module.css"
 
 export default function JobDetailModal({ job, onClose }) {
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.close} onClick={onClose}>
-          ✕
+        <button className={styles.close} onClick={onClose} aria-label="Fechar">
+          <X size={24} />
         </button>
 
         <div className={styles.header}>
-          <div className={styles.companyLogo}>🏢</div>
-          <div>
+          <div className={styles.companyLogo}>
+            <Building2 size={32} color="#1e40af" />
+          </div>
+          <div className={styles.headerText}>
             <h2 className={styles.title}>{job.title}</h2>
             <p className={styles.company}>Empresa Exemplo Ltda</p>
           </div>
-          <button className={styles.share}>Compartilhar</button>
+          <button className={styles.share}>
+            <Share2 size={16} /> Compartilhar
+          </button>
         </div>
 
         <div className={styles.infoGrid}>
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>Cargo</span>
+            <span className={styles.infoLabel}><Briefcase size={12} /> Cargo</span>
             <span className={styles.infoValue}>{job.title}</span>
           </div>
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>Tipo</span>
+            <span className={styles.infoLabel}><Clock size={12} /> Tipo</span>
             <span className={styles.infoValue}>{job.type}</span>
           </div>
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>Salário</span>
+            <span className={styles.infoLabel}><DollarSign size={12} /> Salário</span>
             <span className={styles.infoValue}>{job.salary}</span>
           </div>
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>Publicado</span>
+            <span className={styles.infoLabel}><Calendar size={12} /> Publicado</span>
             <span className={styles.infoValue}>{job.date}</span>
           </div>
         </div>
@@ -41,12 +47,9 @@ export default function JobDetailModal({ job, onClose }) {
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Benefícios</h3>
           <div className={styles.benefits}>
-            <span className={styles.benefitTag}>Vale Alimentação</span>
-            <span className={styles.benefitTag}>Plano de Saúde</span>
-            <span className={styles.benefitTag}>Vale Transporte</span>
-            <span className={styles.benefitTag}>Auxílio Creche</span>
-            <span className={styles.benefitTag}>Seguro de Vida</span>
-            <span className={styles.benefitTag}>Home Office</span>
+            {["Vale Alimentação", "Plano de Saúde", "Vale Transporte", "Home Office"].map((benefit, i) => (
+              <span key={i} className={styles.benefitTag}>{benefit}</span>
+            ))}
           </div>
         </div>
 
@@ -54,52 +57,30 @@ export default function JobDetailModal({ job, onClose }) {
           <h3 className={styles.sectionTitle}>Requisitos</h3>
           <ul className={styles.requirementsList}>
             <li>
-              <strong>Escolaridade:</strong> Ensino Superior Completo em Tecnologia da Informação ou áreas correlatas
+              <CheckCircle2 size={16} className={styles.checkIcon} />
+              <span><strong>Escolaridade:</strong> Ensino Superior Completo</span>
             </li>
             <li>
-              <strong>Fluência:</strong> Português nativo, Inglês intermediário (leitura técnica)
-            </li>
-            <li>
-              <strong>Experiência anterior:</strong> Mínimo 2 anos com desenvolvimento web
-            </li>
-            <li>
-              <strong>Conhecimentos:</strong> React, JavaScript ES6+, HTML5, CSS3, Git
+              <CheckCircle2 size={16} className={styles.checkIcon} />
+              <span><strong>Experiência:</strong> Mínimo 2 anos com desenvolvimento</span>
             </li>
           </ul>
         </div>
 
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Endereço a ser realizado</h3>
-          <p className={styles.text}>
-            Av. Paulista, 1500 - Bela Vista, São Paulo - SP, 01310-100
-            <br />
-            Próximo à estação de metrô Consolação
-          </p>
-        </div>
-
-        <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Horário de trabalho</h3>
-          <p className={styles.text}>
-            Segunda a Sexta-feira: 09h00 às 18h00
-            <br />
-            Intervalo de 1 hora para almoço
-            <br />
-            Modelo híbrido: 3x presencial, 2x home office
-          </p>
-        </div>
-
-        <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Habilidades desejadas</h3>
-          <div className={styles.tags}>
-            <span className={styles.tag}>React</span>
-            <span className={styles.tag}>JavaScript</span>
-            <span className={styles.tag}>CSS</span>
-            <span className={styles.tag}>HTML</span>
+          <h3 className={styles.sectionTitle}>Localização e Horário</h3>
+          <div className={styles.locationBox}>
+            <p className={styles.text}>
+              <MapPin size={16} /> Av. Paulista, 1500 - São Paulo, SP
+            </p>
+            <p className={styles.text}>
+              <Clock size={16} /> Segunda a Sexta: 09h às 18h (Híbrido)
+            </p>
           </div>
         </div>
 
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Descrição</h3>
+          <h3 className={styles.sectionTitle}>Descrição da Vaga</h3>
           <p className={styles.text}>{job.description}</p>
         </div>
 

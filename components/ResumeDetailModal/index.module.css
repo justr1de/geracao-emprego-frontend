@@ -1,285 +1,167 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 2rem;
+  padding: 0.5rem;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-bottom: 16px;
-  border-bottom: 3px solid #000;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 4px solid #000;
 }
 
 .avatar {
   width: 80px;
   height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1e40af 0%, #16a34a 100%);
+  background: #1e40af;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
-  font-weight: bold;
-  border: 3px solid #000;
+  font-size: 2rem;
+  font-weight: 900;
+  border: 4px solid #000;
+  box-shadow: 4px 4px 0px #000;
   flex-shrink: 0;
 }
 
 .name {
-  font-size: 24px;
-  font-weight: 800;
-  color: #000;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
   margin: 0;
+  line-height: 1.1;
 }
 
 .profession {
-  font-size: 16px;
-  color: #1e40af;
-  font-weight: 600;
-  margin: 4px 0 0 0;
-}
-
-.infoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.infoItem {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #666;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #1e40af;
+  font-weight: 800;
+  margin-top: 0.5rem;
   text-transform: uppercase;
-}
-
-.value {
-  font-size: 16px;
-  font-weight: 600;
-  color: #000;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .sectionTitle {
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
   color: #000;
-  margin: 0;
+  border-left: 5px solid #16a34a;
+  padding-left: 0.75rem;
+}
+
+.otherInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .about {
-  font-size: 15px;
+  font-size: 0.95rem;
   line-height: 1.6;
-  color: #333;
-  margin: 0;
+  font-weight: 600;
+  color: #334155;
+  background: #fff;
+  padding: 1rem;
+  border: 2px dashed #000;
 }
 
 .skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .skillTag {
-  padding: 8px 16px;
-  background: #f0f9ff;
-  color: #1e40af;
-  border: 2px solid #1e40af;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 700;
+  padding: 0.5rem 1rem;
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 2px solid #000;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  box-shadow: 2px 2px 0px #000;
 }
 
 .contactBtn {
   width: 100%;
-  padding: 16px;
-  background: #1e40af;
+  padding: 1.25rem;
+  background: #16a34a;
   color: white;
-  border: 3px solid #000;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 800;
+  border: 4px solid #000;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
-  transition: all 0.2s;
-  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: 4px 4px 0px #000;
+  transition: all 0.3s ease-out;
+  margin-top: 1rem;
 }
 
 .contactBtn:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0px #000;
+  background: #15803d;
+}
+
+.contactBtn:active {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 0px #000;
 }
 
-/* Added styles for new sections: Other Info, Timeline, Education, Courses */
-.otherInfoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  padding: 16px;
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-}
-
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  position: relative;
-  padding-left: 24px;
-  border-left: 3px solid #1e40af;
-}
-
-.timelineItem {
-  position: relative;
-  display: flex;
-  gap: 16px;
-}
-
-.timelineDot {
-  position: absolute;
-  left: -27px;
-  top: 4px;
-  width: 12px;
-  height: 12px;
-  background: #1e40af;
-  border: 3px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px #000;
-}
-
-.timelineContent {
-  flex: 1;
-}
-
-.timelineTitle {
-  font-size: 16px;
-  font-weight: 800;
-  color: #000;
-  margin: 0 0 4px 0;
-}
-
-.timelineCompany {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1e40af;
-  margin: 0 0 4px 0;
-}
-
-.timelineDate {
-  font-size: 13px;
-  color: #666;
-  font-weight: 600;
-  margin: 0 0 8px 0;
-}
-
-.timelineDescription {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #333;
-  margin: 0;
-}
-
-.educationList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.educationItem {
-  padding: 16px;
-  background: #f0f9ff;
-  border: 2px solid #1e40af;
-  border-radius: 8px;
-}
-
-.educationTitle {
-  font-size: 16px;
-  font-weight: 800;
-  color: #000;
-  margin: 0 0 4px 0;
-}
-
-.educationInstitution {
-  font-size: 14px;
-  color: #1e40af;
-  font-weight: 600;
-  margin: 0 0 4px 0;
-}
-
-.educationDate {
-  font-size: 13px;
-  color: #666;
-  margin: 0;
-}
-
-.coursesList {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.courseItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  background: #fff;
-  border: 2px solid #000;
-  border-radius: 8px;
-  box-shadow: 3px 3px 0 #000;
-}
-
-.courseBadge {
-  font-size: 14px;
-  font-weight: 700;
-  color: #000;
-}
-
-.courseInstitution {
-  font-size: 13px;
-  color: #666;
-  font-weight: 600;
-}
-
-@media (max-width: 768px) {
-  .infoGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .avatar {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-  }
-
-  .name {
-    font-size: 20px;
-  }
-
+/* Responsividade */
+@media (max-width: 640px) {
   .otherInfoGrid {
     grid-template-columns: 1fr;
   }
-
-  .timeline {
-    padding-left: 20px;
-  }
-
-  .courseItem {
+  
+  .header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+    text-align: center;
+  }
+  
+  .profession {
+    justify-content: center;
   }
 }

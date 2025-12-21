@@ -1,168 +1,142 @@
 .sidebar {
   background: white;
-  border: 3px solid #000;
-  border-radius: 12px;
-  box-shadow: 6px 6px 0 #000;
-  overflow: hidden;
-  width: 350px;
+  border: 4px solid #000;
+  box-shadow: 6px 6px 0px #000;
+  width: 100%;
+  max-width: 380px;
   height: fit-content;
-  max-height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
 }
 
-/* Added section wrapper for "Em Andamento" and "Encerrados" groups */
 .section {
   display: flex;
   flex-direction: column;
 }
 
-.section:not(:last-child) {
-  border-bottom: 3px solid #e5e7eb;
-}
-
 .header {
-  padding: 1.5rem;
-  border-bottom: 3px solid #e5e7eb;
-  background: #f3f4f6;
+  padding: 1rem 1.5rem;
+  background: #f1f5f9;
+  border-bottom: 4px solid #000;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.headerClosed {
+  background: #e2e8f0;
+  border-top: 4px solid #000;
+}
+
 .title {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #111;
-  margin: 0;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #000;
 }
 
 .count {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: white;
-  background: #1e40af;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #fff;
+  background: #000;
+  padding: 0.2rem 0.6rem;
+  border: 2px solid #000;
 }
 
 .list {
   padding: 1rem;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-height: 400px;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
+/* Scrollbar Brutalista */
+.list::-webkit-scrollbar { width: 8px; }
+.list::-webkit-scrollbar-track { background: #f1f5f9; }
+.list::-webkit-scrollbar-thumb { background: #000; border: 2px solid #f1f5f9; }
+
 .card {
-  padding: 1.25rem;
+  padding: 1rem;
   background: white;
-  border: 2px solid #e5e7eb;
-  border-radius: 10px;
+  border: 3px solid #000;
+  text-align: left;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease-out;
+  box-shadow: 3px 3px 0px #000;
 }
 
 .card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0px #1e40af;
   border-color: #1e40af;
-  transform: translateX(-2px);
-  box-shadow: 4px 4px 0 #1e40af;
 }
 
 .cardActive {
-  border-color: #1e40af;
-  border-width: 3px;
   background: #eff6ff;
-  box-shadow: 4px 4px 0 #1e40af;
+  border-color: #1e40af;
+  box-shadow: 4px 4px 0px #1e40af;
+  transform: translate(-2px, -2px);
 }
 
-/* Added styling for closed notices */
 .cardClosed {
-  opacity: 0.7;
+  background: #f8fafc;
+  opacity: 0.8;
 }
 
 .cardClosed:hover {
   opacity: 1;
-  border-color: #6b7280;
-  box-shadow: 4px 4px 0 #6b7280;
+  box-shadow: 6px 6px 0px #475569;
+  border-color: #475569;
 }
 
 .cardType {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
-  background: #dbeafe;
-  border: 2px solid #1e40af;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #1e40af;
-  margin-bottom: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  background: #000;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
 }
 
 .cardTitle {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #111;
-  margin: 0 0 0.5rem 0;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+  text-transform: uppercase;
 }
 
 .cardOrg {
-  font-size: 0.875rem;
-  color: #6b7280;
-  font-weight: 500;
-  margin: 0 0 0.75rem 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 0.75rem;
+  color: #4b5563;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
 }
 
 .cardFooter {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.cardDeadline {
-  font-size: 0.8125rem;
-  font-weight: 600;
+  padding-top: 0.5rem;
+  border-top: 2px solid #f1f5f9;
   color: #dc2626;
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-transform: uppercase;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
   .sidebar {
-    width: 100%;
+    max-width: 100%;
     max-height: none;
   }
-
   .list {
-    max-height: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .header {
-    padding: 1rem;
-  }
-
-  .title {
-    font-size: 1.125rem;
-  }
-
-  .list {
-    padding: 0.75rem;
-  }
-
-  .card {
-    padding: 1rem;
+    max-height: 500px;
   }
 }

@@ -1,64 +1,72 @@
+// @ts-nocheck
 "use client"
-
-import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { Eye, EyeOff, LogIn } from "lucide-react"
 import styles from "./page.module.css"
 
 export default function LoginPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
-  const [formData, setFormData] = useState({
-    login: "",
-    password: "",
-  })
+  const [formData, setFormData] = useState({ login: "", password: "" })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    console.log("[v0] Login:", formData)
-    router.push("/")
+    console.log("Login enviado:", formData)
+    router.push("/") 
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftPanel}>
+      <aside className={styles.leftPanel}>
         <div className={styles.logoSection}>
           <h1 className={styles.logo}>Geração Emprego</h1>
-          <p className={styles.tagline}>Conectando talentos e oportunidades</p>
+          <p className={styles.tagline}>Conectando você ao futuro.</p>
         </div>
-      </div>
+      </aside>
 
-      <div className={styles.rightPanel}>
+      <main className={styles.rightPanel}>
         <div className={styles.formContainer}>
-          <h2 className={styles.title}>Seja bem-vindo(a)</h2>
-          <p className={styles.subtitle}>Entre com sua conta para continuar</p>
+          <header>
+            <h2 className={styles.title}>Entrar</h2>
+            <p className={styles.subtitle}>Acesse sua conta para continuar</p>
+          </header>
 
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>
-              <label>Login</label>
+              <label htmlFor="login">E-mail ou CPF</label>
               <input
+                id="login"
                 type="text"
-                placeholder="Seu CPF ou E-mail"
+                placeholder="Ex: 000.000.000-00"
                 value={formData.login}
                 onChange={(e) => setFormData({ ...formData, login: e.target.value })}
                 required
+                className={styles.input}
               />
             </div>
 
             <div className={styles.inputGroup}>
-              <label>Senha</label>
+              <label htmlFor="password">Senha</label>
               <div className={styles.passwordWrapper}>
                 <input
+                  id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Sua senha"
+                  placeholder="********"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
+                  className={styles.input}
                 />
-                <button type="button" className={styles.eyeBtn} onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? "🙈" : "👁️"}
+                <button 
+                  type="button" 
+                  className={styles.eyeBtn} 
+                  onClick={() => setShowPassword(!showPassword)}
+                  tabIndex="-1"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
             </div>
@@ -68,15 +76,18 @@ export default function LoginPage() {
             </Link>
 
             <button type="submit" className={styles.submitBtn}>
-              Entrar
+              <LogIn size={20} />
+              Acessar Sistema
             </button>
           </form>
 
-          <p className={styles.registerLink}>
-            Não tem conta? <Link href="/cadastro">Cadastre-se aqui</Link>
-          </p>
+          <footer className={styles.footer}>
+            <p className={styles.registerLink}>
+              Ainda não tem conta? <Link href="/cadastro">Cadastre-se</Link>
+            </p>
+          </footer>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

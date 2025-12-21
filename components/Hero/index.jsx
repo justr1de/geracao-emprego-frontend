@@ -15,12 +15,17 @@ export default function Hero() {
   return (
     <section className={styles.hero}>
       <div className={styles.heroContent}>
-        <h1 className={styles.title}>Bem-vindo ao Geração Emprego</h1>
-        <p className={styles.subtitle}>Como posso te ajudar hoje?</p>
+        <h1 className={styles.title}>Geração Emprego</h1>
+        <p className={styles.subtitle}>O que você busca hoje?</p>
 
         <div className={styles.cards}>
           {cards.map((card, index) => (
-            <Link key={index} href={card.href} className={styles.card} style={{ "--card-color": card.color }}>
+            <Link 
+              key={index} 
+              href={card.href} 
+              className={styles.card} 
+              style={{ "--card-color": card.color }} // Removido o "as ..."
+            >
               <card.icon className={styles.cardIcon} />
               <h3 className={styles.cardTitle}>{card.title}</h3>
             </Link>

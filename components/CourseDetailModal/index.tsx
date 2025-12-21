@@ -1,6 +1,7 @@
 "use client"
 
 import ModalOverlay from "@/components/ModalOverlay"
+import { BookOpen, Clock, Monitor, Award, CheckCircle2, ListChecks } from "lucide-react"
 import styles from "./index.module.css"
 
 interface Course {
@@ -25,24 +26,32 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
     <ModalOverlay onClose={onClose}>
       <div className={styles.content}>
         <div className={styles.header}>
-          <div className={styles.badge}>{course.institution}</div>
+          <div className={styles.badge}>
+            <Award size={14} /> {course.institution}
+          </div>
           <h2 className={styles.title}>{course.title}</h2>
-          <span className={styles.category}>{course.category}</span>
+          <span className={styles.category}>
+            <BookOpen size={14} /> {course.category}
+          </span>
         </div>
 
         <div className={styles.infoRow}>
           <div className={styles.infoCard}>
-            <span className={styles.infoLabel}>Duração</span>
+            <span className={styles.infoLabel}>
+              <Clock size={14} /> Duração
+            </span>
             <span className={styles.infoValue}>{course.duration}</span>
           </div>
           <div className={styles.infoCard}>
-            <span className={styles.infoLabel}>Modalidade</span>
+            <span className={styles.infoLabel}>
+              <Monitor size={14} /> Modalidade
+            </span>
             <span className={styles.infoValue}>{course.modality}</span>
           </div>
         </div>
 
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Descrição</h3>
+          <h3 className={styles.sectionTitle}>Sobre o curso</h3>
           <p className={styles.description}>{course.description}</p>
         </div>
 
@@ -51,7 +60,10 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
             <h3 className={styles.sectionTitle}>Requisitos</h3>
             <ul className={styles.list}>
               {course.requirements.map((req, i) => (
-                <li key={i}>{req}</li>
+                <li key={i}>
+                  <CheckCircle2 size={16} className={styles.listIcon} />
+                  <span>{req}</span>
+                </li>
               ))}
             </ul>
           </div>
@@ -59,16 +71,19 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
 
         {course.syllabus && course.syllabus.length > 0 && (
           <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Conteúdo Programático</h3>
+            <h3 className={styles.sectionTitle}>O que você vai aprender</h3>
             <ul className={styles.list}>
               {course.syllabus.map((item, i) => (
-                <li key={i}>{item}</li>
+                <li key={i}>
+                  <ListChecks size={16} className={styles.listIcon} />
+                  <span>{item}</span>
+                </li>
               ))}
             </ul>
           </div>
         )}
 
-        <button className={styles.enrollBtn}>Inscrever-se</button>
+        <button className={styles.enrollBtn}>Realizar Inscrição</button>
       </div>
     </ModalOverlay>
   )

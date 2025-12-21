@@ -1,101 +1,98 @@
 .statsBar {
+  /* Gradiente mais vibrante acompanhando a identidade */
   background: linear-gradient(90deg, #1e40af 0%, #16a34a 100%);
-  /* More whitespace with mobile-first padding */
-  padding: 2.5rem 1.25rem;
+  padding: 2rem 1rem;
   border-bottom: 5px solid #000;
+  position: relative;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  /* Mobile-first: single column */
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid;
+  /* Mobile: 2 colunas para economizar espaço vertical */
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 0.75rem;
 }
 
 .stat {
   display: flex;
+  flex-direction: column; /* Icone em cima, texto embaixo no mobile */
   align-items: center;
-  gap: 1rem;
-  background: rgba(255, 255, 255, 0.15);
-  /* Reduced padding for sleeker look */
-  padding: 1.25rem;
-  border: 3px solid #fff;
+  justify-content: center;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border: 3px solid #000; /* Borda preta para dar o contraste neo-brutalista */
+  background-color: #fff; /* Fundo branco para destacar os números */
   box-shadow: 4px 4px 0px #000;
+  transition: transform 0.2s;
 }
 
 .statIcon {
-  /* Smaller icon for better proportion */
-  width: 40px;
-  height: 40px;
-  color: white;
+  width: 32px;
+  height: 32px;
+  color: #1e40af; /* Azul fixo para padrão ou pode ser dinâmico */
   stroke-width: 2.5px;
-  flex-shrink: 0;
+  margin-bottom: 0.5rem;
 }
 
 .statContent {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 }
 
 .statValue {
-  /* Reduced font size for mobile */
-  font-size: 1.875rem;
+  font-size: 1.25rem; /* Menor no mobile para caber 2 por linha */
   font-weight: 900;
-  color: white;
+  color: #000;
   line-height: 1;
-  text-shadow: 3px 3px 0px #000;
 }
 
 .statLabel {
-  /* Better font size for readability */
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #4b5563;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  margin-top: 4px;
 }
 
-/* Tablet responsive grid */
+/* Tablet: Melhora o espaçamento e volta para linha única */
 @media (min-width: 640px) {
   .container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  
+  .stat {
+    flex-direction: row; /* Volta para lado a lado no tablet/pc */
+    text-align: left;
+    padding: 1.25rem;
+  }
+
+  .statIcon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0;
+    margin-right: 1rem;
   }
 
   .statValue {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
+  }
+
+  .statLabel {
+    font-size: 0.8rem;
   }
 }
 
-/* Desktop responsive grid */
+/* Desktop */
 @media (min-width: 1024px) {
   .statsBar {
     padding: 3rem 2rem;
   }
 
-  .container {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-  }
-
-  .stat {
-    padding: 1.5rem;
-  }
-
-  .statIcon {
-    width: 44px;
-    height: 44px;
-  }
-
   .statValue {
-    font-size: 2.5rem;
-  }
-
-  .statLabel {
-    font-size: 0.95rem;
+    font-size: 2.25rem;
   }
 }

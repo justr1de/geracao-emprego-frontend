@@ -4,90 +4,108 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 2000;
   padding: 1rem;
 }
 
 .modal {
   background: white;
   border: 4px solid #000;
-  border-radius: 16px;
-  box-shadow: 8px 8px 0 #000;
+  box-shadow: 10px 10px 0 #000;
   max-width: 700px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   padding: 2rem;
   position: relative;
+  transition: all 0.3s ease-out;
 }
 
 .close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #fff;
+  border: 3px solid #000;
   cursor: pointer;
-  color: #6b7280;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease-out;
+  box-shadow: 2px 2px 0 #000;
 }
 
 .close:hover {
-  color: #111;
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #000;
+  background: #fee2e2;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 4px solid #000;
 }
 
 .companyLogo {
-  width: 60px;
-  height: 60px;
-  background: #dbeafe;
+  width: 70px;
+  height: 70px;
+  background: #f1f5f9;
   border: 3px solid #000;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
   flex-shrink: 0;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.headerText {
+  flex: 1;
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #111;
-  margin-bottom: 0.25rem;
+  font-size: clamp(1.2rem, 4vw, 1.75rem);
+  font-weight: 900;
+  color: #000;
+  text-transform: uppercase;
+  margin: 0;
 }
 
 .company {
-  font-size: 0.9375rem;
-  color: #6b7280;
-  font-weight: 600;
+  font-size: 1rem;
+  color: #1e40af;
+  font-weight: 800;
+  margin-top: 4px;
 }
 
 .share {
-  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
   background: white;
-  border: 2px solid #1e40af;
-  border-radius: 8px;
-  color: #1e40af;
-  font-weight: 700;
+  border: 3px solid #000;
+  font-weight: 800;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  transition: all 0.3s ease-out;
+  box-shadow: 3px 3px 0 #000;
+}
+
+.share:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #000;
 }
 
 .infoGrid {
@@ -95,29 +113,31 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
+  padding: 1.25rem;
+  background: #fff;
+  border: 3px solid #000;
+  box-shadow: 5px 5px 0 #f59e0b;
 }
 
 .infoItem {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 }
 
 .infoLabel {
-  font-size: 0.75rem;
-  color: #6b7280;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 900;
   text-transform: uppercase;
 }
 
 .infoValue {
-  font-size: 0.9375rem;
-  color: #111;
-  font-weight: 700;
+  font-size: 1rem;
+  color: #000;
+  font-weight: 800;
 }
 
 .section {
@@ -125,108 +145,102 @@
 }
 
 .sectionTitle {
-  font-size: 1.125rem;
-  font-weight: 800;
-  color: #111;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #000;
   margin-bottom: 1rem;
+  text-transform: uppercase;
+  border-left: 5px solid #16a34a;
+  padding-left: 10px;
 }
 
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tag {
-  padding: 0.5rem 1rem;
-  background: #dbeafe;
-  border: 2px solid #1e40af;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #1e40af;
-}
-
-.text {
-  font-size: 0.9375rem;
-  color: #374151;
-  line-height: 1.6;
-}
-
-.applyButton {
-  width: 100%;
-  padding: 1rem;
-  background: #16a34a;
-  color: white;
-  border: 3px solid #000;
-  border-radius: 12px;
-  font-size: 1.125rem;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 4px 4px 0 #000;
-  transition: all 0.2s;
-}
-
-.applyButton:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 #000;
-}
-
-/* Added styles for Benefits (green tags), Requirements, Work Location, and Schedule */
 .benefits {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .benefitTag {
   padding: 0.5rem 1rem;
   background: #dcfce7;
-  border: 2px solid #16a34a;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 700;
+  border: 2px solid #000;
+  font-size: 0.8rem;
+  font-weight: 800;
   color: #16a34a;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 #000;
 }
 
 .requirementsList {
   list-style: none;
   padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .requirementsList li {
-  padding: 12px 16px;
-  background: #f9fafb;
-  border-left: 4px solid #1e40af;
-  font-size: 0.9375rem;
-  color: #374151;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 2px solid #000;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.checkIcon {
+  color: #16a34a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.locationBox {
+  padding: 1rem;
+  border: 2px dashed #000;
+  background: #fff;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #1a1a1a;
   line-height: 1.6;
+  font-weight: 600;
 }
 
-.requirementsList li strong {
-  color: #1e40af;
-  font-weight: 800;
+.applyButton {
+  width: 100%;
+  padding: 1.25rem;
+  background: #16a34a;
+  color: white;
+  border: 4px solid #000;
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 6px 6px 0 #000;
+  transition: all 0.3s ease-out;
+  margin-top: 1rem;
 }
 
-@media (max-width: 768px) {
-  .modal {
-    padding: 1.5rem;
-  }
+.applyButton:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0 #000;
+  background: #15803d;
+}
 
-  .infoGrid {
-    grid-template-columns: 1fr;
-  }
+.applyButton:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #000;
+}
 
-  .header {
-    flex-wrap: wrap;
-  }
-
-  .share {
-    width: 100%;
-    margin-left: 0;
-  }
+@media (max-width: 640px) {
+  .infoGrid { grid-template-columns: 1fr; }
+  .header { flex-direction: column; text-align: center; }
+  .share { width: 100%; justify-content: center; }
+  .modal { padding: 1.25rem; }
 }

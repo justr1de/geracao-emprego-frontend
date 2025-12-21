@@ -1,34 +1,52 @@
 .pageContainer {
-  padding: 2rem 1rem;
   max-width: 1400px;
   margin: 0 auto;
-  min-height: 60vh;
+  padding: 1.5rem;
+  min-height: 100vh;
+}
+
+.topActions {
+  margin-bottom: 1.5rem;
 }
 
 .content {
   display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 2.5rem;
+  align-items: flex-start;
 }
 
-/* Main content takes priority, sidebar on the right */
+/* Removida a borda e sombra daqui para evitar duplicidade com o NoticeDetail */
 .mainContent {
   flex: 1;
   min-width: 0;
 }
 
-@media (max-width: 1024px) {
+.sidebarWrapper {
+  width: 380px;
+  position: sticky;
+  top: 100px;
+}
+
+/* Responsividade Mobile - O "Filé" */
+@media (max-width: 1100px) {
   .content {
+    /* Inverte a ordem: Sidebar (escolha) fica em cima, Detalhe fica em baixo */
     flex-direction: column-reverse;
+    gap: 1.5rem;
+  }
+
+  .sidebarWrapper {
+    width: 100%;
+    position: static;
+  }
+
+  .mainContent {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .pageContainer {
-    padding: 1rem 0.75rem;
-  }
-
-  .content {
-    gap: 1.5rem;
+    padding: 1rem;
   }
 }

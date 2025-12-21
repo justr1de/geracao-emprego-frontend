@@ -8,7 +8,20 @@ import JobDetailModal from "@/components/JobDetailModal"
 import JobStats from "@/components/JobStats"
 import styles from "./page.module.css"
 
-const mockJobs = [
+// 1. Defina a interface para a vaga (Job)
+interface Job {
+  id: number
+  title: string
+  company: string
+  location: string
+  type: string
+  salary: string
+  description: string
+  requirements: string[]
+  benefits: string[]
+}
+
+const mockJobs: Job[] = [
   {
     id: 1,
     title: "Auxiliar de Supermercado",
@@ -20,11 +33,11 @@ const mockJobs = [
     requirements: ["Ensino médio completo", "Disponibilidade de horário"],
     benefits: ["Vale transporte", "Vale alimentação"],
   },
-  // Add more mock jobs...
 ]
 
 export default function JobsPage() {
-  const [selectedJob, setSelectedJob] = useState(null)
+  // 2. Informe ao useState que ele pode ser um 'Job' ou 'null'
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null)
 
   return (
     <div className={styles.pageContainer}>
@@ -42,13 +55,22 @@ export default function JobsPage() {
 
           <div className={styles.jobsGrid}>
             {mockJobs.map((job) => (
-              <JobCard key={job.id} job={job} onClick={() => setSelectedJob(job)} />
+              <JobCard 
+                key={job.id} 
+                job={job} 
+                onClick={() => setSelectedJob(job)} 
+              />
             ))}
           </div>
         </div>
       </div>
 
-      {selectedJob && <JobDetailModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
+      {selectedJob && (
+        <JobDetailModal 
+          job={selectedJob} 
+          onClose={() => setSelectedJob(null)} 
+        />
+      )}
     </div>
   )
 }
