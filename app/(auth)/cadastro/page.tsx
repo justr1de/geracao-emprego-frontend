@@ -11,7 +11,7 @@ export default function RegisterPage() {
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [phone, setPhone] = useState("")
-  const [code, setCode] = useState("")
+  const [phoneConfirm, setPhoneConfirm] = useState("")
   const [userType, setUserType] = useState("")
   const [showAssistantCode, setShowAssistantCode] = useState(false)
 
@@ -25,23 +25,25 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     assistantCode: "",
+    selfDeclaration: [] as string[],
   })
 
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("[v0] Phone submitted:", phone)
     setStep(2)
   }
 
-  const handleCodeSubmit = (e: React.FormEvent) => {
+  const handlePhoneConfirmSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("[v0] Code verified:", code)
+    if (phone !== phoneConfirm) {
+      alert("Os números de telefone não coincidem. Tente novamente.")
+      return
+    }
     setStep(3)
   }
 
   const handleFinalSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("[v0] Registration complete:", { userType, phone, ...formData })
     router.push("/")
   }
 
@@ -76,8 +78,8 @@ export default function RegisterPage() {
         <div className={styles.rightPanel}>
           <div className={styles.formContainer}>
             <div className={styles.stepIndicator}>Passo 1 de 3</div>
-            <h2 className={styles.title}>Informe seu telefone</h2>
-            <p className={styles.subtitle}>Vamos enviar um código de verificação</p>
+            <h2 className={styles.title}>Identificação</h2>
+            <p className={styles.subtitle}>Informe seu telefone para começar</p>
 
             <form onSubmit={handlePhoneSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
@@ -93,7 +95,7 @@ export default function RegisterPage() {
               </div>
 
               <button type="submit" className={styles.submitBtn}>
-                Enviar Código
+                Continuar
               </button>
             </form>
 
@@ -106,7 +108,7 @@ export default function RegisterPage() {
     )
   }
 
-  // Step 2: Verification Code
+  // Step 2: Phone Confirmation
   if (step === 2) {
     return (
       <div className={styles.container}>
@@ -120,28 +122,28 @@ export default function RegisterPage() {
         <div className={styles.rightPanel}>
           <div className={styles.formContainer}>
             <div className={styles.stepIndicator}>Passo 2 de 3</div>
-            <h2 className={styles.title}>Digite o código</h2>
-            <p className={styles.subtitle}>Enviamos um código para {phone}</p>
+            <h2 className={styles.title}>Confirmação</h2>
+            <p className={styles.subtitle}>Confirme seu telefone digitando novamente</p>
 
-            <form onSubmit={handleCodeSubmit} className={styles.form}>
+            <form onSubmit={handlePhoneConfirmSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
-                <label>Código de Verificação</label>
+                <label>Telefone cadastrado: {phone}</label>
                 <input
-                  type="text"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                  placeholder="000000"
-                  maxLength={6}
+                  type="tel"
+                  value={phoneConfirm}
+                  onChange={(e) => setPhoneConfirm(formatPhone(e.target.value))}
+                  placeholder="Digite novamente"
+                  maxLength={15}
                   required
                 />
               </div>
 
               <button type="submit" className={styles.submitBtn}>
-                Verificar Código
+                Confirmar
               </button>
 
               <button type="button" className={styles.backBtn} onClick={() => setStep(1)}>
-                Alterar Telefone
+                Voltar
               </button>
             </form>
           </div>
@@ -163,8 +165,8 @@ export default function RegisterPage() {
       <div className={styles.rightPanel}>
         <div className={styles.formContainer}>
           <div className={styles.stepIndicator}>Passo 3 de 3</div>
-          <h2 className={styles.title}>Complete seu cadastro</h2>
-          <p className={styles.subtitle}>Preencha todos os dados abaixo</p>
+          <h2 className={styles.title}>Dados Cadastrais</h2>
+          <p className={styles.subtitle}>Complete suas informações para finalizar</p>
 
           <div className={styles.userTypeSelection}>
             <button
@@ -191,6 +193,7 @@ export default function RegisterPage() {
                   type="text"
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  placeholder="Seu nome"
                   required
                 />
               </div>
@@ -201,6 +204,7 @@ export default function RegisterPage() {
                   type="text"
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  placeholder="Seu sobrenome"
                   required
                 />
               </div>
@@ -229,6 +233,7 @@ export default function RegisterPage() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="seu@email.com"
                 required
               />
             </div>
@@ -255,30 +260,70 @@ export default function RegisterPage() {
                   <option value="masculino">Masculino</option>
                   <option value="feminino">Feminino</option>
                   <option value="outro">Outro</option>
+                  <option value="prefiro-nao-dizer">Prefiro não dizer</option>
                 </select>
               </div>
             </div>
 
             <div className={styles.inputGroup}>
-              <label>Senha *</label>
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                minLength={6}
-                required
-              />
+              <label>Autodeclaração (opcional)</label>
+              <div className={styles.checkboxGroup}>
+                {[
+                  "Indígena",
+                  "Imigrante",
+                  "Ex-sistema prisional",
+                  "Mulher vítima de violência",
+                  "LGBTQIA+",
+                  "Pessoa com Deficiência (PcD)",
+                ].map((option) => (
+                  <label key={option} className={styles.checkbox}>
+                    <input
+                      type="checkbox"
+                      checked={formData.selfDeclaration.includes(option)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFormData({
+                            ...formData,
+                            selfDeclaration: [...formData.selfDeclaration, option],
+                          })
+                        } else {
+                          setFormData({
+                            ...formData,
+                            selfDeclaration: formData.selfDeclaration.filter((item) => item !== option),
+                          })
+                        }
+                      }}
+                    />
+                    <span>{option}</span>
+                  </label>
+                ))}
+              </div>
             </div>
 
-            <div className={styles.inputGroup}>
-              <label>Confirme sua Senha *</label>
-              <input
-                type="password"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                minLength={6}
-                required
-              />
+            <div className={styles.inputRow}>
+              <div className={styles.inputGroup}>
+                <label>Senha *</label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  placeholder="Mínimo 6 caracteres"
+                  minLength={6}
+                  required
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label>Confirme sua Senha *</label>
+                <input
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  placeholder="Digite a senha novamente"
+                  minLength={6}
+                  required
+                />
+              </div>
             </div>
 
             <div className={styles.assistantSection}>

@@ -122,6 +122,138 @@
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
 }
 
+/* Added styles for new sections: Other Info, Timeline, Education, Courses */
+.otherInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 16px;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  padding-left: 24px;
+  border-left: 3px solid #1e40af;
+}
+
+.timelineItem {
+  position: relative;
+  display: flex;
+  gap: 16px;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -27px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  background: #1e40af;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #000;
+}
+
+.timelineContent {
+  flex: 1;
+}
+
+.timelineTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #000;
+  margin: 0 0 4px 0;
+}
+
+.timelineCompany {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e40af;
+  margin: 0 0 4px 0;
+}
+
+.timelineDate {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.timelineDescription {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  margin: 0;
+}
+
+.educationList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.educationItem {
+  padding: 16px;
+  background: #f0f9ff;
+  border: 2px solid #1e40af;
+  border-radius: 8px;
+}
+
+.educationTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #000;
+  margin: 0 0 4px 0;
+}
+
+.educationInstitution {
+  font-size: 14px;
+  color: #1e40af;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+}
+
+.educationDate {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+.coursesList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.courseItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 #000;
+}
+
+.courseBadge {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+}
+
+.courseInstitution {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .infoGrid {
     grid-template-columns: 1fr;
@@ -135,5 +267,19 @@
 
   .name {
     font-size: 20px;
+  }
+
+  .otherInfoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline {
+    padding-left: 20px;
+  }
+
+  .courseItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 }

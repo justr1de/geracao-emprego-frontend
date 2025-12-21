@@ -1,4 +1,5 @@
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react"
+import Link from "next/link"
 import styles from "./index.module.css"
 
 export default function Footer() {
@@ -12,16 +13,16 @@ export default function Footer() {
             <h3 className={styles.columnTitle}>Sobre</h3>
             <ul className={styles.list}>
               <li>
-                <a href="#sobre">Quem Somos</a>
+                <Link href="/#sobre">Quem Somos</Link>
               </li>
               <li>
-                <a href="#missao">Nossa Missão</a>
+                <Link href="/#missao">Nossa Missão</Link>
               </li>
               <li>
-                <a href="#equipe">Equipe</a>
+                <Link href="/#equipe">Equipe</Link>
               </li>
               <li>
-                <a href="#contato">Contato</a>
+                <Link href="/#contato">Contato</Link>
               </li>
             </ul>
           </div>
@@ -30,16 +31,16 @@ export default function Footer() {
             <h3 className={styles.columnTitle}>Serviços</h3>
             <ul className={styles.list}>
               <li>
-                <a href="#curriculos">Banco de Currículos</a>
+                <Link href="/curriculos">Banco de Currículos</Link>
               </li>
               <li>
-                <a href="#vagas">Divulgação de Vagas</a>
+                <Link href="/vagas">Divulgação de Vagas</Link>
               </li>
               <li>
-                <a href="#cursos">Cursos Parceiros</a>
+                <Link href="/cursos">Cursos Parceiros</Link>
               </li>
               <li>
-                <a href="#consultoria">Consultoria RH</a>
+                <Link href="/editais">Editais</Link>
               </li>
             </ul>
           </div>
@@ -47,16 +48,16 @@ export default function Footer() {
           <div className={styles.column}>
             <h3 className={styles.columnTitle}>Redes Sociais</h3>
             <div className={styles.socials}>
-              <a href="#" className={styles.social}>
+              <a href="#" className={styles.social} aria-label="Facebook">
                 <Facebook />
               </a>
-              <a href="#" className={styles.social}>
+              <a href="#" className={styles.social} aria-label="Twitter">
                 <Twitter />
               </a>
-              <a href="#" className={styles.social}>
+              <a href="#" className={styles.social} aria-label="LinkedIn">
                 <Linkedin />
               </a>
-              <a href="#" className={styles.social}>
+              <a href="#" className={styles.social} aria-label="Instagram">
                 <Instagram />
               </a>
             </div>
@@ -76,6 +77,9 @@ export default function Footer() {
               <li className={styles.contact}>
                 <MapPin className={styles.contactIcon} />
                 <span>São Paulo, SP - Brasil</span>
+              </li>
+              <li>
+                <Link href="/login">Entrar</Link>
               </li>
             </ul>
           </div>

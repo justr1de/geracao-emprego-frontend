@@ -6,6 +6,7 @@
 .leftPanel {
   flex: 1;
   background: linear-gradient(135deg, #1e40af 0%, #16a34a 100%);
+  /* Proper flexbox centering */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,6 +31,7 @@
 
 .rightPanel {
   flex: 1;
+  /* Proper flexbox centering */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,6 +56,7 @@
 }
 
 .userTypeSelection {
+  /* Proper flexbox with gap */
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
@@ -61,6 +64,7 @@
 
 .userTypeBtn {
   flex: 1;
+  /* Uniform button height */
   padding: 1rem;
   border: 3px solid black;
   background: white;
@@ -68,6 +72,7 @@
   cursor: pointer;
   box-shadow: 4px 4px 0 black;
   transition: all 0.2s;
+  border-radius: 0;
 }
 
 .userTypeBtn:hover {
@@ -83,6 +88,7 @@
 .form {
   display: flex;
   flex-direction: column;
+  /* Consistent gap spacing */
   gap: 1.5rem;
 }
 
@@ -96,20 +102,30 @@
   font-weight: 600;
 }
 
-.inputGroup input {
+.inputGroup input,
+.inputGroup select {
+  /* Uniform height for all inputs */
   padding: 0.75rem;
   border: 3px solid black;
   box-shadow: 4px 4px 0 black;
   font-size: 1rem;
+  border-radius: 0;
 }
 
-.inputGroup input:focus {
+.inputGroup input:focus,
+.inputGroup select:focus {
   outline: none;
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 black;
 }
 
+.inputGroup select {
+  background: white;
+  cursor: pointer;
+}
+
 .submitBtn {
+  /* Uniform button height */
   padding: 1rem;
   background: #16a34a;
   color: white;
@@ -118,6 +134,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
+  border-radius: 0;
 }
 
 .submitBtn:hover {
@@ -136,7 +153,6 @@
   text-decoration: underline;
 }
 
-/* Added styles for new registration form fields */
 .stepIndicator {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -151,22 +167,8 @@
 .inputRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  /* Consistent gap */
   gap: 1rem;
-}
-
-.inputGroup select {
-  padding: 0.75rem;
-  border: 3px solid black;
-  box-shadow: 4px 4px 0 black;
-  font-size: 1rem;
-  background: white;
-  cursor: pointer;
-}
-
-.inputGroup select:focus {
-  outline: none;
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 black;
 }
 
 .readOnly {
@@ -190,6 +192,7 @@
   cursor: pointer;
   text-align: left;
   transition: all 0.2s;
+  border-radius: 0;
 }
 
 .assistantToggle:hover {
@@ -197,6 +200,7 @@
 }
 
 .backBtn {
+  /* Uniform button height */
   padding: 1rem;
   background: white;
   color: #666;
@@ -205,6 +209,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
+  border-radius: 0;
 }
 
 .backBtn:hover {
@@ -212,6 +217,41 @@
   box-shadow: 2px 2px 0 #666;
 }
 
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  /* Consistent gap */
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.checkbox {
+  /* Proper flexbox alignment */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #1e40af;
+  box-shadow: none;
+  border: 2px solid #000;
+  flex-shrink: 0;
+}
+
+.checkbox span {
+  flex: 1;
+}
+
+/* Mobile responsiveness improvements */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
@@ -231,6 +271,10 @@
 
   .inputRow {
     grid-template-columns: 1fr;
+  }
+
+  .formContainer {
+    max-width: 100%;
   }
 }
 

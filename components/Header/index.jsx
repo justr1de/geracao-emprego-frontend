@@ -1,14 +1,21 @@
 "use client"
 
-import { Menu, X, CheckCircle } from "lucide-react"
+import { Menu, X, CheckCircle, Bell } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
 import { useApp } from "@/contexts/AppContext"
 import styles from "./index.module.css"
 
 export default function Header() {
-  const { isAdmin, setIsAdmin } = useApp()
+  const { isAdmin, setIsAdmin, isLogged } = useApp()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [notificationsOpen, setNotificationsOpen] = useState(false)
+
+  const notifications = [
+    { id: 1, text: "Seu currículo é compatível com a vaga de Desenvolvedor Frontend", new: true },
+    { id: 2, text: "Nova vaga disponível: Analista de Sistemas", new: true },
+    { id: 3, text: "Empresa XYZ visualizou seu perfil", new: false },
+  ]
 
   return (
     <header className={styles.header}>
@@ -45,6 +52,34 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
+          {isLogged && (
+            <div className={styles.notificationWrapper}>
+              <button
+                className={styles.notificationBtn}
+                onClick={() => setNotificationsOpen(!notificationsOpen)}
+                title="Notificações"
+              >
+                <Bell size={20} />
+                {notifications.some((n) => n.new) && <span className={styles.notificationDot}></span>}
+              </button>
+
+              {notificationsOpen && (
+                <div className={styles.notificationDropdown}>
+                  <h3 className={styles.notificationTitle}>Matches e Notificações</h3>
+                  {notifications.map((notif) => (
+                    <div key={notif.id} className={`${styles.notificationItem} ${notif.new ? styles.new : ""}`}>
+                      {notif.new && <span className={styles.newBadge}>Novo</span>}
+                      <p>{notif.text}</p>
+                    </div>
+                  ))}
+                  <Link href="/perfil?tab=notifications" className={styles.viewAll}>
+                    Ver todas
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
+
           <button
             className={styles.adminToggle}
             onClick={() => setIsAdmin(!isAdmin)}

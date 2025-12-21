@@ -39,6 +39,56 @@ export default function JobDetailModal({ job, onClose }) {
         </div>
 
         <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Benefícios</h3>
+          <div className={styles.benefits}>
+            <span className={styles.benefitTag}>Vale Alimentação</span>
+            <span className={styles.benefitTag}>Plano de Saúde</span>
+            <span className={styles.benefitTag}>Vale Transporte</span>
+            <span className={styles.benefitTag}>Auxílio Creche</span>
+            <span className={styles.benefitTag}>Seguro de Vida</span>
+            <span className={styles.benefitTag}>Home Office</span>
+          </div>
+        </div>
+
+        <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Requisitos</h3>
+          <ul className={styles.requirementsList}>
+            <li>
+              <strong>Escolaridade:</strong> Ensino Superior Completo em Tecnologia da Informação ou áreas correlatas
+            </li>
+            <li>
+              <strong>Fluência:</strong> Português nativo, Inglês intermediário (leitura técnica)
+            </li>
+            <li>
+              <strong>Experiência anterior:</strong> Mínimo 2 anos com desenvolvimento web
+            </li>
+            <li>
+              <strong>Conhecimentos:</strong> React, JavaScript ES6+, HTML5, CSS3, Git
+            </li>
+          </ul>
+        </div>
+
+        <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Endereço a ser realizado</h3>
+          <p className={styles.text}>
+            Av. Paulista, 1500 - Bela Vista, São Paulo - SP, 01310-100
+            <br />
+            Próximo à estação de metrô Consolação
+          </p>
+        </div>
+
+        <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Horário de trabalho</h3>
+          <p className={styles.text}>
+            Segunda a Sexta-feira: 09h00 às 18h00
+            <br />
+            Intervalo de 1 hora para almoço
+            <br />
+            Modelo híbrido: 3x presencial, 2x home office
+          </p>
+        </div>
+
+        <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Habilidades desejadas</h3>
           <div className={styles.tags}>
             <span className={styles.tag}>React</span>

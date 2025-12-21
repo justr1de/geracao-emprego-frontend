@@ -2,7 +2,6 @@
   background: #1e40af;
   color: white;
   position: relative;
-  /* More whitespace at top */
   padding-top: 4rem;
   border-top: 6px solid #000;
 }
@@ -21,12 +20,11 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  /* Mobile-first padding */
   padding: 2.5rem 1.25rem 2rem;
 }
 
 .grid {
-  /* Mobile-first: single column */
+  /* Mobile-first: proper gap and flexbox alignment */
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
@@ -40,7 +38,6 @@
 }
 
 .columnTitle {
-  /* Better font size hierarchy */
   font-size: 1.25rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -54,6 +51,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  /* Consistent gap spacing */
   gap: 0.75rem;
 }
 
@@ -61,7 +59,6 @@
   color: white;
   text-decoration: none;
   font-weight: 700;
-  /* Better font size */
   font-size: 0.95rem;
   transition: transform 0.2s;
   display: inline-block;
@@ -73,6 +70,7 @@
 }
 
 .contact {
+  /* Proper flexbox alignment */
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -88,18 +86,19 @@
 }
 
 .socials {
+  /* Flexbox with proper gap */
   display: flex;
   gap: 0.875rem;
   flex-wrap: wrap;
 }
 
 .social {
-  /* Smaller social buttons for elegance */
   width: 48px;
   height: 48px;
   background: white;
   color: #1e40af;
   border: 3px solid #000;
+  /* Proper centering with flexbox */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,6 +130,36 @@
   font-weight: 700;
   font-size: 0.9rem;
   letter-spacing: 0.5px;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+  .footer {
+    padding-top: 3rem;
+  }
+
+  .container {
+    padding: 2rem 1.25rem 1.5rem;
+  }
+
+  .grid {
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .columnTitle {
+    font-size: 1.125rem;
+  }
+
+  .social {
+    width: 44px;
+    height: 44px;
+  }
+
+  .social svg {
+    width: 22px;
+    height: 22px;
+  }
 }
 
 /* Tablet and desktop responsive grid */
