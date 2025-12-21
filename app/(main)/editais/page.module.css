@@ -1,0 +1,34 @@
+.pageContainer {
+  padding: 2rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 60vh;
+}
+
+.content {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Main content takes priority, sidebar on the right */
+.mainContent {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageContainer {
+    padding: 1rem 0.75rem;
+  }
+
+  .content {
+    gap: 1.5rem;
+  }
+}

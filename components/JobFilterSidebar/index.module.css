@@ -1,0 +1,97 @@
+.sidebar {
+  background: white;
+  border: 3px solid #000;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 6px 6px 0 #000;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.reset {
+  background: none;
+  border: none;
+  color: #1e40af;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pill:hover {
+  border-color: #1e40af;
+  color: #1e40af;
+}
+
+.pill.active {
+  background: #1e40af;
+  color: white;
+  border-color: #1e40af;
+}
+
+.applyButton {
+  width: 100%;
+  padding: 0.875rem;
+  background: #16a34a;
+  color: white;
+  border: 3px solid #000;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 #000;
+  transition: all 0.2s;
+  margin-top: 1rem;
+}
+
+.applyButton:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    margin-bottom: 2rem;
+  }
+}

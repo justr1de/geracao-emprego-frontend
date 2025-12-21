@@ -1,0 +1,156 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.leftPanel {
+  flex: 1;
+  background: linear-gradient(135deg, #1e40af 0%, #16a34a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: white;
+}
+
+.logoSection {
+  text-align: center;
+}
+
+.logo {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.tagline {
+  font-size: 1.25rem;
+}
+
+.rightPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: white;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 400px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-weight: 600;
+}
+
+.inputGroup input {
+  padding: 0.75rem;
+  border: 3px solid black;
+  box-shadow: 4px 4px 0 black;
+  font-size: 1rem;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 black;
+}
+
+.submitBtn {
+  padding: 1rem;
+  background: #16a34a;
+  color: white;
+  border: 3px solid black;
+  box-shadow: 4px 4px 0 black;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+
+.submitBtn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 black;
+}
+
+.backLink {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #1e40af;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.successMessage {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .leftPanel {
+    min-height: 200px;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .leftPanel {
+    padding: 1.5rem;
+  }
+
+  .rightPanel {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+}

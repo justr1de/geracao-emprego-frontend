@@ -1,0 +1,173 @@
+.footer {
+  background: #1e40af;
+  color: white;
+  position: relative;
+  /* More whitespace at top */
+  padding-top: 4rem;
+  border-top: 6px solid #000;
+}
+
+.wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: white;
+  clip-path: ellipse(100% 100% at 50% 0%);
+  border-bottom: 4px solid #000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Mobile-first padding */
+  padding: 2.5rem 1.25rem 2rem;
+}
+
+.grid {
+  /* Mobile-first: single column */
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.columnTitle {
+  /* Better font size hierarchy */
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 2px 2px 0px #000;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.list li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  /* Better font size */
+  font-size: 0.95rem;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.list li a:hover {
+  transform: translateX(5px);
+  text-decoration: underline;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.contactIcon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5px;
+  flex-shrink: 0;
+}
+
+.socials {
+  display: flex;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.social {
+  /* Smaller social buttons for elegance */
+  width: 48px;
+  height: 48px;
+  background: white;
+  color: #1e40af;
+  border: 3px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.social:hover {
+  background: #16a34a;
+  color: white;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px #000;
+}
+
+.social svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5px;
+}
+
+.bottom {
+  padding-top: 1.75rem;
+  border-top: 3px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+}
+
+.copyright {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+/* Tablet and desktop responsive grid */
+@media (min-width: 640px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 3rem 2rem 2.5rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .columnTitle {
+    font-size: 1.375rem;
+  }
+
+  .social {
+    width: 52px;
+    height: 52px;
+  }
+
+  .social svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .bottom {
+    padding-top: 2rem;
+  }
+}

@@ -1,0 +1,131 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid #000;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #16a34a;
+  color: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #000;
+  margin: 0;
+}
+
+.category {
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+}
+
+.infoRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.infoCard {
+  padding: 16px;
+  background: #f0f9ff;
+  border: 3px solid #000;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.infoValue {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e40af;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #000;
+  margin: 0;
+}
+
+.description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+}
+
+.list {
+  margin: 0;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list li {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.enrollBtn {
+  width: 100%;
+  padding: 16px;
+  background: #16a34a;
+  color: white;
+  border: 3px solid #000;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.enrollBtn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .infoRow {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+}

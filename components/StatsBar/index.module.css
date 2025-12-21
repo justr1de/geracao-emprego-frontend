@@ -1,0 +1,101 @@
+.statsBar {
+  background: linear-gradient(90deg, #1e40af 0%, #16a34a 100%);
+  /* More whitespace with mobile-first padding */
+  padding: 2.5rem 1.25rem;
+  border-bottom: 5px solid #000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Mobile-first: single column */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  /* Reduced padding for sleeker look */
+  padding: 1.25rem;
+  border: 3px solid #fff;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.statIcon {
+  /* Smaller icon for better proportion */
+  width: 40px;
+  height: 40px;
+  color: white;
+  stroke-width: 2.5px;
+  flex-shrink: 0;
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.statValue {
+  /* Reduced font size for mobile */
+  font-size: 1.875rem;
+  font-weight: 900;
+  color: white;
+  line-height: 1;
+  text-shadow: 3px 3px 0px #000;
+}
+
+.statLabel {
+  /* Better font size for readability */
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Tablet responsive grid */
+@media (min-width: 640px) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .statValue {
+    font-size: 2.25rem;
+  }
+}
+
+/* Desktop responsive grid */
+@media (min-width: 1024px) {
+  .statsBar {
+    padding: 3rem 2rem;
+  }
+
+  .container {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .stat {
+    padding: 1.5rem;
+  }
+
+  .statIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .statValue {
+    font-size: 2.5rem;
+  }
+
+  .statLabel {
+    font-size: 0.95rem;
+  }
+}
