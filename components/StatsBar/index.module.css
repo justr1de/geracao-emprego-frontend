@@ -1,43 +1,113 @@
 .statsBar {
-  padding: 2rem 0;
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary) 0%, #1a5f3c 100%);
+  padding: 2.5rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .statsBar {
+    padding: 3rem 1.5rem;
+  }
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
 }
 
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .stats {
     grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
+    gap: 1.5rem;
   }
 }
 
-.stat {
+.statCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+  .statCard {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+}
+
+.iconWrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+  }
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .value {
-  display: block;
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 700;
-  color: white;
-  line-height: 1.2;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .value {
+    font-size: 2.25rem;
+  }
 }
 
 .label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+  .label {
+    font-size: 1.125rem;
+  }
+}
+
+.description {
+  font-size: 0.75rem;
+  color: var(--text-muted);
   margin-top: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .description {
+    font-size: 0.8125rem;
+  }
 }

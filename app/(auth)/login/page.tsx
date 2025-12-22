@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
 import styles from './page.module.css';
 
@@ -16,6 +17,11 @@ export default function LoginPage() {
     e.preventDefault();
     console.log('Login enviado:', formData);
     router.push('/');
+  };
+
+  const handleSouGovLogin = () => {
+    // Demonstrativo - futuramente será integrado com OAuth do SouGov
+    alert('Em breve! A integração com o SouGov permitirá importar seus dados automaticamente.');
   };
 
   return (
@@ -33,6 +39,26 @@ export default function LoginPage() {
             <h2 className={styles.title}>Entrar</h2>
             <p className={styles.subtitle}>Acesse sua conta para continuar</p>
           </header>
+
+          {/* Botão Login SouGov */}
+          <button 
+            type="button" 
+            className={styles.sougovBtn}
+            onClick={handleSouGovLogin}
+          >
+            <Image
+              src="/logos/sougov.png"
+              alt="SouGov.br"
+              width={32}
+              height={32}
+              className={styles.sougovLogo}
+            />
+            <span>Entrar com SouGov.br</span>
+          </button>
+
+          <div className={styles.divider}>
+            <span>ou entre com e-mail</span>
+          </div>
 
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>
@@ -84,6 +110,9 @@ export default function LoginPage() {
           <footer className={styles.footer}>
             <p className={styles.registerLink}>
               Ainda não tem conta? <Link href="/cadastro">Cadastre-se</Link>
+            </p>
+            <p className={styles.copyright}>
+              © 2024 Geração Emprego - Todos os Direitos Reservados
             </p>
           </footer>
         </div>

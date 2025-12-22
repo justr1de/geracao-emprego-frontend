@@ -3,6 +3,7 @@
 import { Menu, X, User, LogIn } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useApp } from '@/contexts/AppContext';
 import styles from './index.module.css';
 
@@ -49,7 +50,32 @@ export default function Header() {
 
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
         <div className={styles.container}>
-          {/* Logo */}
+          {/* Logos Institucionais */}
+          <div className={styles.institutionalLogos}>
+            <Image
+              src="/logos/governo-ro.jpg"
+              alt="Governo de Rondônia"
+              width={40}
+              height={40}
+              className={styles.institutionalLogo}
+            />
+            <Image
+              src="/logos/sedec.jpg"
+              alt="SEDEC - Secretaria de Desenvolvimento Econômico"
+              width={40}
+              height={40}
+              className={styles.institutionalLogo}
+            />
+            <Image
+              src="/logos/sine.jpg"
+              alt="SINE - Sistema Nacional de Emprego"
+              width={60}
+              height={30}
+              className={styles.institutionalLogoWide}
+            />
+          </div>
+
+          {/* Logo Principal */}
           <Link href="/" className={styles.logo} onClick={closeMenu} aria-label="Ir para página inicial">
             <div className={styles.logoIcon}>
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
