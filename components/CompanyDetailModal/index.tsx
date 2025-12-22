@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import ModalOverlay from '@/components/ModalOverlay';
 import { Building2, Briefcase, ExternalLink, Info } from 'lucide-react';
 import styles from './index.module.css';
@@ -35,7 +36,14 @@ export default function CompanyDetailModal({ company, onClose }: CompanyDetailMo
         <div className={styles.header}>
           <div className={styles.logoWrapper}>
             {company.logo ? (
-              <img src={company.logo} alt={company.name} className={styles.logoImg} />
+              <Image
+                src={company.logo}
+                alt={`Logo da empresa ${company.name}`}
+                width={80}
+                height={80}
+                className={styles.logoImg}
+                unoptimized={company.logo?.startsWith('http')}
+              />
             ) : (
               <Building2 size={40} color="#000" />
             )}

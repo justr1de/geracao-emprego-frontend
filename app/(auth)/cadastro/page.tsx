@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, ArrowLeft, Check, User, Building2 } from 'lucide-react';
+import { ArrowRight, Check, User, Building2 } from 'lucide-react';
 import styles from './page.module.css';
 
 export default function RegisterPage() {

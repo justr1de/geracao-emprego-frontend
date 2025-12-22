@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import BackButton from '@/components/BackButton';
 import CompanyDetailModal from '@/components/CompanyDetailModal';
 import styles from './page.module.css';
@@ -54,8 +55,13 @@ export default function CompaniesPage() {
         </div>
 
         <div className={styles.searchRow}>
-          <input type="text" placeholder="Buscar pelo nome da empresa" className={styles.searchInput} />
-          <select className={styles.sortSelect}>
+          <input
+            type="text"
+            placeholder="Buscar pelo nome da empresa"
+            className={styles.searchInput}
+            aria-label="Buscar empresa pelo nome"
+          />
+          <select className={styles.sortSelect} aria-label="Ordenar empresas">
             <option>Ordenar por: Qtd. de vagas</option>
             <option>Ordenar por: Nome A-Z</option>
             <option>Ordenar por: Categoria</option>
@@ -66,7 +72,13 @@ export default function CompaniesPage() {
           {mockCompanies.map((company) => (
             <div key={company.id} className={styles.card}>
               <div className={styles.cardTop}>
-                <img src={company.logo || '/placeholder.svg'} alt={company.name} className={styles.logo} />
+                <Image
+                  src={company.logo || '/placeholder.svg'}
+                  alt={`Logo da empresa ${company.name}`}
+                  width={80}
+                  height={80}
+                  className={styles.logo}
+                />
                 <span className={styles.categoryBadge}>{company.category}</span>
               </div>
 

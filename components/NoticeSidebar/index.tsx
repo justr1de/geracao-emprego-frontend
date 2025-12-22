@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Clock, Archive, ChevronRight } from 'lucide-react';
+import { Calendar, Archive } from 'lucide-react';
 import styles from './index.module.css';
 
 // Exportamos a interface para ser usada na page.tsx e evitar conflitos de tipos

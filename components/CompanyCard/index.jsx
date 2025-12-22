@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './index.module.css';
 
 export default function CompanyCard({ company }) {
@@ -6,7 +7,14 @@ export default function CompanyCard({ company }) {
       <div className={styles.topSection} />
 
       <div className={styles.logoWrapper}>
-        <img src={company.logo || '/placeholder.svg'} alt={company.name} className={styles.logo} />
+        <Image
+          src={company.logo || '/placeholder.svg'}
+          alt={`Logo da empresa ${company.name}`}
+          width={80}
+          height={80}
+          className={styles.logo}
+          unoptimized={company.logo?.startsWith('http')}
+        />
       </div>
 
       <div className={styles.content}>

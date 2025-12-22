@@ -1,7 +1,7 @@
 'use client';
 
 import ModalOverlay from '@/components/ModalOverlay';
-import { User, MapPin, Briefcase, GraduationCap, Award, Phone } from 'lucide-react';
+import { MapPin, Briefcase, Phone } from 'lucide-react';
 import styles from './index.module.css';
 
 interface Resume {

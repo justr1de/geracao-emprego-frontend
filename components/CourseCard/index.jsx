@@ -1,10 +1,18 @@
+import Image from 'next/image';
 import styles from './index.module.css';
 
 export default function CourseCard({ course }) {
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
-        <img src={course.image || '/placeholder.svg'} alt={course.title} className={styles.image} />
+        <Image
+          src={course.image || '/placeholder.svg'}
+          alt={`Imagem do curso ${course.title}`}
+          width={300}
+          height={180}
+          className={styles.image}
+          unoptimized={course.image?.startsWith('http')}
+        />
       </div>
 
       <div className={styles.body}>
