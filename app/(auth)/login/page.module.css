@@ -34,6 +34,81 @@
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
+  gap: 2rem;
+}
+
+/* Institutional Logos Section */
+.institutionalLogos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.5rem 2rem;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
+}
+
+.governoLogoLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.governoLogoLink:hover {
+  transform: scale(1.05);
+}
+
+.governoLogoLink:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.governoLogo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.rightLogos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.institutionalLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.institutionalLink:hover {
+  transform: scale(1.05);
+}
+
+.institutionalLink:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.sedecLogo {
+  width: 140px;
+  height: auto;
+  object-fit: contain;
+}
+
+.sineLogo {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
 }
 
 /* Login Card */
@@ -55,15 +130,15 @@
 
 .logoLink {
   display: inline-block;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
 }
 
 .logoLink:hover {
-  opacity: 0.85;
+  filter: drop-shadow(0 0 8px rgba(34, 139, 34, 0.3));
 }
 
 .logo {
-  width: 180px;
+  width: 200px;
   height: auto;
   object-fit: contain;
 }
@@ -294,24 +369,6 @@
   text-decoration: underline;
 }
 
-/* Info Section */
-.infoSection {
-  margin-top: 1.5rem;
-  text-align: center;
-  max-width: 400px;
-}
-
-.infoText {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
-}
-
-.infoText strong {
-  color: var(--text-primary);
-}
-
 /* Copyright */
 .copyright {
   padding: 1rem;
@@ -327,6 +384,30 @@
 
 /* Responsive */
 @media (max-width: 480px) {
+  .institutionalLogos {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .governoLogo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .rightLogos {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+
+  .sedecLogo {
+    width: 100px;
+  }
+
+  .sineLogo {
+    width: 80px;
+  }
+
   .loginCard {
     padding: 1.5rem;
     box-shadow: none;
@@ -339,16 +420,63 @@
   }
 
   .logo {
-    width: 150px;
+    width: 160px;
   }
 }
 
 @media (min-width: 768px) {
   .main {
-    padding: 3rem 1.5rem;
+    padding: 2rem 1.5rem;
+    gap: 2.5rem;
+  }
+
+  .institutionalLogos {
+    gap: 3rem;
+    padding: 2rem 3rem;
+  }
+
+  .governoLogo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .sedecLogo {
+    width: 160px;
+  }
+
+  .sineLogo {
+    width: 140px;
   }
 
   .loginCard {
     padding: 2.5rem;
+  }
+
+  .logo {
+    width: 220px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .institutionalLogos {
+    gap: 4rem;
+    padding: 2rem 4rem;
+  }
+
+  .governoLogo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .rightLogos {
+    gap: 1.25rem;
+  }
+
+  .sedecLogo {
+    width: 180px;
+  }
+
+  .sineLogo {
+    width: 160px;
   }
 }

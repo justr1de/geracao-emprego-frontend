@@ -40,15 +40,70 @@ export default function LoginPage() {
       </header>
 
       <main className={styles.main}>
+        {/* Logos Institucionais */}
+        <div className={styles.institutionalLogos}>
+          {/* Logo Governo de Rondônia - Esquerda */}
+          <a
+            href="https://rondonia.ro.gov.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.governoLogoLink}
+            aria-label="Acessar site do Governo de Rondônia (abre em nova janela)"
+          >
+            <Image
+              src="/logos/governo-ro.jpg"
+              alt="Governo de Rondônia"
+              width={120}
+              height={120}
+              className={styles.governoLogo}
+              priority
+            />
+          </a>
+
+          {/* Logos SEDEC e SINE - Direita */}
+          <div className={styles.rightLogos}>
+            <a
+              href="https://rondonia.ro.gov.br/sedec/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.institutionalLink}
+              aria-label="Acessar site da SEDEC (abre em nova janela)"
+            >
+              <Image
+                src="/logos/sedec.png"
+                alt="SEDEC - Secretaria de Desenvolvimento Econômico"
+                width={160}
+                height={50}
+                className={styles.sedecLogo}
+              />
+            </a>
+            <a
+              href="https://rondonia.ro.gov.br/sedec/institucional/sine/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.institutionalLink}
+              aria-label="Acessar site do SINE (abre em nova janela)"
+            >
+              <Image
+                src="/logos/sine.jpg"
+                alt="SINE - Sistema Nacional de Emprego"
+                width={140}
+                height={70}
+                className={styles.sineLogo}
+              />
+            </a>
+          </div>
+        </div>
+
         <div className={styles.loginCard}>
-          {/* Logo */}
+          {/* Logo Geração Emprego */}
           <div className={styles.logoSection}>
             <Link href="/" className={styles.logoLink}>
               <Image
                 src="/logos/geracao-emprego-logo.png"
                 alt="Geração Emprego"
-                width={200}
-                height={50}
+                width={220}
+                height={55}
                 className={styles.logo}
                 priority
               />
@@ -164,13 +219,6 @@ export default function LoginPage() {
               </Link>
             </p>
           </footer>
-        </div>
-
-        {/* Informações adicionais */}
-        <div className={styles.infoSection}>
-          <p className={styles.infoText}>
-            Uma iniciativa do <strong>Governo de Rondônia</strong>, por meio da SEDEC e do SINE Estadual.
-          </p>
         </div>
       </main>
 
