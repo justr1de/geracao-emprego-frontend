@@ -145,7 +145,7 @@ export default function Courses() {
         {/* Cursos Externos */}
         <div className={styles.externalSection}>
           <div className={styles.externalHeader}>
-            <h2 className={styles.externalTitle}>Plataformas parceiras de cursos gratuitos</h2>
+            <h2 className={styles.externalTitle}>Plataformas de cursos gratuitos</h2>
             <p className={styles.externalSubtitle}>
               Acesse cursos gratuitos de instituições reconhecidas nacionalmente
             </p>
@@ -177,7 +177,7 @@ export default function Courses() {
           </div>
 
           <p className={styles.disclaimer}>
-            * Os cursos das plataformas parceiras são oferecidos diretamente por cada instituição.
+            * Os cursos das plataformas listadas são oferecidos diretamente por cada instituição.
             O Geração Emprego não se responsabiliza pelo conteúdo ou certificação destes cursos.
           </p>
         </div>

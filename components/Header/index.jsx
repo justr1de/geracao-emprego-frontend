@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, X, User, LogIn } from 'lucide-react';
+import { Menu, X, User, LogIn, Home, Briefcase, GraduationCap, Building2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,10 +35,10 @@ export default function Header() {
   const closeMenu = () => setMobileMenuOpen(false);
 
   const navLinks = [
-    { href: '/', label: 'Início' },
-    { href: '/vagas', label: 'Vagas' },
-    { href: '/cursos', label: 'Cursos' },
-    { href: '/empresas', label: 'Empresas' },
+    { href: '/', label: 'Início', icon: Home },
+    { href: '/vagas', label: 'Vagas', icon: Briefcase },
+    { href: '/cursos', label: 'Cursos', icon: GraduationCap },
+    { href: '/empresas', label: 'Empresas', icon: Building2 },
   ];
 
   return (
@@ -89,6 +89,7 @@ export default function Header() {
           <nav className={styles.desktopNav} aria-label="Navegação principal">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className={styles.navLink}>
+                <link.icon size={18} aria-hidden="true" />
                 {link.label}
               </Link>
             ))}
@@ -137,6 +138,7 @@ export default function Header() {
                   className={styles.mobileNavLink}
                   onClick={closeMenu}
                 >
+                  <link.icon size={20} aria-hidden="true" />
                   {link.label}
                 </Link>
               ))}

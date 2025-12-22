@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect width="100" height="100" fill="white"/>
+  <!-- QR Code Pattern (fictício) -->
+  <g fill="#000">
+    <!-- Cantos de posicionamento -->
+    <!-- Canto superior esquerdo -->
+    <rect x="5" y="5" width="20" height="20"/>
+    <rect x="8" y="8" width="14" height="14" fill="white"/>
+    <rect x="11" y="11" width="8" height="8"/>
+    
+    <!-- Canto superior direito -->
+    <rect x="75" y="5" width="20" height="20"/>
+    <rect x="78" y="8" width="14" height="14" fill="white"/>
+    <rect x="81" y="11" width="8" height="8"/>
+    
+    <!-- Canto inferior esquerdo -->
+    <rect x="5" y="75" width="20" height="20"/>
+    <rect x="8" y="78" width="14" height="14" fill="white"/>
+    <rect x="11" y="81" width="8" height="8"/>
+    
+    <!-- Padrão de dados (simulado - diferente do App Store) -->
+    <rect x="33" y="5" width="3" height="3"/>
+    <rect x="39" y="5" width="3" height="3"/>
+    <rect x="48" y="5" width="3" height="3"/>
+    <rect x="54" y="5" width="3" height="3"/>
+    <rect x="63" y="5" width="3" height="3"/>
+    
+    <rect x="30" y="11" width="3" height="3"/>
+    <rect x="42" y="11" width="3" height="3"/>
+    <rect x="51" y="11" width="3" height="3"/>
+    <rect x="60" y="11" width="3" height="3"/>
+    <rect x="69" y="11" width="3" height="3"/>
+    
+    <rect x="36" y="17" width="3" height="3"/>
+    <rect x="45" y="17" width="3" height="3"/>
+    <rect x="54" y="17" width="3" height="3"/>
+    <rect x="66" y="17" width="3" height="3"/>
+    
+    <rect x="8" y="30" width="3" height="3"/>
+    <rect x="14" y="30" width="3" height="3"/>
+    <rect x="23" y="30" width="3" height="3"/>
+    <rect x="33" y="30" width="3" height="3"/>
+    <rect x="42" y="30" width="3" height="3"/>
+    <rect x="51" y="30" width="3" height="3"/>
+    <rect x="60" y="30" width="3" height="3"/>
+    <rect x="69" y="30" width="3" height="3"/>
+    <rect x="78" y="30" width="3" height="3"/>
+    <rect x="87" y="30" width="3" height="3"/>
+    
+    <rect x="5" y="36" width="3" height="3"/>
+    <rect x="17" y="36" width="3" height="3"/>
+    <rect x="26" y="36" width="3" height="3"/>
+    <rect x="36" y="36" width="3" height="3"/>
+    <rect x="45" y="36" width="3" height="3"/>
+    <rect x="54" y="36" width="3" height="3"/>
+    <rect x="63" y="36" width="3" height="3"/>
+    <rect x="72" y="36" width="3" height="3"/>
+    <rect x="81" y="36" width="3" height="3"/>
+    <rect x="90" y="36" width="3" height="3"/>
+    
+    <rect x="11" y="42" width="3" height="3"/>
+    <rect x="20" y="42" width="3" height="3"/>
+    <rect x="29" y="42" width="3" height="3"/>
+    <rect x="39" y="42" width="3" height="3"/>
+    <rect x="48" y="42" width="3" height="3"/>
+    <rect x="57" y="42" width="3" height="3"/>
+    <rect x="66" y="42" width="3" height="3"/>
+    <rect x="75" y="42" width="3" height="3"/>
+    <rect x="84" y="42" width="3" height="3"/>
+    
+    <rect x="8" y="48" width="3" height="3"/>
+    <rect x="17" y="48" width="3" height="3"/>
+    <rect x="26" y="48" width="3" height="3"/>
+    <rect x="36" y="48" width="3" height="3"/>
+    <rect x="45" y="48" width="3" height="3"/>
+    <rect x="54" y="48" width="3" height="3"/>
+    <rect x="63" y="48" width="3" height="3"/>
+    <rect x="72" y="48" width="3" height="3"/>
+    <rect x="81" y="48" width="3" height="3"/>
+    <rect x="90" y="48" width="3" height="3"/>
+    
+    <rect x="5" y="54" width="3" height="3"/>
+    <rect x="14" y="54" width="3" height="3"/>
+    <rect x="23" y="54" width="3" height="3"/>
+    <rect x="33" y="54" width="3" height="3"/>
+    <rect x="42" y="54" width="3" height="3"/>
+    <rect x="51" y="54" width="3" height="3"/>
+    <rect x="60" y="54" width="3" height="3"/>
+    <rect x="69" y="54" width="3" height="3"/>
+    <rect x="78" y="54" width="3" height="3"/>
+    <rect x="87" y="54" width="3" height="3"/>
+    
+    <rect x="8" y="60" width="3" height="3"/>
+    <rect x="17" y="60" width="3" height="3"/>
+    <rect x="26" y="60" width="3" height="3"/>
+    <rect x="36" y="60" width="3" height="3"/>
+    <rect x="45" y="60" width="3" height="3"/>
+    <rect x="54" y="60" width="3" height="3"/>
+    <rect x="63" y="60" width="3" height="3"/>
+    <rect x="72" y="60" width="3" height="3"/>
+    <rect x="81" y="60" width="3" height="3"/>
+    <rect x="90" y="60" width="3" height="3"/>
+    
+    <rect x="33" y="66" width="3" height="3"/>
+    <rect x="42" y="66" width="3" height="3"/>
+    <rect x="51" y="66" width="3" height="3"/>
+    <rect x="60" y="66" width="3" height="3"/>
+    <rect x="69" y="66" width="3" height="3"/>
+    <rect x="78" y="66" width="3" height="3"/>
+    <rect x="87" y="66" width="3" height="3"/>
+    
+    <rect x="30" y="75" width="3" height="3"/>
+    <rect x="39" y="75" width="3" height="3"/>
+    <rect x="48" y="78" width="3" height="3"/>
+    <rect x="57" y="75" width="3" height="3"/>
+    <rect x="66" y="78" width="3" height="3"/>
+    <rect x="75" y="81" width="3" height="3"/>
+    <rect x="84" y="78" width="3" height="3"/>
+    <rect x="90" y="75" width="3" height="3"/>
+    
+    <rect x="33" y="84" width="3" height="3"/>
+    <rect x="42" y="87" width="3" height="3"/>
+    <rect x="51" y="84" width="3" height="3"/>
+    <rect x="60" y="90" width="3" height="3"/>
+    <rect x="69" y="87" width="3" height="3"/>
+    <rect x="78" y="84" width="3" height="3"/>
+    <rect x="87" y="90" width="3" height="3"/>
+  </g>
+  
+  <!-- Logo Play Store no centro -->
+  <circle cx="50" cy="50" r="12" fill="white"/>
+  <path d="M44 42l12 8-12 8z" fill="#34A853"/>
+  <path d="M44 42l12 8-6 4z" fill="#4285F4"/>
+  <path d="M44 58l6-4 6 4z" fill="#FBBC05"/>
+  <path d="M50 50l6 4-6 4z" fill="#EA4335"/>
+</svg>

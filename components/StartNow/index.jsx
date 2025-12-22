@@ -2,6 +2,7 @@
 
 import { CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './index.module.css';
 
 export default function StartNow() {
@@ -41,11 +42,62 @@ export default function StartNow() {
           </div>
         </div>
 
-        <div className={styles.imageWrapper}>
-          <div className={styles.imagePlaceholder}>
-            <span className={styles.imageText}>📱</span>
-            <p>Acesse pelo celular</p>
+        <div className={styles.mobileAppCard}>
+          <div className={styles.cardHeader}>
+            <span className={styles.phoneEmoji}>📱</span>
+            <h3>Acesse pelo celular</h3>
+            <p className={styles.comingSoon}>Em breve nos aplicativos</p>
           </div>
+
+          <div className={styles.qrCodesContainer}>
+            <div className={styles.qrCodeWrapper}>
+              <div className={styles.qrCode}>
+                <Image
+                  src="/images/qr-appstore.svg"
+                  alt="QR Code para App Store"
+                  width={100}
+                  height={100}
+                  className={styles.qrImage}
+                />
+              </div>
+              <div className={styles.storeInfo}>
+                <Image
+                  src="/images/apple-logo.svg"
+                  alt="Apple"
+                  width={20}
+                  height={20}
+                  className={styles.storeLogo}
+                />
+                <span>App Store</span>
+              </div>
+            </div>
+
+            <div className={styles.qrCodeWrapper}>
+              <div className={styles.qrCode}>
+                <Image
+                  src="/images/qr-playstore.svg"
+                  alt="QR Code para Play Store"
+                  width={100}
+                  height={100}
+                  className={styles.qrImage}
+                />
+              </div>
+              <div className={styles.storeInfo}>
+                <Image
+                  src="/images/playstore-logo.svg"
+                  alt="Google Play"
+                  width={20}
+                  height={20}
+                  className={styles.storeLogo}
+                />
+                <span>Play Store</span>
+              </div>
+            </div>
+          </div>
+
+          <p className={styles.scanText}>
+            Escaneie o QR Code para baixar o aplicativo
+          </p>
         </div>
       </div>
     </section>

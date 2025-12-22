@@ -171,6 +171,9 @@
 }
 
 .navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
@@ -178,6 +181,10 @@
   border-radius: var(--radius-sm);
   transition: all 0.2s;
   white-space: nowrap;
+}
+
+.navLink svg {
+  flex-shrink: 0;
 }
 
 .navLink:hover {
@@ -323,13 +330,20 @@
 }
 
 .mobileNavLink {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   padding: 1rem;
   font-size: 1.125rem;
   font-weight: 500;
   color: var(--text-primary);
   border-radius: var(--radius);
   transition: background 0.2s;
+}
+
+.mobileNavLink svg {
+  color: var(--primary);
+  flex-shrink: 0;
 }
 
 .mobileNavLink:hover {
