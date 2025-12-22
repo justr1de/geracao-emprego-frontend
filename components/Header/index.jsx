@@ -52,27 +52,51 @@ export default function Header() {
         <div className={styles.container}>
           {/* Logos Institucionais */}
           <div className={styles.institutionalLogos}>
-            <Image
-              src="/logos/governo-ro.jpg"
-              alt="Governo de Rondônia"
-              width={60}
-              height={60}
-              className={styles.governoLogo}
-            />
-            <Image
-              src="/logos/sedec.png"
-              alt="SEDEC - Secretaria de Desenvolvimento Econômico"
-              width={102}
-              height={31}
-              className={styles.sedecLogo}
-            />
-            <Image
-              src="/logos/sine.jpg"
-              alt="SINE - Sistema Nacional de Emprego"
-              width={60}
-              height={30}
-              className={styles.institutionalLogoWide}
-            />
+            <a
+              href="https://rondonia.ro.gov.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Acessar site do Governo de Rondônia (abre em nova janela)"
+              className={styles.institutionalLink}
+            >
+              <Image
+                src="/logos/governo-ro.jpg"
+                alt="Governo de Rondônia"
+                width={60}
+                height={60}
+                className={styles.governoLogo}
+              />
+            </a>
+            <a
+              href="https://sedec.ro.gov.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Acessar site da SEDEC - Secretaria de Desenvolvimento Econômico (abre em nova janela)"
+              className={styles.institutionalLink}
+            >
+              <Image
+                src="/logos/sedec.png"
+                alt="SEDEC - Secretaria de Desenvolvimento Econômico"
+                width={102}
+                height={31}
+                className={styles.sedecLogo}
+              />
+            </a>
+            <a
+              href="https://www.gov.br/trabalho-e-emprego/pt-br/servicos/trabalhador/sine"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Acessar site do SINE - Sistema Nacional de Emprego (abre em nova janela)"
+              className={styles.institutionalLink}
+            >
+              <Image
+                src="/logos/sine.jpg"
+                alt="SINE - Sistema Nacional de Emprego"
+                width={60}
+                height={30}
+                className={styles.institutionalLogoWide}
+              />
+            </a>
           </div>
 
           {/* Logo Principal */}

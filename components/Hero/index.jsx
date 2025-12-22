@@ -17,6 +17,11 @@ export default function Hero() {
             Conectamos trabalhadores e empresas de todo o estado.
             Cadastro gratuito e fácil.
           </p>
+          <p className={styles.description}>
+            Uma iniciativa do Governo de Rondônia, por meio da SEDEC e do SINE Estadual, 
+            que aproxima quem busca oportunidades de trabalho e empresas que precisam de talentos. 
+            Tudo de forma simples, rápida e sem custo.
+          </p>
         </div>
 
         {/* Cards de ação principal - Apenas 2 opções claras */}
