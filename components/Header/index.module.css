@@ -3,7 +3,7 @@
   top: 0;
   z-index: 50;
   background: var(--background);
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid #e5e7eb;
   transition: all 0.3s ease;
 }
 
