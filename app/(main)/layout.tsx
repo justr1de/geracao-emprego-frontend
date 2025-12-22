@@ -11,7 +11,9 @@ export default function MainLayout({
   return (
     <>
       <Header />
-      {children}
+      <main id="main-content">
+        {children}
+      </main>
       <Footer />
       <WhatsAppButton />
     </>

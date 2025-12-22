@@ -1,96 +1,140 @@
 'use client';
 
-import { Menu, X, CheckCircle, Bell, Shield, ShieldAlert } from 'lucide-react';
+import { Menu, X, User, LogIn } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useApp } from '@/contexts/AppContext';
 import styles from './index.module.css';
 
 export default function Header() {
-  const { isAdmin, setIsAdmin, isLogged } = useApp();
+  const { isLogged } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 1024) {setMobileMenuOpen(false);}
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
     };
+
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  const closeMenu = () => {
-    setMobileMenuOpen(false);
-    setNotificationsOpen(false);
-  };
+  const closeMenu = () => setMobileMenuOpen(false);
 
-  const notifications = [
-    { id: 1, text: 'Seu currículo é compatível com a vaga de Desenvolvedor Frontend', new: true },
-    { id: 2, text: 'Nova vaga disponível: Analista de Sistemas', new: true },
+  const navLinks = [
+    { href: '/', label: 'Início' },
+    { href: '/vagas', label: 'Vagas' },
+    { href: '/cursos', label: 'Cursos' },
+    { href: '/empresas', label: 'Empresas' },
   ];
 
   return (
-    <header className={styles.header}>
-      <div className={styles.container}>
-        <Link href="/" className={styles.logo} onClick={closeMenu}>
-          <CheckCircle className={styles.logoIcon} />
-          <span className={styles.logoText}>Geração Emprego</span>
-        </Link>
+    <>
+      {/* Skip link para acessibilidade */}
+      <a href="#main-content" className="skip-link">
+        Pular para o conteúdo principal
+      </a>
 
-        {mobileMenuOpen && <div className={styles.overlay} onClick={closeMenu} />}
-
-        <nav className={`${styles.nav} ${mobileMenuOpen ? styles.navOpen : ''}`}>
-          <Link href="/" className={styles.navLink} onClick={closeMenu}>Home</Link>
-          <Link href="/curriculos" className={styles.navLink} onClick={closeMenu}>Buscar currículos</Link>
-          <Link href="/vagas" className={styles.navLink} onClick={closeMenu}>Vagas</Link>
-          <Link href="/cursos" className={styles.navLink} onClick={closeMenu}>Cursos</Link>
-          <Link href="/editais" className={styles.navLink} onClick={closeMenu}>Editais</Link>
-          <Link href="/empresas" className={styles.navLink} onClick={closeMenu}>Empresas</Link>
-
-          {isAdmin && (
-            <Link href="/#gestor" className={styles.navLink} onClick={closeMenu}>
-              Área do Gestor
-            </Link>
-          )}
-        </nav>
-
-        <div className={styles.actions}>
-          {isLogged && (
-            <div className={styles.notificationWrapper}>
-              <button
-                className={styles.notificationBtn}
-                onClick={() => setNotificationsOpen(!notificationsOpen)}
-              >
-                <Bell size={20} />
-                {notifications.some((n) => n.new) && <span className={styles.notificationDot} />}
-              </button>
+      <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+        <div className={styles.container}>
+          {/* Logo */}
+          <Link href="/" className={styles.logo} onClick={closeMenu} aria-label="Ir para página inicial">
+            <div className={styles.logoIcon}>
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </div>
-          )}
+            <span className={styles.logoText}>Geração Emprego</span>
+          </Link>
 
-          {/* Botão de Admin corrigido com ícones Lucide */}
-          <button
-            className={`${styles.adminToggle} ${isAdmin ? styles.adminActive : ''}`}
-            onClick={() => setIsAdmin(!isAdmin)}
-          >
-            {isAdmin ? (
-              <div className={styles.adminBtnInner}>
-                <Shield size={16} /> <span>Admin</span>
-              </div>
+          {/* Navegação Desktop */}
+          <nav className={styles.desktopNav} aria-label="Navegação principal">
+            {navLinks.map((link) => (
+              <Link key={link.href} href={link.href} className={styles.navLink}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Ações */}
+          <div className={styles.actions}>
+            {isLogged ? (
+              <Link href="/perfil" className={styles.profileBtn} aria-label="Meu perfil">
+                <User size={20} />
+                <span className={styles.profileText}>Meu Perfil</span>
+              </Link>
             ) : (
-              <div className={styles.adminBtnInner}>
-                <ShieldAlert size={16} /> <span>Gestor</span>
-              </div>
+              <>
+                <Link href="/login" className={styles.loginBtn}>
+                  <LogIn size={18} />
+                  <span>Entrar</span>
+                </Link>
+                <Link href="/cadastro" className={styles.signupBtn}>
+                  Cadastre-se
+                </Link>
+              </>
             )}
-          </button>
+          </div>
 
-          <Link href="/login" className={styles.btnLogin} onClick={closeMenu}>Entrar</Link>
-          <Link href="/cadastro" className={styles.btnSignup} onClick={closeMenu}>Cadastre-se</Link>
+          {/* Botão Menu Mobile */}
+          <button
+            className={styles.mobileMenuBtn}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
 
-        <button className={styles.mobileMenuBtn} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-    </header>
+        {/* Menu Mobile */}
+        {mobileMenuOpen && (
+          <>
+            <div className={styles.overlay} onClick={closeMenu} aria-hidden="true" />
+            <nav className={styles.mobileNav} aria-label="Menu de navegação">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={styles.mobileNavLink}
+                  onClick={closeMenu}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className={styles.mobileActions}>
+                {isLogged ? (
+                  <Link href="/perfil" className={styles.mobileProfileBtn} onClick={closeMenu}>
+                    <User size={20} />
+                    Meu Perfil
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/login" className={styles.mobileLoginBtn} onClick={closeMenu}>
+                      Entrar
+                    </Link>
+                    <Link href="/cadastro" className={styles.mobileSignupBtn} onClick={closeMenu}>
+                      Cadastre-se Grátis
+                    </Link>
+                  </>
+                )}
+              </div>
+            </nav>
+          </>
+        )}
+      </header>
+    </>
   );
 }

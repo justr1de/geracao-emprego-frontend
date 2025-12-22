@@ -1,144 +1,298 @@
 .header {
-  background: white;
-  border-bottom: 4px solid #000;
-  box-shadow: 4px 4px 0px #000;
   position: sticky;
   top: 0;
-  z-index: 1000; /* Aumentado para garantir prioridade */
+  z-index: 50;
+  background: var(--background);
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.header.scrolled {
+  border-bottom-color: var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.75rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
   gap: 1rem;
 }
 
+@media (min-width: 768px) {
+  .container {
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* Logo */
 .logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 700;
   font-size: 1.125rem;
-  font-weight: 900;
-  color: #000;
-  text-transform: uppercase;
-  text-decoration: none;
-  flex-shrink: 0;
+  color: var(--text-primary);
+  transition: opacity 0.2s;
+}
+
+.logo:hover {
+  opacity: 0.8;
 }
 
 .logoIcon {
-  width: 24px;
-  height: 24px;
-  color: #16a34a;
-  stroke-width: 3px;
+  width: 32px;
+  height: 32px;
+  color: var(--primary);
 }
 
-.nav {
-  display: none; /* Escondido por padrão, visível no desk via media query */
+.logoIcon svg {
+  width: 100%;
+  height: 100%;
 }
 
-/* Estilo do Menu Mobile quando Aberto */
-.navOpen {
-  display: flex !important;
-  position: fixed;
-  top: 68px; /* Altura exata do header */
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-  flex-direction: column;
-  padding: 2rem 1.25rem;
-  gap: 1.5rem;
-  z-index: 999;
-  overflow-y: auto;
-  border-top: 4px solid #000;
+.logoText {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .logoText {
+    display: block;
+  }
+}
+
+/* Navegação Desktop */
+.desktopNav {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .desktopNav {
+    display: flex;
+  }
 }
 
 .navLink {
-  color: #000;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: auto;
-}
-
-/* Botões com tamanhos mais inteligentes */
-.btnLogin, .btnSignup, .adminToggle {
-  border: 3px solid #000;
-  font-weight: 800;
-  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
   transition: all 0.2s;
-  box-shadow: 3px 3px 0px #000;
-  text-decoration: none;
-  font-size: 0.75rem;
-  padding: 0.4rem 0.8rem;
 }
 
-.btnLogin { background: #1e40af; color: white; }
-.btnSignup { background: white; color: #1e40af; border-color: #1e40af; box-shadow: 3px 3px 0px #1e40af; }
-
-.btnLogin:hover, .btnSignup:hover, .adminToggle:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px #000;
+.navLink:hover {
+  color: var(--text-primary);
+  background: var(--background-alt);
 }
 
-.mobileMenuBtn {
-  background: none;
-  border: 3px solid #000;
-  box-shadow: 2px 2px 0px #000;
-  cursor: pointer;
-  display: flex;
-  padding: 4px;
+/* Ações */
+.actions {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-/* Responsividade Média */
-@media (min-width: 1024px) {
-  .nav {
+@media (min-width: 768px) {
+  .actions {
     display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex: 1;
-    justify-content: center;
   }
-  .mobileMenuBtn { display: none; }
 }
 
-/* Ajuste para telas muito pequenas */
-@media (max-width: 480px) {
-  .logoText { display: none; } 
-  .btnSignup { display: none; }
+.loginBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
 }
 
-.adminBtnInner {
+.loginBtn:hover {
+  color: var(--text-primary);
+  background: var(--background-alt);
+}
+
+.signupBtn {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--primary-foreground);
+  background: var(--primary);
+  border-radius: var(--radius);
+  transition: all 0.2s;
+}
+
+.signupBtn:hover {
+  background: var(--primary-hover);
+}
+
+.profileBtn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: var(--radius);
+  transition: all 0.2s;
 }
 
-/* Garante que o hover seja suave como combinado (0.3s) */
-.adminToggle {
-  background: #f3f4f6;
-  padding: 0.5rem 0.75rem;
-  border: 3px solid #000;
-  font-weight: 900;
-  transition: all 0.3s ease-out;
-  box-shadow: 3px 3px 0px #000;
+.profileBtn:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.profileText {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .profileText {
+    display: block;
+  }
+}
+
+/* Botão Menu Mobile */
+.mobileMenuBtn {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
 }
 
-.adminActive {
-  background: #000;
-  color: #fff;
+.mobileMenuBtn:hover {
+  background: var(--background-alt);
+}
+
+@media (min-width: 768px) {
+  .mobileMenuBtn {
+    display: none;
+  }
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 40;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Menu Mobile */
+.mobileNav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(300px, 85vw);
+  background: var(--background);
+  padding: 5rem 1.5rem 2rem;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease;
+  overflow-y: auto;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobileNavLink {
+  display: block;
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  border-radius: var(--radius);
+  transition: background 0.2s;
+}
+
+.mobileNavLink:hover {
+  background: var(--background-alt);
+}
+
+.mobileActions {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobileLoginBtn {
+  display: block;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  transition: all 0.2s;
+}
+
+.mobileLoginBtn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.mobileSignupBtn {
+  display: block;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-foreground);
+  text-align: center;
+  background: var(--primary);
+  border-radius: var(--radius);
+  transition: all 0.2s;
+}
+
+.mobileSignupBtn:hover {
+  background: var(--primary-hover);
+}
+
+.mobileProfileBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: var(--radius);
 }

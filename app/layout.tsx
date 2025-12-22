@@ -1,56 +1,42 @@
 import type React from 'react';
-import type { Metadata } from 'next';
-
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { AppProvider } from '@/contexts/AppContext';
 import './globals.css';
 
-import { DM_Sans, Space_Mono, Source_Serif_4, DM_Sans as V0_Font_DM_Sans, Space_Mono as V0_Font_Space_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google';
-
-// Initialize fonts
-const _dmSans = V0_Font_DM_Sans({ subsets: ['latin'], weight: ['100','200','300','400','500','600','700','800','900','1000'] });
-const _spaceMono = V0_Font_Space_Mono({ subsets: ['latin'], weight: ['400','700'] });
-const _sourceSerif_4 = V0_Font_Source_Serif_4({ subsets: ['latin'], weight: ['200','300','400','500','600','700','800','900'] });
-
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-dm-sans',
+  variable: '--font-inter',
+  display: 'swap',
 });
 
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-space-mono',
-});
-
-const sourceSerif4 = Source_Serif_4({
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  variable: '--font-source-serif',
-});
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
+  ],
+};
 
 export const metadata: Metadata = {
-  title: 'Geração Emprego - Conectando Talentos e Oportunidades',
+  title: 'Geração Emprego - Encontre seu emprego em Rondônia',
   description:
-    'Plataforma brasileira de emprego conectando profissionais e empresas com foco em diversidade e inclusão.',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    'Plataforma gratuita do Governo de Rondônia para conectar trabalhadores e empresas. Cadastre seu currículo, encontre vagas e faça cursos de qualificação.',
+  keywords: ['emprego', 'vagas', 'rondônia', 'currículo', 'trabalho', 'cursos gratuitos'],
+  authors: [{ name: 'Governo do Estado de Rondônia' }],
+  openGraph: {
+    title: 'Geração Emprego - Encontre seu emprego em Rondônia',
+    description: 'Plataforma gratuita para conectar trabalhadores e empresas em Rondônia.',
+    type: 'website',
+    locale: 'pt_BR',
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -60,8 +46,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className={`${dmSans.variable} ${spaceMono.variable} ${sourceSerif4.variable} font-sans antialiased`}>
+    <html lang="pt-BR" className={inter.variable}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="font-sans antialiased">
         <AppProvider>{children}</AppProvider>
         <Analytics />
       </body>

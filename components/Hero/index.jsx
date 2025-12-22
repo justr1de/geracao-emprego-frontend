@@ -1,35 +1,64 @@
 'use client';
 
-import { Briefcase, Megaphone, User, GraduationCap } from 'lucide-react';
+import { Briefcase, Search } from 'lucide-react';
 import Link from 'next/link';
 import styles from './index.module.css';
 
 export default function Hero() {
-  const cards = [
-    { icon: Briefcase, title: 'Quero contratar', color: '#1e40af', href: '/curriculos' },
-    { icon: Megaphone, title: 'Quero divulgar vaga', color: '#16a34a', href: '/vagas' },
-    { icon: User, title: 'Quero trabalhar', color: '#f59e0b', href: '/vagas' },
-    { icon: GraduationCap, title: 'Aprendiz', color: '#8b5cf6', href: '/cursos' },
-  ];
-
   return (
     <section className={styles.hero}>
-      <div className={styles.heroContent}>
-        <h1 className={styles.title}>Geração Emprego</h1>
-        <p className={styles.subtitle}>O que você busca hoje?</p>
+      <div className={styles.container}>
+        {/* Título principal */}
+        <div className={styles.header}>
+          <h1 className={styles.title}>
+            Encontre seu <span className={styles.highlight}>emprego</span> em Rondônia
+          </h1>
+          <p className={styles.subtitle}>
+            Conectamos trabalhadores e empresas de todo o estado.
+            Cadastro gratuito e fácil.
+          </p>
+        </div>
 
+        {/* Cards de ação principal - Apenas 2 opções claras */}
         <div className={styles.cards}>
-          {cards.map((card, index) => (
-            <Link
-              key={index}
-              href={card.href}
-              className={styles.card}
-              style={{ '--card-color': card.color }} // Removido o "as ..."
-            >
-              <card.icon className={styles.cardIcon} />
-              <h3 className={styles.cardTitle}>{card.title}</h3>
-            </Link>
-          ))}
+          <Link href="/vagas" className={styles.card}>
+            <div className={styles.cardIcon}>
+              <Search size={32} strokeWidth={1.5} />
+            </div>
+            <div className={styles.cardContent}>
+              <h2 className={styles.cardTitle}>Busco Emprego</h2>
+              <p className={styles.cardDescription}>
+                Encontre vagas e cadastre seu currículo gratuitamente
+              </p>
+            </div>
+            <span className={styles.cardArrow}>→</span>
+          </Link>
+
+          <Link href="/curriculos" className={`${styles.card} ${styles.cardSecondary}`}>
+            <div className={styles.cardIcon}>
+              <Briefcase size={32} strokeWidth={1.5} />
+            </div>
+            <div className={styles.cardContent}>
+              <h2 className={styles.cardTitle}>Busco Funcionário</h2>
+              <p className={styles.cardDescription}>
+                Divulgue vagas e encontre profissionais qualificados
+              </p>
+            </div>
+            <span className={styles.cardArrow}>→</span>
+          </Link>
+        </div>
+
+        {/* Links secundários */}
+        <div className={styles.secondaryLinks}>
+          <Link href="/cursos" className={styles.secondaryLink}>
+            📚 Cursos Gratuitos
+          </Link>
+          <Link href="/empresas" className={styles.secondaryLink}>
+            🏢 Ver Empresas
+          </Link>
+          <Link href="/editais" className={styles.secondaryLink}>
+            📋 Editais
+          </Link>
         </div>
       </div>
     </section>

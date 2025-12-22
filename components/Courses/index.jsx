@@ -1,52 +1,72 @@
 'use client';
 
-import { ChevronLeft, ChevronRight, Calendar, Award } from 'lucide-react';
+import { Clock, Users, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import styles from './index.module.css';
 
 export default function Courses() {
   const courses = [
-    { title: 'Garçom Profissional', category: 'Hospitalidade', date: '15 Jan - 20 Fev', partner: 'SENAC', color: '#8b5cf6' },
-    { title: 'Cozinha Básica', category: 'Gastronomia', date: '22 Jan - 30 Mar', partner: 'SENAI', color: '#f59e0b' },
-    { title: 'Estética e Beleza', category: 'Beleza', date: '01 Fev - 15 Mar', partner: 'SENAC', color: '#ec4899' },
-    { title: 'Eletricista Predial', category: 'Construção', date: '05 Fev - 10 Abr', partner: 'SENAI', color: '#3b82f6' },
+    {
+      id: 1,
+      title: 'Inteligência Emocional',
+      category: 'Desenvolvimento Pessoal',
+      duration: '2 horas',
+      enrolled: 1250,
+    },
+    {
+      id: 2,
+      title: 'Marketing Digital na Prática',
+      category: 'Marketing',
+      duration: '3 horas',
+      enrolled: 890,
+    },
+    {
+      id: 3,
+      title: 'Técnico de Cozinha',
+      category: 'Gastronomia',
+      duration: '10 horas',
+      enrolled: 625,
+    },
   ];
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Cursos Disponíveis</h2>
-          <div className={styles.navigation}>
-            <button className={styles.navButton} aria-label="Anterior">
-              <ChevronLeft size={24} />
-            </button>
-            <button className={styles.navButton} aria-label="Próximo">
-              <ChevronRight size={24} />
-            </button>
-          </div>
+          <h2 className={styles.title}>Cursos gratuitos</h2>
+          <p className={styles.subtitle}>
+            Qualifique-se gratuitamente e aumente suas chances de conseguir um emprego
+          </p>
         </div>
 
-        <div className={styles.courses}>
-          {courses.map((course, index) => (
-            <div key={index} className={styles.courseCard}>
-              {/* Removido o 'as any' para funcionar em .jsx */}
-              <div className={styles.courseHeader} style={{ background: course.color }}>
-                <div className={styles.partnerBadge}>
-                  <Award className={styles.partnerIcon} />
-                  <span>{course.partner}</span>
-                </div>
-                <span className={styles.categoryTag}>{course.category}</span>
+        <div className={styles.grid}>
+          {courses.map((course) => (
+            <article key={course.id} className={styles.card}>
+              <span className={styles.category}>{course.category}</span>
+              <h3 className={styles.cardTitle}>{course.title}</h3>
+              <div className={styles.meta}>
+                <span className={styles.metaItem}>
+                  <Clock size={16} />
+                  {course.duration}
+                </span>
+                <span className={styles.metaItem}>
+                  <Users size={16} />
+                  {course.enrolled.toLocaleString('pt-BR')} inscritos
+                </span>
               </div>
-              <div className={styles.courseBody}>
-                <h3 className={styles.courseTitle}>{course.title}</h3>
-                <div className={styles.courseDate}>
-                  <Calendar size={18} />
-                  <span>{course.date}</span>
-                </div>
-                <button className={styles.courseButton}>Inscrever-se</button>
-              </div>
-            </div>
+              <Link href={`/cursos/${course.id}`} className={styles.cardLink}>
+                Ver curso
+                <ArrowRight size={16} />
+              </Link>
+            </article>
           ))}
+        </div>
+
+        <div className={styles.footer}>
+          <Link href="/cursos" className={styles.viewAllBtn}>
+            Ver todos os cursos
+            <ArrowRight size={18} />
+          </Link>
         </div>
       </div>
     </section>
