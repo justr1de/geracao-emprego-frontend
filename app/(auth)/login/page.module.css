@@ -26,92 +26,86 @@
   color: var(--primary);
 }
 
-/* Main Content */
+/* Main Content - 3 Column Layout */
 .main {
   flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
-  gap: 2rem;
+  gap: 3rem;
 }
 
-/* Institutional Logos Section */
-.institutionalLogos {
+/* Left Column - Governo de Rondônia */
+.leftColumn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
-  padding: 1.5rem 2rem;
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  border: 1px solid var(--border);
-}
-
-.governoLogoLink {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.governoLogoLink:hover {
-  transform: scale(1.05);
-}
-
-.governoLogoLink:focus {
-  outline: 2px solid var(--primary);
-  outline-offset: 4px;
-  border-radius: 8px;
 }
 
 .governoLogo {
-  width: 100px;
-  height: 100px;
+  width: 160px;
+  height: 160px;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
 
-.rightLogos {
+/* Right Column - SEDEC and SINE */
+.rightColumn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  gap: 1.5rem;
 }
 
-.institutionalLink {
+.sedecLogo {
+  width: 180px;
+  height: auto;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.sineLogo {
+  width: 160px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Logo Links */
+.logoLink {
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
 }
 
-.institutionalLink:hover {
+.logoLink:hover {
   transform: scale(1.05);
 }
 
-.institutionalLink:focus {
+.logoLink:hover .governoLogo,
+.logoLink:hover .sedecLogo,
+.logoLink:hover .sineLogo {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.logoLink:focus {
   outline: 2px solid var(--primary);
   outline-offset: 4px;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
-.sedecLogo {
-  width: 140px;
-  height: auto;
-  object-fit: contain;
+/* Center Column - Login Card */
+.centerColumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.sineLogo {
-  width: 120px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 4px;
-}
-
-/* Login Card */
 .loginCard {
   width: 100%;
   max-width: 400px;
@@ -128,16 +122,16 @@
   margin-bottom: 1.5rem;
 }
 
-.logoLink {
+.geracaoLogoLink {
   display: inline-block;
   transition: all 0.3s ease;
 }
 
-.logoLink:hover {
+.geracaoLogoLink:hover {
   filter: drop-shadow(0 0 8px rgba(34, 139, 34, 0.3));
 }
 
-.logo {
+.geracaoLogo {
   width: 200px;
   height: auto;
   object-fit: contain;
@@ -382,32 +376,38 @@
   margin: 0;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .institutionalLogos {
-    flex-direction: column;
-    gap: 1.5rem;
-    padding: 1.25rem;
+/* Responsive - Hide side columns on smaller screens */
+@media (max-width: 1024px) {
+  .main {
+    gap: 2rem;
   }
 
   .governoLogo {
-    width: 80px;
-    height: 80px;
-  }
-
-  .rightLogos {
-    flex-direction: row;
-    gap: 1.5rem;
+    width: 120px;
+    height: 120px;
   }
 
   .sedecLogo {
-    width: 100px;
+    width: 140px;
   }
 
   .sineLogo {
-    width: 80px;
+    width: 120px;
+  }
+}
+
+@media (max-width: 900px) {
+  .leftColumn,
+  .rightColumn {
+    display: none;
   }
 
+  .main {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
   .loginCard {
     padding: 1.5rem;
     box-shadow: none;
@@ -419,64 +419,34 @@
     font-size: 1.25rem;
   }
 
-  .logo {
+  .geracaoLogo {
     width: 160px;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
   .main {
-    padding: 2rem 1.5rem;
-    gap: 2.5rem;
-  }
-
-  .institutionalLogos {
-    gap: 3rem;
-    padding: 2rem 3rem;
+    gap: 4rem;
   }
 
   .governoLogo {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
   }
 
   .sedecLogo {
-    width: 160px;
+    width: 200px;
   }
 
   .sineLogo {
-    width: 140px;
+    width: 180px;
   }
 
   .loginCard {
     padding: 2.5rem;
   }
 
-  .logo {
+  .geracaoLogo {
     width: 220px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .institutionalLogos {
-    gap: 4rem;
-    padding: 2rem 4rem;
-  }
-
-  .governoLogo {
-    width: 140px;
-    height: 140px;
-  }
-
-  .rightLogos {
-    gap: 1.25rem;
-  }
-
-  .sedecLogo {
-    width: 180px;
-  }
-
-  .sineLogo {
-    width: 160px;
   }
 }

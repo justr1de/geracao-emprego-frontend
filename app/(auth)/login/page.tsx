@@ -40,186 +40,188 @@ export default function LoginPage() {
       </header>
 
       <main className={styles.main}>
-        {/* Logos Institucionais */}
-        <div className={styles.institutionalLogos}>
-          {/* Logo Governo de Rondônia - Esquerda */}
+        {/* Coluna Esquerda - Logo Governo de Rondônia */}
+        <aside className={styles.leftColumn}>
           <a
             href="https://rondonia.ro.gov.br"
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.governoLogoLink}
+            className={styles.logoLink}
             aria-label="Acessar site do Governo de Rondônia (abre em nova janela)"
           >
             <Image
               src="/logos/governo-ro.jpg"
               alt="Governo de Rondônia"
-              width={120}
-              height={120}
+              width={180}
+              height={180}
               className={styles.governoLogo}
               priority
             />
           </a>
+        </aside>
 
-          {/* Logos SEDEC e SINE - Direita */}
-          <div className={styles.rightLogos}>
-            <a
-              href="https://rondonia.ro.gov.br/sedec/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.institutionalLink}
-              aria-label="Acessar site da SEDEC (abre em nova janela)"
+        {/* Coluna Central - Formulário de Login */}
+        <div className={styles.centerColumn}>
+          <div className={styles.loginCard}>
+            {/* Logo Geração Emprego */}
+            <div className={styles.logoSection}>
+              <Link href="/" className={styles.geracaoLogoLink}>
+                <Image
+                  src="/logos/geracao-emprego-logo.png"
+                  alt="Geração Emprego"
+                  width={220}
+                  height={55}
+                  className={styles.geracaoLogo}
+                  priority
+                />
+              </Link>
+            </div>
+
+            {/* Título */}
+            <div className={styles.titleSection}>
+              <h1 className={styles.title}>Bem-vindo de volta</h1>
+              <p className={styles.subtitle}>
+                Acesse sua conta para continuar
+              </p>
+            </div>
+
+            {/* Botão Login SouGov */}
+            <button
+              type="button"
+              className={styles.sougovBtn}
+              onClick={handleSouGovLogin}
+              aria-label="Entrar com conta SouGov.br"
             >
               <Image
-                src="/logos/sedec.png"
-                alt="SEDEC - Secretaria de Desenvolvimento Econômico"
-                width={160}
-                height={50}
-                className={styles.sedecLogo}
+                src="/logos/sougov.png"
+                alt=""
+                width={24}
+                height={24}
+                className={styles.sougovLogo}
+                aria-hidden="true"
               />
-            </a>
-            <a
-              href="https://rondonia.ro.gov.br/sedec/institucional/sine/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.institutionalLink}
-              aria-label="Acessar site do SINE (abre em nova janela)"
-            >
-              <Image
-                src="/logos/sine.jpg"
-                alt="SINE - Sistema Nacional de Emprego"
-                width={140}
-                height={70}
-                className={styles.sineLogo}
-              />
-            </a>
+              <span>Entrar com SouGov.br</span>
+            </button>
+
+            {/* Divisor */}
+            <div className={styles.divider} role="separator">
+              <span>ou continue com e-mail</span>
+            </div>
+
+            {/* Formulário */}
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.inputGroup}>
+                <label htmlFor="login" className={styles.label}>
+                  E-mail ou CPF
+                </label>
+                <div className={styles.inputWrapper}>
+                  <Mail size={18} className={styles.inputIcon} aria-hidden="true" />
+                  <input
+                    id="login"
+                    type="text"
+                    placeholder="Digite seu e-mail ou CPF"
+                    value={formData.login}
+                    onChange={(e) => setFormData({ ...formData, login: e.target.value })}
+                    required
+                    className={styles.input}
+                    autoComplete="username"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <div className={styles.labelRow}>
+                  <label htmlFor="password" className={styles.label}>
+                    Senha
+                  </label>
+                  <Link href="/recuperar-senha" className={styles.forgotLink}>
+                    Esqueceu a senha?
+                  </Link>
+                </div>
+                <div className={styles.inputWrapper}>
+                  <Lock size={18} className={styles.inputIcon} aria-hidden="true" />
+                  <input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Digite sua senha"
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    required
+                    className={styles.input}
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    className={styles.eyeBtn}
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              <button 
+                type="submit" 
+                className={styles.submitBtn}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className={styles.loading}>Entrando...</span>
+                ) : (
+                  <>
+                    <LogIn size={18} aria-hidden="true" />
+                    <span>Entrar</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Footer */}
+            <footer className={styles.footer}>
+              <p className={styles.registerText}>
+                Ainda não tem conta?{' '}
+                <Link href="/cadastro" className={styles.registerLink}>
+                  Cadastre-se gratuitamente
+                </Link>
+              </p>
+            </footer>
           </div>
         </div>
 
-        <div className={styles.loginCard}>
-          {/* Logo Geração Emprego */}
-          <div className={styles.logoSection}>
-            <Link href="/" className={styles.logoLink}>
-              <Image
-                src="/logos/geracao-emprego-logo.png"
-                alt="Geração Emprego"
-                width={220}
-                height={55}
-                className={styles.logo}
-                priority
-              />
-            </Link>
-          </div>
-
-          {/* Título */}
-          <div className={styles.titleSection}>
-            <h1 className={styles.title}>Bem-vindo de volta</h1>
-            <p className={styles.subtitle}>
-              Acesse sua conta para continuar
-            </p>
-          </div>
-
-          {/* Botão Login SouGov */}
-          <button
-            type="button"
-            className={styles.sougovBtn}
-            onClick={handleSouGovLogin}
-            aria-label="Entrar com conta SouGov.br"
+        {/* Coluna Direita - Logos SEDEC e SINE */}
+        <aside className={styles.rightColumn}>
+          <a
+            href="https://rondonia.ro.gov.br/sedec/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.logoLink}
+            aria-label="Acessar site da SEDEC (abre em nova janela)"
           >
             <Image
-              src="/logos/sougov.png"
-              alt=""
-              width={24}
-              height={24}
-              className={styles.sougovLogo}
-              aria-hidden="true"
+              src="/logos/sedec.png"
+              alt="SEDEC - Secretaria de Desenvolvimento Econômico"
+              width={200}
+              height={60}
+              className={styles.sedecLogo}
             />
-            <span>Entrar com SouGov.br</span>
-          </button>
-
-          {/* Divisor */}
-          <div className={styles.divider} role="separator">
-            <span>ou continue com e-mail</span>
-          </div>
-
-          {/* Formulário */}
-          <form onSubmit={handleSubmit} className={styles.form}>
-            <div className={styles.inputGroup}>
-              <label htmlFor="login" className={styles.label}>
-                E-mail ou CPF
-              </label>
-              <div className={styles.inputWrapper}>
-                <Mail size={18} className={styles.inputIcon} aria-hidden="true" />
-                <input
-                  id="login"
-                  type="text"
-                  placeholder="Digite seu e-mail ou CPF"
-                  value={formData.login}
-                  onChange={(e) => setFormData({ ...formData, login: e.target.value })}
-                  required
-                  className={styles.input}
-                  autoComplete="username"
-                />
-              </div>
-            </div>
-
-            <div className={styles.inputGroup}>
-              <div className={styles.labelRow}>
-                <label htmlFor="password" className={styles.label}>
-                  Senha
-                </label>
-                <Link href="/recuperar-senha" className={styles.forgotLink}>
-                  Esqueceu a senha?
-                </Link>
-              </div>
-              <div className={styles.inputWrapper}>
-                <Lock size={18} className={styles.inputIcon} aria-hidden="true" />
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Digite sua senha"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  required
-                  className={styles.input}
-                  autoComplete="current-password"
-                />
-                <button
-                  type="button"
-                  className={styles.eyeBtn}
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </div>
-
-            <button 
-              type="submit" 
-              className={styles.submitBtn}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <span className={styles.loading}>Entrando...</span>
-              ) : (
-                <>
-                  <LogIn size={18} aria-hidden="true" />
-                  <span>Entrar</span>
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Footer */}
-          <footer className={styles.footer}>
-            <p className={styles.registerText}>
-              Ainda não tem conta?{' '}
-              <Link href="/cadastro" className={styles.registerLink}>
-                Cadastre-se gratuitamente
-              </Link>
-            </p>
-          </footer>
-        </div>
+          </a>
+          <a
+            href="https://rondonia.ro.gov.br/sedec/institucional/sine/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.logoLink}
+            aria-label="Acessar site do SINE (abre em nova janela)"
+          >
+            <Image
+              src="/logos/sine.jpg"
+              alt="SINE - Sistema Nacional de Emprego"
+              width={180}
+              height={90}
+              className={styles.sineLogo}
+            />
+          </a>
+        </aside>
       </main>
 
       {/* Copyright */}
