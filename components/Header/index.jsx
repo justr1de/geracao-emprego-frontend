@@ -55,16 +55,16 @@ export default function Header() {
             <Image
               src="/logos/governo-ro.jpg"
               alt="Governo de Rondônia"
-              width={40}
-              height={40}
-              className={styles.institutionalLogo}
+              width={60}
+              height={60}
+              className={styles.governoLogo}
             />
             <Image
               src="/logos/sedec.png"
               alt="SEDEC - Secretaria de Desenvolvimento Econômico"
-              width={120}
-              height={37}
-              className={styles.institutionalLogoWide}
+              width={102}
+              height={31}
+              className={styles.sedecLogo}
             />
             <Image
               src="/logos/sine.jpg"

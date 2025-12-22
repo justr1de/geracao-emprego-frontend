@@ -20,8 +20,8 @@ export default function LoginPage() {
   };
 
   const handleSouGovLogin = () => {
-    // Demonstrativo - futuramente será integrado com OAuth do SouGov
-    alert('Em breve! A integração com o SouGov permitirá importar seus dados automaticamente.');
+    // Redirecionar para o fluxo de demonstração do SouGov
+    router.push('/login/sougov');
   };
 
   return (

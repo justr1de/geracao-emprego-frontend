@@ -44,9 +44,22 @@
   border-radius: 4px;
 }
 
+.governoLogo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.sedecLogo {
+  width: 68px;
+  height: 27px;
+  object-fit: contain;
+}
+
 .institutionalLogoWide {
-  width: 80px;
-  height: 32px;
+  width: 50px;
+  height: 25px;
   object-fit: contain;
 }
 
@@ -56,9 +69,19 @@
     height: 40px;
   }
 
+  .governoLogo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .sedecLogo {
+    width: 102px;
+    height: 34px;
+  }
+
   .institutionalLogoWide {
-    width: 120px;
-    height: 40px;
+    width: 70px;
+    height: 35px;
   }
 }
 
@@ -72,9 +95,19 @@
     height: 24px;
   }
 
+  .governoLogo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .sedecLogo {
+    width: 55px;
+    height: 22px;
+  }
+
   .institutionalLogoWide {
-    width: 70px;
-    height: 28px;
+    width: 45px;
+    height: 22px;
   }
 }
 
