@@ -62,9 +62,9 @@ export default function Header() {
             <Image
               src="/logos/sedec.png"
               alt="SEDEC - Secretaria de Desenvolvimento Econômico"
-              width={40}
-              height={40}
-              className={styles.institutionalLogo}
+              width={120}
+              height={37}
+              className={styles.institutionalLogoWide}
             />
             <Image
               src="/logos/sine.jpg"

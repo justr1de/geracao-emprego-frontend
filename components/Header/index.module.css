@@ -45,8 +45,8 @@
 }
 
 .institutionalLogoWide {
-  width: 50px;
-  height: 25px;
+  width: 80px;
+  height: 32px;
   object-fit: contain;
 }
 
@@ -57,8 +57,8 @@
   }
 
   .institutionalLogoWide {
-    width: 70px;
-    height: 35px;
+    width: 120px;
+    height: 40px;
   }
 }
 
@@ -73,8 +73,8 @@
   }
 
   .institutionalLogoWide {
-    width: 40px;
-    height: 20px;
+    width: 70px;
+    height: 28px;
   }
 }
 
