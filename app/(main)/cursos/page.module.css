@@ -33,9 +33,11 @@
 }
 
 .heroSubtitle {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 1);
   margin-bottom: 2rem;
+  font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Search Bar */
@@ -229,14 +231,28 @@
   color: var(--text-secondary);
 }
 
-/* Courses Section */
-.coursesSection {
+/* Main Content with Sidebar */
+.mainContent {
   padding: 2rem 1rem;
 }
 
-.coursesContainer {
-  max-width: 1000px;
+.mainContainer {
+  max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .mainContainer {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+/* Courses Section */
+.coursesSection {
+  min-width: 0;
 }
 
 .coursesHeader {
@@ -269,7 +285,7 @@
   gap: 1rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) and (max-width: 1023px) {
   .coursesGrid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -397,4 +413,130 @@
 
 .noResults p {
   margin: 0;
+}
+
+/* Sidebar */
+.sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+@media (max-width: 1023px) {
+  .sidebar {
+    position: static;
+  }
+}
+
+.sidebarCard {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+}
+
+.sidebarTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.sidebarSubtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.5rem;
+  line-height: 1.5;
+}
+
+/* External Platforms List */
+.externalList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.externalCard {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  background: var(--background-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.externalCard:hover {
+  border-color: var(--platform-color, var(--primary));
+  background: white;
+  transform: translateX(4px);
+}
+
+.externalCard:focus {
+  outline: 2px solid var(--platform-color, var(--primary));
+  outline-offset: 2px;
+}
+
+.externalLogo {
+  flex-shrink: 0;
+}
+
+.logoPlaceholder {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+}
+
+.externalInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.externalName {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.125rem;
+}
+
+.externalDesc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.externalIcon {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.externalCard:hover .externalIcon {
+  color: var(--platform-color, var(--primary));
+}
+
+.disclaimer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
 }
