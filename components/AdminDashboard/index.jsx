@@ -1,3 +1,5 @@
+"use client"
+
 import { Shield, Brain, Database, AlertTriangle, MapPin, CheckCircle } from "lucide-react"
 import styles from "./index.module.css"
 
@@ -22,14 +24,14 @@ export default function AdminDashboard() {
                 <MapPin className={styles.featureIcon} />
                 <div>
                   <h4 className={styles.featureTitle}>Logs de Auditoria</h4>
-                  <p className={styles.featureText}>Geolocalização e rastreamento de IP</p>
+                  <p className={styles.featureText}>Rastreamento de IP e Localização</p>
                 </div>
               </div>
               <div className={styles.feature}>
                 <AlertTriangle className={styles.featureIcon} />
                 <div>
-                  <h4 className={styles.featureTitle}>Validação de Empresas</h4>
-                  <p className={styles.featureText}>Alertas de perfis falsos detectados</p>
+                  <h4 className={styles.featureTitle}>Validação</h4>
+                  <p className={styles.featureText}>Alertas de perfis falsos</p>
                 </div>
               </div>
               <button className={styles.panelButton}>Ver Relatórios</button>
@@ -47,7 +49,7 @@ export default function AdminDashboard() {
                 <Brain className={styles.featureIcon} />
                 <div>
                   <h4 className={styles.featureTitle}>Relatórios Preditivos</h4>
-                  <p className={styles.featureText}>Análise inteligente de tendências</p>
+                  <p className={styles.featureText}>Análise de tendências</p>
                 </div>
               </div>
               <div className={styles.feature}>
@@ -70,12 +72,12 @@ export default function AdminDashboard() {
             <div className={styles.panelBody}>
               <div className={styles.alert}>
                 <AlertTriangle className={styles.alertIcon} />
-                <span>3 vagas expirando esta semana</span>
+                <span>3 vagas expirando hoje</span>
               </div>
               <div className={styles.feature}>
                 <CheckCircle className={styles.featureIcon} />
                 <div>
-                  <h4 className={styles.featureTitle}>Integração RAIS/CAGED</h4>
+                  <h4 className={styles.featureTitle}>CAGED / RAIS</h4>
                   <p className={styles.featureText}>Status: Sincronizado</p>
                 </div>
               </div>

@@ -8,9 +8,13 @@ export default function BackButton({ label = "Voltar" }) {
   const router = useRouter()
 
   return (
-    <button className={styles.backButton} onClick={() => router.back()}>
+    <button 
+      className={styles.backButton} 
+      onClick={() => router.back()}
+      aria-label="Voltar para a página anterior"
+    >
       <ArrowLeft className={styles.icon} />
-      {label}
+      <span>{label}</span>
     </button>
   )
 }

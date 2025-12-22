@@ -1,180 +1,200 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 2rem;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-bottom: 16px;
-  border-bottom: 3px solid #000;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 4px solid #000;
 }
 
-.logo {
+.logoWrapper {
   width: 80px;
   height: 80px;
-  border-radius: 12px;
-  border: 3px solid #000;
-  object-fit: cover;
+  background: #f1f5f9;
+  border: 4px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.logoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .name {
-  font-size: 24px;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 900;
   color: #000;
+  text-transform: uppercase;
   margin: 0;
+  line-height: 1.1;
 }
 
 .category {
   display: inline-block;
-  padding: 4px 12px;
-  background: #f0f9ff;
+  padding: 0.3rem 0.8rem;
+  background: #e0f2fe;
   color: #1e40af;
-  border: 2px solid #1e40af;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-top: 8px;
+  border: 2px solid #000;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
 }
 
 .vacanciesCard {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 20px;
-  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-  border: 3px solid #000;
-  border-radius: 12px;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: #16a34a;
+  border: 4px solid #000;
+  box-shadow: 6px 6px 0px #000;
+  color: white;
+}
+
+.vacanciesContent {
+  display: flex;
+  flex-direction: column;
 }
 
 .vacanciesCount {
-  font-size: 36px;
+  font-size: 2.5rem;
   font-weight: 900;
-  color: white;
+  line-height: 1;
 }
 
 .vacanciesLabel {
-  font-size: 16px;
-  font-weight: 700;
-  color: white;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.vacanciesIcon {
+  opacity: 0.5;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1rem;
 }
 
 .sectionTitle {
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 900;
   color: #000;
-  margin: 0;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-left: 5px solid #16a34a;
+  padding-left: 0.75rem;
 }
 
 .about {
-  font-size: 15px;
+  font-size: 0.95rem;
   line-height: 1.6;
-  color: #333;
-  margin: 0;
+  color: #334155;
+  font-weight: 600;
+  background: #fff;
+  padding: 1rem;
+  border: 2px dashed #000;
 }
 
 .jobsList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .jobItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  background: white;
+  padding: 1rem;
+  background: #fff;
   border: 3px solid #000;
-  border-radius: 8px;
-  transition: all 0.2s;
+  box-shadow: 4px 4px 0px #000;
+  transition: all 0.3s ease-out;
 }
 
 .jobItem:hover {
-  background: #f9fafb;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1e40af;
+  border-color: #1e40af;
 }
 
 .jobTitle {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 800;
   color: #000;
-  margin: 0 0 4px 0;
+  margin: 0;
 }
 
 .jobType {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 0.7rem;
+  font-weight: 900;
   color: #16a34a;
-  background: #f0fdf4;
-  padding: 2px 8px;
-  border-radius: 4px;
+  text-transform: uppercase;
 }
 
 .viewJobBtn {
-  padding: 8px 16px;
-  background: white;
-  color: #1e40af;
-  border: 2px solid #1e40af;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #000;
+  color: #fff;
+  border: 2px solid #000;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease-out;
 }
 
 .viewJobBtn:hover {
   background: #1e40af;
-  color: white;
 }
 
 .viewAllBtn {
   width: 100%;
-  padding: 16px;
+  padding: 1.25rem;
   background: #1e40af;
   color: white;
-  border: 3px solid #000;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 800;
+  border: 4px solid #000;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
-  transition: all 0.2s;
-  margin-top: 8px;
+  box-shadow: 6px 6px 0px #000;
+  transition: all 0.3s ease-out;
 }
 
 .viewAllBtn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0px #000;
 }
 
-@media (max-width: 768px) {
-  .logo {
-    width: 60px;
-    height: 60px;
-  }
-
-  .name {
-    font-size: 20px;
-  }
-
+@media (max-width: 640px) {
   .jobItem {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 1rem;
   }
 
   .viewJobBtn {
     width: 100%;
+    justify-content: center;
   }
 }

@@ -4,367 +4,141 @@
   box-shadow: 4px 4px 0px #000;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000; /* Aumentado para garantir prioridade */
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  /* Reduced padding for sleeker look */
   padding: 0.75rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  /* Reduced font size for better mobile experience */
   font-size: 1.125rem;
   font-weight: 900;
   color: #000;
   text-transform: uppercase;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
 .logoIcon {
-  /* Smaller icon size for elegance */
   width: 24px;
   height: 24px;
   color: #16a34a;
   stroke-width: 3px;
-  flex-shrink: 0;
-}
-
-.logoText {
-  letter-spacing: -0.5px;
 }
 
 .nav {
-  display: none;
+  display: none; /* Escondido por padrão, visível no desk via media query */
 }
 
-.navLink {
-  color: #000;
-  text-decoration: none;
-  font-weight: 700;
-  /* Reduced font size for better hierarchy */
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  transition: color 0.2s;
-  letter-spacing: 0.5px;
-}
-
-.navLink:hover {
-  color: #1e40af;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.adminToggle {
-  background: #fff;
-  border: 3px solid #000;
-  /* Further reduced padding for compact buttons */
-  padding: 0.375rem 0.625rem;
-  font-size: 0.875rem;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.2s;
-  box-shadow: 3px 3px 0px #000;
-}
-
-.adminToggle:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px #000;
-}
-
-.btnLogin {
-  background: #1e40af;
-  color: white;
-  border: 3px solid #000;
-  /* Reduced padding for sleeker, professional buttons */
-  padding: 0.375rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 800;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.2s;
-  box-shadow: 3px 3px 0px #000;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.btnLogin:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px #000;
-}
-
-.btnSignup {
-  /* Ghost/outlined style for Cadastre-se button */
-  background: white;
-  color: #1e40af;
-  border: 3px solid #1e40af;
-  padding: 0.375rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 800;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.2s;
-  box-shadow: 3px 3px 0px #1e40af;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.btnSignup:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px #1e40af;
-  background: #f0f7ff;
-}
-
-.mobileMenuBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mobileMenuBtn svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* Mobile menu overlay */
+/* Estilo do Menu Mobile quando Aberto */
 .navOpen {
-  display: flex;
+  display: flex !important;
   position: fixed;
-  top: 64px;
+  top: 68px; /* Altura exata do header */
   left: 0;
   right: 0;
   bottom: 0;
   background: white;
   flex-direction: column;
   padding: 2rem 1.25rem;
-  border-bottom: 4px solid #000;
   gap: 1.5rem;
+  z-index: 999;
   overflow-y: auto;
-  z-index: 99;
+  border-top: 4px solid #000;
 }
 
-/* Extra small mobile responsive styles */
-@media (max-width: 480px) {
-  .container {
-    padding: 0.625rem 1rem;
-  }
-
-  .logo {
-    font-size: 0.95rem;
-  }
-
-  .logoIcon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .logoText {
-    display: none;
-  }
-
-  .actions {
-    gap: 0.375rem;
-  }
-
-  .btnLogin,
-  .btnSignup {
-    /* Compact mobile buttons */
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-  }
-
-  .adminToggle {
-    padding: 0.5rem;
-    font-size: 0.875rem;
-  }
-
-  .mobileMenuBtn {
-    padding: 0.375rem;
-  }
-
-  .mobileMenuBtn svg {
-    width: 20px;
-    height: 20px;
-  }
+.navLink {
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Tablet and desktop responsive styles */
-@media (min-width: 768px) {
-  .container {
-    padding: 1.25rem 2rem;
-  }
-
-  .logo {
-    font-size: 1.25rem;
-  }
-
-  .logoIcon {
-    width: 28px;
-    height: 28px;
-  }
-
-  .actions {
-    gap: 0.75rem;
-  }
-
-  .btnLogin,
-  .btnSignup {
-    padding: 0.5rem 1.25rem;
-    font-size: 0.875rem;
-  }
-
-  .adminToggle {
-    padding: 0.625rem 1rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .nav {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    flex: 1;
-    justify-content: center;
-  }
-
-  .mobileMenuBtn {
-    display: none;
-  }
-
-  .navOpen {
-    display: flex;
-  }
-}
-
-/* Added notification bell and dropdown styles */
-.notificationWrapper {
-  position: relative;
-}
-
-.notificationBtn {
-  position: relative;
-  background: #fff;
-  border: 3px solid #000;
-  padding: 0.5rem;
-  cursor: pointer;
+.actions {
   display: flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 3px 3px 0px #000;
-  transition: all 0.2s;
+  gap: 0.5rem;
+  margin-left: auto;
 }
 
-.notificationBtn:hover {
+/* Botões com tamanhos mais inteligentes */
+.btnLogin, .btnSignup, .adminToggle {
+  border: 3px solid #000;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  box-shadow: 3px 3px 0px #000;
+  text-decoration: none;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.btnLogin { background: #1e40af; color: white; }
+.btnSignup { background: white; color: #1e40af; border-color: #1e40af; box-shadow: 3px 3px 0px #1e40af; }
+
+.btnLogin:hover, .btnSignup:hover, .adminToggle:hover {
   transform: translate(-2px, -2px);
   box-shadow: 5px 5px 0px #000;
 }
 
-.notificationDot {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 8px;
-  height: 8px;
-  background: #ef4444;
-  border-radius: 50%;
-  border: 2px solid #fff;
-}
-
-.notificationDropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  width: 320px;
-  background: white;
+.mobileMenuBtn {
+  background: none;
   border: 3px solid #000;
-  box-shadow: 6px 6px 0 #000;
-  padding: 1rem;
-  z-index: 200;
-  max-height: 400px;
-  overflow-y: auto;
+  box-shadow: 2px 2px 0px #000;
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
 }
 
-.notificationTitle {
-  font-size: 0.875rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin: 0 0 1rem 0;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.notificationItem {
-  padding: 0.75rem;
-  margin-bottom: 0.5rem;
-  background: #f9fafb;
-  border-left: 3px solid #1e40af;
-  position: relative;
-}
-
-.notificationItem.new {
-  background: #eff6ff;
-  border-left-color: #16a34a;
-}
-
-.notificationItem p {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.4;
-  color: #374151;
-}
-
-.newBadge {
-  display: inline-block;
-  background: #16a34a;
-  color: white;
-  font-size: 0.625rem;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-}
-
-.viewAll {
-  display: block;
-  text-align: center;
-  padding: 0.75rem;
-  background: #1e40af;
-  color: white;
-  font-weight: 700;
-  font-size: 0.875rem;
-  text-decoration: none;
-  margin-top: 0.5rem;
-  border: 2px solid #000;
-  box-shadow: 3px 3px 0 #000;
-  transition: all 0.2s;
-}
-
-.viewAll:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 #000;
-}
-
-@media (max-width: 768px) {
-  .notificationDropdown {
-    width: 280px;
+/* Responsividade Média */
+@media (min-width: 1024px) {
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+    justify-content: center;
   }
+  .mobileMenuBtn { display: none; }
+}
+
+/* Ajuste para telas muito pequenas */
+@media (max-width: 480px) {
+  .logoText { display: none; } 
+  .btnSignup { display: none; }
+}
+
+.adminBtnInner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Garante que o hover seja suave como combinado (0.3s) */
+.adminToggle {
+  background: #f3f4f6;
+  padding: 0.5rem 0.75rem;
+  border: 3px solid #000;
+  font-weight: 900;
+  transition: all 0.3s ease-out;
+  box-shadow: 3px 3px 0px #000;
+  display: flex;
+  align-items: center;
+}
+
+.adminActive {
+  background: #000;
+  color: #fff;
 }

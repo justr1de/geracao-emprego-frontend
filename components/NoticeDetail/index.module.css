@@ -1,108 +1,110 @@
 .detail {
   background: white;
-  border: 3px solid #000;
-  border-radius: 12px;
-  box-shadow: 6px 6px 0 #000;
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px #000;
   padding: 2.5rem;
+  box-sizing: border-box;
 }
 
 .header {
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 3px solid #e5e7eb;
+  border-bottom: 4px solid #f1f5f9;
 }
 
 .badge {
   display: inline-block;
-  padding: 0.375rem 1rem;
-  background: #dbeafe;
-  border: 2px solid #1e40af;
-  border-radius: 16px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #1e40af;
+  padding: 0.5rem 1rem;
+  background: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
   margin-bottom: 1rem;
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #111;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  font-weight: 900;
+  color: #000;
   margin: 0 0 1rem 0;
-  line-height: 1.2;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 .organization {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #6b7280;
-  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1e40af;
+  text-transform: uppercase;
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
+.orgIcon {
+  color: #000;
 }
 
 .meta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
   padding: 1.5rem;
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 10px;
+  background: #f8fafc;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
 }
 
 .metaItem {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.75rem;
 }
 
 .metaIcon {
-  width: 20px;
-  height: 20px;
   color: #1e40af;
   flex-shrink: 0;
-  margin-top: 2px;
 }
 
 .metaLabel {
   display: block;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: #6b7280;
-  margin-bottom: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #64748b;
+  text-transform: uppercase;
 }
 
 .metaValue {
   display: block;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #111;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #000;
 }
 
 .section {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .sectionTitle {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #111;
-  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #000;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  border-left: 6px solid #16a34a;
+  padding-left: 1rem;
 }
 
 .description {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.7;
-  color: #374151;
-  font-weight: 500;
+  color: #334155;
+  font-weight: 600;
+  background: #fff;
+  padding: 1.25rem;
+  border: 2px dashed #000;
 }
 
 .list {
@@ -111,25 +113,22 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .listItem {
-  padding-left: 1.5rem;
-  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
   font-size: 1rem;
-  line-height: 1.6;
-  color: #374151;
-  font-weight: 500;
+  font-weight: 600;
+  color: #1e293b;
 }
 
-.listItem::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
+.checkIcon {
   color: #16a34a;
-  font-weight: 700;
-  font-size: 1.125rem;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .benefits {
@@ -141,11 +140,12 @@
 .benefitTag {
   padding: 0.5rem 1rem;
   background: #dcfce7;
-  border: 2px solid #16a34a;
-  border-radius: 16px;
-  font-size: 0.9375rem;
-  font-weight: 700;
+  border: 2px solid #000;
+  font-size: 0.8rem;
+  font-weight: 900;
   color: #16a34a;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0px #000;
 }
 
 .documents {
@@ -159,15 +159,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 10px;
-  transition: all 0.2s;
+  background: #fff;
+  border: 3px solid #000;
+  transition: all 0.3s ease-out;
+  box-shadow: 4px 4px 0px #000;
 }
 
 .document:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1e40af;
   border-color: #1e40af;
-  background: #eff6ff;
 }
 
 .docInfo {
@@ -177,58 +178,41 @@
 }
 
 .docIcon {
-  width: 32px;
-  height: 32px;
   color: #1e40af;
 }
 
 .docName {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #111;
-  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 2px;
 }
 
 .docSize {
-  font-size: 0.875rem;
-  color: #6b7280;
-  font-weight: 600;
-  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 700;
 }
 
 .downloadBtn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  background: #1e40af;
-  color: white;
-  border: 2px solid #000;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  font-weight: 700;
+  padding: 0.75rem 1.25rem;
+  background: #000;
+  color: #fff;
+  border: 3px solid #000;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 3px 3px 0 #000;
-  transition: all 0.2s;
+  transition: all 0.3s ease-out;
+  box-shadow: 3px 3px 0px #1e40af;
 }
 
 .downloadBtn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 #000;
-}
-
-.downloadIcon {
-  width: 18px;
-  height: 18px;
-}
-
-/* Added styles for courses section */
-.coursesIcon {
-  width: 24px;
-  height: 24px;
-  display: inline-block;
-  margin-right: 0.5rem;
-  vertical-align: middle;
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0px #000;
 }
 
 .coursesList {
@@ -238,89 +222,80 @@
 }
 
 .courseItem {
-  padding: 1rem 1.25rem;
+  padding: 1rem;
   background: #eff6ff;
-  border: 2px solid #1e40af;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  border: 3px solid #1e40af;
+  font-size: 0.95rem;
+  font-weight: 800;
   color: #1e40af;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-}
-
-.courseBullet {
-  font-size: 1.25rem;
-  flex-shrink: 0;
+  gap: 1rem;
+  text-transform: uppercase;
 }
 
 .actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 2.5rem;
+  gap: 1.5rem;
+  margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 3px solid #e5e7eb;
+  border-top: 4px solid #000;
 }
 
 .applyBtn {
-  flex: 1;
-  padding: 1rem 2rem;
+  flex: 2;
+  padding: 1.25rem;
   background: #16a34a;
   color: white;
-  border: 3px solid #000;
-  border-radius: 10px;
-  font-size: 1.125rem;
-  font-weight: 800;
+  border: 4px solid #000;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 5px 5px 0 #000;
-  transition: all 0.2s;
+  box-shadow: 6px 6px 0px #000;
+  transition: all 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
 .applyBtn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 7px 7px 0 #000;
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0px #000;
+  background: #15803d;
 }
 
 .shareBtn {
-  padding: 1rem 2rem;
+  flex: 1;
+  padding: 1.25rem;
   background: white;
-  color: #1e40af;
-  border: 3px solid #1e40af;
-  border-radius: 10px;
-  font-size: 1.125rem;
-  font-weight: 800;
+  color: #000;
+  border: 4px solid #000;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 5px 5px 0 #1e40af;
-  transition: all 0.2s;
+  box-shadow: 6px 6px 0px #000;
+  transition: all 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
 .shareBtn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 7px 7px 0 #1e40af;
-  background: #eff6ff;
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0px #1e40af;
+  color: #1e40af;
+  border-color: #1e40af;
 }
 
 @media (max-width: 768px) {
-  .detail {
-    padding: 1.5rem;
-  }
-
-  .title {
-    font-size: 1.5rem;
-  }
-
-  .meta {
-    grid-template-columns: 1fr;
-  }
-
-  .actions {
-    flex-direction: column;
-  }
-
-  .document {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
+  .detail { padding: 1.5rem; }
+  .meta { grid-template-columns: 1fr; }
+  .actions { flex-direction: column; }
+  .document { flex-direction: column; gap: 1rem; align-items: stretch; text-align: center; }
+  .docInfo { flex-direction: column; }
+  .downloadBtn { justify-content: center; }
 }

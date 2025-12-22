@@ -16,8 +16,8 @@ export default function StatsBar() {
           <div key={index} className={styles.stat}>
             <stat.icon className={styles.statIcon} />
             <div className={styles.statContent}>
-              <div className={styles.statValue}>{stat.value}</div>
-              <div className={styles.statLabel}>{stat.label}</div>
+              <span className={styles.statValue}>{stat.value}</span>
+              <span className={styles.statLabel}>{stat.label}</span>
             </div>
           </div>
         ))}
