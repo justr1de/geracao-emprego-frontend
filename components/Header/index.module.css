@@ -133,41 +133,53 @@
 .logo {
   display: flex;
   align-items: center;
-  transition: opacity 0.2s;
   flex-shrink: 0;
+  padding: 0.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .logo:hover {
-  opacity: 0.85;
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 8px rgba(34, 139, 34, 0.4))
+          drop-shadow(0 0 16px rgba(34, 139, 34, 0.25))
+          drop-shadow(0 0 24px rgba(34, 139, 34, 0.15));
 }
 
 .logo:focus {
   outline: 2px solid var(--primary);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline-offset: 4px;
+  border-radius: 8px;
 }
 
 .mainLogo {
-  width: 120px;
+  width: 160px;
   height: auto;
   object-fit: contain;
+  transition: all 0.3s ease;
 }
 
 @media (min-width: 640px) {
   .mainLogo {
-    width: 150px;
+    width: 200px;
   }
 }
 
 @media (min-width: 768px) {
   .mainLogo {
-    width: 180px;
+    width: 240px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mainLogo {
+    width: 260px;
   }
 }
 
 @media (max-width: 480px) {
   .mainLogo {
-    width: 100px;
+    width: 130px;
   }
 }
 
