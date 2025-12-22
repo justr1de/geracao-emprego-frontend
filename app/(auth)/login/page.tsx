@@ -41,8 +41,8 @@ export default function LoginPage() {
           </header>
 
           {/* Botão Login SouGov */}
-          <button 
-            type="button" 
+          <button
+            type="button"
             className={styles.sougovBtn}
             onClick={handleSouGovLogin}
           >

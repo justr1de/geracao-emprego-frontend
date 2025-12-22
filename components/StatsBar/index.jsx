@@ -5,33 +5,33 @@ import styles from './index.module.css';
 
 export default function StatsBar() {
   const stats = [
-    { 
-      value: '163.710', 
-      label: 'Currículos', 
+    {
+      value: '163.710',
+      label: 'Currículos',
       description: 'Profissionais cadastrados',
       icon: FileText,
-      color: '#3b82f6'
+      color: '#3b82f6',
     },
-    { 
-      value: '68.688', 
-      label: 'Vagas', 
+    {
+      value: '68.688',
+      label: 'Vagas',
       description: 'Oportunidades disponíveis',
       icon: Briefcase,
-      color: '#10b981'
+      color: '#10b981',
     },
-    { 
-      value: '6.775', 
-      label: 'Empresas', 
+    {
+      value: '6.775',
+      label: 'Empresas',
       description: 'Parceiras da plataforma',
       icon: Building2,
-      color: '#8b5cf6'
+      color: '#8b5cf6',
     },
-    { 
-      value: '330', 
-      label: 'Cursos', 
+    {
+      value: '330',
+      label: 'Cursos',
       description: 'Gratuitos para você',
       icon: GraduationCap,
-      color: '#f59e0b'
+      color: '#f59e0b',
     },
   ];
 

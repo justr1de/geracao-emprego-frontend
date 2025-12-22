@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Instagram, Facebook, MessageCircle, Mail, Phone, MapPin, ChevronRight } from 'lucide-react';
 import styles from './index.module.css';
 
 export default function Footer() {
@@ -8,52 +9,131 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
+      {/* Onda decorativa */}
+      <div className={styles.wave}>
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="currentColor"/>
+        </svg>
+      </div>
+
       <div className={styles.container}>
-        {/* Logo e descrição */}
-        <div className={styles.brand}>
-          <div className={styles.logo}>
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.logoIcon}>
-              <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span>Geração Emprego</span>
+        <div className={styles.grid}>
+          {/* Sobre */}
+          <div className={styles.column}>
+            <h3 className={styles.columnTitle}>Sobre</h3>
+            <nav className={styles.nav} aria-label="Links sobre o site">
+              <Link href="/termos" className={styles.link}>
+                <ChevronRight size={14} aria-hidden="true" />
+                Termos de Uso
+              </Link>
+              <Link href="/privacidade" className={styles.link}>
+                <ChevronRight size={14} aria-hidden="true" />
+                Políticas de Privacidade
+              </Link>
+              <Link href="/faq" className={styles.link}>
+                <ChevronRight size={14} aria-hidden="true" />
+                Perguntas Frequentes
+              </Link>
+            </nav>
           </div>
-          <p className={styles.description}>
-            Iniciativa do Governo do Estado de Rondônia para conectar trabalhadores e empresas.
-          </p>
+
+          {/* Serviços */}
+          <div className={styles.column}>
+            <h3 className={styles.columnTitle}>Serviços</h3>
+            <nav className={styles.nav} aria-label="Links de serviços">
+              <Link href="/curriculos" className={styles.link}>
+                <ChevronRight size={14} aria-hidden="true" />
+                Quero currículos
+              </Link>
+              <Link href="/vagas" className={styles.link}>
+                <ChevronRight size={14} aria-hidden="true" />
+                Buscar vagas
+              </Link>
+              <Link href="/cursos" className={styles.link}>
+                <ChevronRight size={14} aria-hidden="true" />
+                Cursos gratuitos
+              </Link>
+              <Link href="/empresas" className={styles.link}>
+                <ChevronRight size={14} aria-hidden="true" />
+                Cadastrar empresa
+              </Link>
+            </nav>
+          </div>
+
+          {/* Redes Sociais */}
+          <div className={styles.column}>
+            <h3 className={styles.columnTitle}>Redes Sociais</h3>
+            <nav className={styles.socialNav} aria-label="Redes sociais">
+              <a
+                href="https://instagram.com/geracaoemprego"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.socialLink}
+                aria-label="Siga-nos no Instagram (abre em nova janela)"
+              >
+                <Instagram size={18} aria-hidden="true" />
+                Instagram
+              </a>
+              <a
+                href="https://facebook.com/geracaoemprego"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.socialLink}
+                aria-label="Siga-nos no Facebook (abre em nova janela)"
+              >
+                <Facebook size={18} aria-hidden="true" />
+                Facebook
+              </a>
+            </nav>
+          </div>
+
+          {/* Ajuda */}
+          <div className={styles.column}>
+            <h3 className={styles.columnTitle}>Ajuda</h3>
+            <div className={styles.contactList}>
+              <a
+                href="https://wa.me/5569999999999"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.contactLink}
+                aria-label="Fale conosco pelo WhatsApp (abre em nova janela)"
+              >
+                <MessageCircle size={18} aria-hidden="true" />
+                Fale conosco pelo WhatsApp
+              </a>
+              <a
+                href="mailto:suporte@geracaoemprego.ro.gov.br"
+                className={styles.contactLink}
+                aria-label="Enviar e-mail para suporte"
+              >
+                <Mail size={18} aria-hidden="true" />
+                suporte@geracaoemprego.ro.gov.br
+              </a>
+              <div className={styles.contactInfo}>
+                <Phone size={18} aria-hidden="true" />
+                <span>(69) 3216-5300</span>
+              </div>
+              <div className={styles.contactInfo}>
+                <MapPin size={18} aria-hidden="true" />
+                <span>Porto Velho - RO</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Links */}
-        <div className={styles.links}>
-          <div className={styles.linkGroup}>
-            <h3 className={styles.linkTitle}>Para você</h3>
-            <Link href="/vagas" className={styles.link}>Buscar Vagas</Link>
-            <Link href="/cursos" className={styles.link}>Cursos Gratuitos</Link>
-            <Link href="/cadastro" className={styles.link}>Cadastrar Currículo</Link>
-          </div>
-
-          <div className={styles.linkGroup}>
-            <h3 className={styles.linkTitle}>Para empresas</h3>
-            <Link href="/curriculos" className={styles.link}>Buscar Currículos</Link>
-            <Link href="/cadastro" className={styles.link}>Cadastrar Empresa</Link>
-            <Link href="/editais" className={styles.link}>Ver Editais</Link>
-          </div>
-
-          <div className={styles.linkGroup}>
-            <h3 className={styles.linkTitle}>Ajuda</h3>
-            <Link href="/faq" className={styles.link}>Perguntas Frequentes</Link>
-            <Link href="/contato" className={styles.link}>Fale Conosco</Link>
-            <Link href="/termos" className={styles.link}>Termos de Uso</Link>
-          </div>
-        </div>
-
-        {/* Copyright */}
+        {/* Rodapé inferior */}
         <div className={styles.bottom}>
-          <p className={styles.copyright}>
-            © {currentYear} Geração Emprego. Governo do Estado de Rondônia.
-          </p>
+          <div className={styles.bottomContent}>
+            <p className={styles.copyright}>
+              © {currentYear} Geração Emprego - Governo do Estado de Rondônia. Todos os direitos reservados.
+            </p>
+            <p className={styles.credits}>
+              Ícones feitos por <a href="https://www.flaticon.com" target="_blank" rel="noopener noreferrer">www.flaticon.com</a>
+            </p>
+          </div>
           <div className={styles.badges}>
-            <span className={styles.badge}>100% Gratuito</span>
-            <span className={styles.badge}>Dados Seguros</span>
+            <span className={styles.badge}>SEDEC-RO</span>
+            <span className={styles.badge}>SINE</span>
           </div>
         </div>
       </div>
