@@ -161,6 +161,11 @@ export default function JobsPage() {
             Encontre oportunidades em todo o estado de Rondônia
           </p>
 
+          {/* Aviso LGPD */}
+          <p className={styles.lgpdNotice}>
+            As buscas realizadas respeitam a Lei Geral de Proteção de Dados (LGPD).
+          </p>
+
           {/* Barra de Busca */}
           <div className={styles.searchBar}>
             <div className={styles.searchInputWrapper}>

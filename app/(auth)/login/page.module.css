@@ -338,6 +338,25 @@
   gap: 0.5rem;
 }
 
+/* LGPD Notice */
+.lgpdNotice {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+
+.lgpdLink {
+  color: var(--primary);
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.lgpdLink:hover {
+  color: var(--primary-hover);
+}
+
 /* Footer */
 .footer {
   text-align: center;

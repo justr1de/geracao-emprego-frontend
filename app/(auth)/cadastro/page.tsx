@@ -139,6 +139,16 @@ export default function RegisterPage() {
                   <div className={styles.inputGroup}><label>Código Atendente</label><input type="text" value={formData.assistantCode} onChange={(e) => setFormData({ ...formData, assistantCode: e.target.value })} /></div>
                 )}
 
+                {/* Aviso LGPD */}
+                <p className={styles.lgpdNotice}>
+                  Ao se cadastrar, você concorda com nossa{' '}
+                  <Link href="/politicas-privacidade" className={styles.lgpdLink}>
+                    Política de Privacidade
+                  </Link>{' '}
+                  e confirma que seus dados serão tratados conforme a{' '}
+                  <strong>Lei Geral de Proteção de Dados (LGPD)</strong>.
+                </p>
+
                 <button type="submit" className={styles.submitBtn}>Concluir Cadastro</button>
                 <button type="button" className={styles.backBtn} onClick={() => setStep(2)}>Voltar</button>
               </form>

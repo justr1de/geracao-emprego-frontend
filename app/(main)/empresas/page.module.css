@@ -35,7 +35,15 @@
 .heroSubtitle {
   font-size: 1rem;
   opacity: 0.9;
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+/* LGPD Notice */
+.lgpdNotice {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1.5rem;
+  font-weight: 400;
 }
 
 /* Search Bar */

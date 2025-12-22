@@ -175,6 +175,14 @@ export default function LoginPage() {
                   </>
                 )}
               </button>
+
+              {/* Aviso LGPD */}
+              <p className={styles.lgpdNotice}>
+                Seus dados são protegidos conforme a{' '}
+                <Link href="/politicas-privacidade" className={styles.lgpdLink}>
+                  Lei Geral de Proteção de Dados (LGPD)
+                </Link>.
+              </p>
             </form>
 
             {/* Footer */}

@@ -44,6 +44,9 @@ export default function ResumesPage() {
         <div className={styles.header}>
           <h1 className={styles.title}>Buscar Currículos</h1>
           <p className={styles.subtitle}>Encontre os melhores talentos para sua empresa</p>
+          <p className={styles.lgpdNotice}>
+            Todos os dados dos candidatos são tratados conforme a Lei Geral de Proteção de Dados (LGPD).
+          </p>
         </div>
 
         <div className={styles.filters}>

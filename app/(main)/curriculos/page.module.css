@@ -28,6 +28,13 @@
   color: #666;
 }
 
+.lgpdNotice {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.75rem;
+  font-weight: 400;
+}
+
 .filters {
   display: flex;
   gap: 1rem;

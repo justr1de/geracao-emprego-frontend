@@ -50,6 +50,14 @@ export default function ForgotPasswordPage() {
                 <button type="submit" className={styles.submitBtn}>
                   Enviar Link de Recuperação
                 </button>
+
+                {/* Aviso LGPD */}
+                <p className={styles.lgpdNotice}>
+                  Seus dados são tratados conforme a{' '}
+                  <Link href="/politicas-privacidade" className={styles.lgpdLink}>
+                    LGPD
+                  </Link>.
+                </p>
               </form>
 
               <Link href="/login" className={styles.backLink}>

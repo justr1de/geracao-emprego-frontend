@@ -197,6 +197,28 @@
   cursor: pointer;
 }
 
+/* LGPD Notice */
+.lgpdNotice {
+  font-size: 0.7rem;
+  color: #666;
+  text-align: center;
+  margin: 1rem 0;
+  line-height: 1.6;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.lgpdLink {
+  color: #1e40af;
+  text-decoration: underline;
+}
+
+.lgpdLink:hover {
+  color: #16a34a;
+}
+
 @media (max-width: 768px) {
   .container { flex-direction: column; }
   .leftPanel { min-height: 150px; border-right: none; border-bottom: 6px solid #000; }
