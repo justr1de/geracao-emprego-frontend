@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { Download, Calendar, Building2, Tag, FileText, GraduationCap, CheckCircle2, Share2, Send } from "lucide-react"
-import styles from "./index.module.css"
+import { Download, Calendar, Building2, Tag, FileText, GraduationCap, CheckCircle2, Share2, Send } from 'lucide-react';
+import styles from './index.module.css';
 
 interface NoticeDocument {
   name: string
@@ -139,5 +139,5 @@ export default function NoticeDetail({ notice }: NoticeDetailProps) {
         </button>
       </div>
     </div>
-  )
+  );
 }

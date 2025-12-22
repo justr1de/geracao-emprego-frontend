@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { Briefcase, Building2, BarChart3 } from "lucide-react"
-import styles from "./index.module.css"
+import { Briefcase, Building2, BarChart3 } from 'lucide-react';
+import styles from './index.module.css';
 
 export default function JobStats() {
   return (
     <section className={styles.stats}>
       <div className={styles.container}>
-        <div className={styles.card} style={{ "--accent": "#1e40af" }}>
+        <div className={styles.card} style={{ '--accent': '#1e40af' }}>
           <div className={styles.iconWrapper}>
             <Briefcase size={24} />
           </div>
@@ -17,7 +17,7 @@ export default function JobStats() {
           </div>
         </div>
 
-        <div className={styles.card} style={{ "--accent": "#7c3aed" }}>
+        <div className={styles.card} style={{ '--accent': '#7c3aed' }}>
           <div className={styles.iconWrapper}>
             <Building2 size={24} />
           </div>
@@ -27,7 +27,7 @@ export default function JobStats() {
           </div>
         </div>
 
-        <div className={styles.card} style={{ "--accent": "#16a34a" }}>
+        <div className={styles.card} style={{ '--accent': '#16a34a' }}>
           <div className={styles.iconWrapper}>
             <BarChart3 size={24} />
           </div>
@@ -38,5 +38,5 @@ export default function JobStats() {
         </div>
       </div>
     </section>
-  )
+  );
 }

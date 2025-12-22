@@ -1,22 +1,22 @@
 // @ts-nocheck
-"use client"
+'use client';
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { Eye, EyeOff, LogIn } from "lucide-react"
-import styles from "./page.module.css"
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Eye, EyeOff, LogIn } from 'lucide-react';
+import styles from './page.module.css';
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
-  const [formData, setFormData] = useState({ login: "", password: "" })
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({ login: '', password: '' });
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("Login enviado:", formData)
-    router.push("/") 
-  }
+    e.preventDefault();
+    console.log('Login enviado:', formData);
+    router.push('/');
+  };
 
   return (
     <div className={styles.container}>
@@ -53,16 +53,16 @@ export default function LoginPage() {
               <div className={styles.passwordWrapper}>
                 <input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="********"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
                   className={styles.input}
                 />
-                <button 
-                  type="button" 
-                  className={styles.eyeBtn} 
+                <button
+                  type="button"
+                  className={styles.eyeBtn}
                   onClick={() => setShowPassword(!showPassword)}
                   tabIndex="-1"
                 >
@@ -89,5 +89,5 @@ export default function LoginPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

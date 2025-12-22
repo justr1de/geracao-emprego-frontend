@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { Shield, Brain, Database, AlertTriangle, MapPin, CheckCircle } from "lucide-react"
-import styles from "./index.module.css"
+import { Shield, Brain, Database, AlertTriangle, MapPin, CheckCircle } from 'lucide-react';
+import styles from './index.module.css';
 
 export default function AdminDashboard() {
   return (
@@ -14,8 +14,8 @@ export default function AdminDashboard() {
 
         <div className={styles.grid}>
           {/* Security Panel */}
-          <div className={styles.panel} style={{ borderColor: "#ef4444" }}>
-            <div className={styles.panelHeader} style={{ background: "#ef4444" }}>
+          <div className={styles.panel} style={{ borderColor: '#ef4444' }}>
+            <div className={styles.panelHeader} style={{ background: '#ef4444' }}>
               <Shield className={styles.panelIcon} />
               <h3 className={styles.panelTitle}>Segurança</h3>
             </div>
@@ -39,8 +39,8 @@ export default function AdminDashboard() {
           </div>
 
           {/* AI Panel */}
-          <div className={styles.panel} style={{ borderColor: "#8b5cf6" }}>
-            <div className={styles.panelHeader} style={{ background: "#8b5cf6" }}>
+          <div className={styles.panel} style={{ borderColor: '#8b5cf6' }}>
+            <div className={styles.panelHeader} style={{ background: '#8b5cf6' }}>
               <Brain className={styles.panelIcon} />
               <h3 className={styles.panelTitle}>IA Privada</h3>
             </div>
@@ -64,8 +64,8 @@ export default function AdminDashboard() {
           </div>
 
           {/* Data Management Panel */}
-          <div className={styles.panel} style={{ borderColor: "#1e40af" }}>
-            <div className={styles.panelHeader} style={{ background: "#1e40af" }}>
+          <div className={styles.panel} style={{ borderColor: '#1e40af' }}>
+            <div className={styles.panelHeader} style={{ background: '#1e40af' }}>
               <Database className={styles.panelIcon} />
               <h3 className={styles.panelTitle}>Gestão de Dados</h3>
             </div>
@@ -87,5 +87,5 @@ export default function AdminDashboard() {
         </div>
       </div>
     </section>
-  )
+  );
 }

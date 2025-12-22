@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import ModalOverlay from "@/components/ModalOverlay"
-import { Building2, Briefcase, ExternalLink, Info } from "lucide-react"
-import styles from "./index.module.css"
+import ModalOverlay from '@/components/ModalOverlay';
+import { Building2, Briefcase, ExternalLink, Info } from 'lucide-react';
+import styles from './index.module.css';
 
 interface Company {
   id: number
@@ -22,11 +22,11 @@ interface CompanyDetailModalProps {
 
 export default function CompanyDetailModal({ company, onClose }: CompanyDetailModalProps) {
   const defaultJobs = [
-    { id: 1, title: "Auxiliar Administrativo", type: "CLT" },
-    { id: 2, title: "Vendedor", type: "CLT" },
-  ]
+    { id: 1, title: 'Auxiliar Administrativo', type: 'CLT' },
+    { id: 2, title: 'Vendedor', type: 'CLT' },
+  ];
 
-  const jobs = company.openJobs || defaultJobs
+  const jobs = company.openJobs || defaultJobs;
 
   return (
     <ModalOverlay onClose={onClose}>
@@ -61,7 +61,7 @@ export default function CompanyDetailModal({ company, onClose }: CompanyDetailMo
             <Info size={18} /> Sobre a Empresa
           </h3>
           <p className={styles.about}>
-            {company.about || company.description || "Empresa líder em seu segmento, comprometida com a excelência."}
+            {company.about || company.description || 'Empresa líder em seu segmento, comprometida com a excelência.'}
           </p>
         </div>
 
@@ -88,5 +88,5 @@ export default function CompanyDetailModal({ company, onClose }: CompanyDetailMo
         <button className={styles.viewAllBtn}>Ver Todas as Oportunidades</button>
       </div>
     </ModalOverlay>
-  )
+  );
 }

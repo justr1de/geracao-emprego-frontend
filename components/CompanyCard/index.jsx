@@ -1,12 +1,12 @@
-import styles from "./index.module.css"
+import styles from './index.module.css';
 
 export default function CompanyCard({ company }) {
   return (
     <div className={styles.card}>
-      <div className={styles.topSection}></div>
+      <div className={styles.topSection} />
 
       <div className={styles.logoWrapper}>
-        <img src={company.logo || "/placeholder.svg"} alt={company.name} className={styles.logo} />
+        <img src={company.logo || '/placeholder.svg'} alt={company.name} className={styles.logo} />
       </div>
 
       <div className={styles.content}>
@@ -21,5 +21,5 @@ export default function CompanyCard({ company }) {
 
       <button className={styles.actionButton}>→</button>
     </div>
-  )
+  );
 }

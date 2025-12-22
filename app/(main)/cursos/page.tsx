@@ -1,37 +1,37 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import BackButton from "@/components/BackButton"
-import CourseDetailModal from "@/components/CourseDetailModal"
-import styles from "./page.module.css"
+import { useState } from 'react';
+import BackButton from '@/components/BackButton';
+import CourseDetailModal from '@/components/CourseDetailModal';
+import styles from './page.module.css';
 
 const mockCourses = [
   {
     id: 1,
-    title: "Assistente Administrativo",
-    institution: "SENAI",
-    duration: "3 meses",
-    modality: "Presencial",
-    category: "Administrativo",
-    description: "Curso completo de formação para assistente administrativo",
-    requirements: ["Ensino médio completo", "Disponibilidade de tempo"],
-    syllabus: ["Rotinas administrativas", "Gestão de documentos", "Atendimento ao cliente"],
+    title: 'Assistente Administrativo',
+    institution: 'SENAI',
+    duration: '3 meses',
+    modality: 'Presencial',
+    category: 'Administrativo',
+    description: 'Curso completo de formação para assistente administrativo',
+    requirements: ['Ensino médio completo', 'Disponibilidade de tempo'],
+    syllabus: ['Rotinas administrativas', 'Gestão de documentos', 'Atendimento ao cliente'],
   },
   {
     id: 2,
-    title: "Desenvolvimento Web Full Stack",
-    institution: "SENAC",
-    duration: "6 meses",
-    modality: "Híbrido",
-    category: "Tecnologia",
-    description: "Aprenda a desenvolver aplicações web modernas",
-    requirements: ["Conhecimento básico de informática", "Inglês intermediário"],
-    syllabus: ["HTML, CSS e JavaScript", "React e Node.js", "Banco de dados"],
+    title: 'Desenvolvimento Web Full Stack',
+    institution: 'SENAC',
+    duration: '6 meses',
+    modality: 'Híbrido',
+    category: 'Tecnologia',
+    description: 'Aprenda a desenvolver aplicações web modernas',
+    requirements: ['Conhecimento básico de informática', 'Inglês intermediário'],
+    syllabus: ['HTML, CSS e JavaScript', 'React e Node.js', 'Banco de dados'],
   },
-]
+];
 
 export default function CoursesPage() {
-  const [selectedCourse, setSelectedCourse] = useState<(typeof mockCourses)[0] | null>(null)
+  const [selectedCourse, setSelectedCourse] = useState<(typeof mockCourses)[0] | null>(null);
 
   return (
     <div className={styles.pageContainer}>
@@ -81,5 +81,5 @@ export default function CoursesPage() {
 
       {selectedCourse && <CourseDetailModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />}
     </div>
-  )
+  );
 }

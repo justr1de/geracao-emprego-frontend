@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { MapPin, Briefcase, Calendar } from "lucide-react"
-import styles from "./index.module.css"
+import { MapPin, Briefcase, Calendar } from 'lucide-react';
+import styles from './index.module.css';
 
 export default function JobCard({ job, onClick }) {
   return (
@@ -35,5 +35,5 @@ export default function JobCard({ job, onClick }) {
         <p className={styles.description}>{job.description}</p>
       </div>
     </div>
-  )
+  );
 }

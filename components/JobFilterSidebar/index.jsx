@@ -1,18 +1,18 @@
-"use client"
+'use client';
 
-import { Filter, RotateCcw } from "lucide-react"
-import styles from "./index.module.css"
+import { Filter, RotateCcw } from 'lucide-react';
+import styles from './index.module.css';
 
 export default function JobFilterSidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.header}>
         <h3 className={styles.title}>
-          <Filter size={18} style={{marginRight: '8px'}} />
+          <Filter size={18} style={{ marginRight: '8px' }} />
           Filtros
         </h3>
         <button className={styles.reset} title="Limpar tudo">
-          <RotateCcw size={12} style={{marginRight: '4px'}} />
+          <RotateCcw size={12} style={{ marginRight: '4px' }} />
           Limpar
         </button>
       </div>
@@ -48,5 +48,5 @@ export default function JobFilterSidebar() {
 
       <button className={styles.applyButton}>Aplicar Filtros</button>
     </aside>
-  )
+  );
 }

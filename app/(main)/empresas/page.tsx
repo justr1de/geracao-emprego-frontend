@@ -1,47 +1,47 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import BackButton from "@/components/BackButton"
-import CompanyDetailModal from "@/components/CompanyDetailModal"
-import styles from "./page.module.css"
+import { useState } from 'react';
+import BackButton from '@/components/BackButton';
+import CompanyDetailModal from '@/components/CompanyDetailModal';
+import styles from './page.module.css';
 
 const mockCompanies = [
   {
     id: 1,
-    name: "Supermercado Exemplo",
-    description: "Rede de supermercados com mais de 20 anos de experiência no mercado brasileiro.",
-    category: "Varejo",
+    name: 'Supermercado Exemplo',
+    description: 'Rede de supermercados com mais de 20 anos de experiência no mercado brasileiro.',
+    category: 'Varejo',
     vacancies: 280,
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: '/placeholder.svg?height=80&width=80',
   },
   {
     id: 2,
-    name: "Tech Solutions LTDA",
-    description: "Empresa de tecnologia focada em soluções inovadoras para transformação digital.",
-    category: "Tecnologia",
+    name: 'Tech Solutions LTDA',
+    description: 'Empresa de tecnologia focada em soluções inovadoras para transformação digital.',
+    category: 'Tecnologia',
     vacancies: 45,
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: '/placeholder.svg?height=80&width=80',
   },
   {
     id: 3,
-    name: "Clínica Saúde & Vida",
-    description: "Clínica médica com atendimento completo e equipe multidisciplinar.",
-    category: "Saúde",
+    name: 'Clínica Saúde & Vida',
+    description: 'Clínica médica com atendimento completo e equipe multidisciplinar.',
+    category: 'Saúde',
     vacancies: 32,
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: '/placeholder.svg?height=80&width=80',
   },
   {
     id: 4,
-    name: "Construtora Alicerce",
-    description: "Construtora especializada em obras residenciais e comerciais de alto padrão.",
-    category: "Construção",
+    name: 'Construtora Alicerce',
+    description: 'Construtora especializada em obras residenciais e comerciais de alto padrão.',
+    category: 'Construção',
     vacancies: 120,
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: '/placeholder.svg?height=80&width=80',
   },
-]
+];
 
 export default function CompaniesPage() {
-  const [selectedCompany, setSelectedCompany] = useState<(typeof mockCompanies)[0] | null>(null)
+  const [selectedCompany, setSelectedCompany] = useState<(typeof mockCompanies)[0] | null>(null);
 
   return (
     <div className={styles.pageContainer}>
@@ -66,7 +66,7 @@ export default function CompaniesPage() {
           {mockCompanies.map((company) => (
             <div key={company.id} className={styles.card}>
               <div className={styles.cardTop}>
-                <img src={company.logo || "/placeholder.svg"} alt={company.name} className={styles.logo} />
+                <img src={company.logo || '/placeholder.svg'} alt={company.name} className={styles.logo} />
                 <span className={styles.categoryBadge}>{company.category}</span>
               </div>
 
@@ -88,5 +88,5 @@ export default function CompaniesPage() {
 
       {selectedCompany && <CompanyDetailModal company={selectedCompany} onClose={() => setSelectedCompany(null)} />}
     </div>
-  )
+  );
 }

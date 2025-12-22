@@ -1,6 +1,6 @@
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react"
-import Link from "next/link"
-import styles from "./index.module.css"
+import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import Link from 'next/link';
+import styles from './index.module.css';
 
 export default function Footer() {
   return (
@@ -90,5 +90,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

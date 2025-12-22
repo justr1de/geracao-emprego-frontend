@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import ModalOverlay from "@/components/ModalOverlay"
-import { BookOpen, Clock, Monitor, Award, CheckCircle2, ListChecks } from "lucide-react"
-import styles from "./index.module.css"
+import ModalOverlay from '@/components/ModalOverlay';
+import { BookOpen, Clock, Monitor, Award, CheckCircle2, ListChecks } from 'lucide-react';
+import styles from './index.module.css';
 
 interface Course {
   id: number
@@ -86,5 +86,5 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
         <button className={styles.enrollBtn}>Realizar Inscrição</button>
       </div>
     </ModalOverlay>
-  )
+  );
 }

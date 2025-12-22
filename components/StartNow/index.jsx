@@ -1,14 +1,14 @@
-"use client"
+'use client';
 
-import { 
-  Search, FileText, Heart, Globe, 
-  CheckCircle2, Star, Users, ShieldCheck 
-} from "lucide-react"
-import { useRouter } from "next/navigation"
-import styles from "./index.module.css"
+import {
+  Search, FileText, Heart, Globe,
+  CheckCircle2, Star, Users, ShieldCheck,
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import styles from './index.module.css';
 
 export default function StartNow() {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <section className={styles.section}>
@@ -18,7 +18,7 @@ export default function StartNow() {
         <div className={styles.cards}>
           {/* Card Empresa */}
           <div className={styles.card}>
-            <div className={styles.cardHeader} style={{ background: "#1e40af" }}>
+            <div className={styles.cardHeader} style={{ background: '#1e40af' }}>
               <Search className={styles.headerIcon} />
               <h3 className={styles.cardTitle}>Busque por profissionais</h3>
             </div>
@@ -26,7 +26,7 @@ export default function StartNow() {
               <p className={styles.cardText}>
                 Encontre os melhores talentos para sua empresa. Acesse milhares de currículos qualificados.
               </p>
-              
+
               <div className={styles.filterInfo}>
                 <Star className={styles.filterIcon} size={18} fill="#f59e0b" />
                 <span className={styles.filterText}>Filtros de Diversidade</span>
@@ -39,7 +39,7 @@ export default function StartNow() {
                 <li><CheckCircle2 size={14} className={styles.listIcon} /> Inclusão</li>
               </ul>
 
-              <button 
+              <button
                 className={styles.cardButton}
                 onClick={() => router.push('/curriculos')}
               >
@@ -50,7 +50,7 @@ export default function StartNow() {
 
           {/* Card Candidato */}
           <div className={styles.card}>
-            <div className={styles.cardHeader} style={{ background: "#16a34a" }}>
+            <div className={styles.cardHeader} style={{ background: '#16a34a' }}>
               <FileText className={styles.headerIcon} />
               <h3 className={styles.cardTitle}>Nova colocação?</h3>
             </div>
@@ -65,13 +65,13 @@ export default function StartNow() {
               </div>
 
               <ul className={styles.filterList}>
-                <li><CheckCircle2 size={14} className={styles.listIcon} style={{color: '#16a34a'}} /> Afirmativas</li>
-                <li><CheckCircle2 size={14} className={styles.listIcon} style={{color: '#16a34a'}} /> Inclusivas</li>
-                <li><CheckCircle2 size={14} className={styles.listIcon} style={{color: '#16a34a'}} /> Diversidade</li>
-                <li><CheckCircle2 size={14} className={styles.listIcon} style={{color: '#16a34a'}} /> Respeito</li>
+                <li><CheckCircle2 size={14} className={styles.listIcon} style={{ color: '#16a34a' }} /> Afirmativas</li>
+                <li><CheckCircle2 size={14} className={styles.listIcon} style={{ color: '#16a34a' }} /> Inclusivas</li>
+                <li><CheckCircle2 size={14} className={styles.listIcon} style={{ color: '#16a34a' }} /> Diversidade</li>
+                <li><CheckCircle2 size={14} className={styles.listIcon} style={{ color: '#16a34a' }} /> Respeito</li>
               </ul>
 
-              <button 
+              <button
                 className={styles.cardButton}
                 onClick={() => router.push('/cadastro')}
               >
@@ -82,5 +82,5 @@ export default function StartNow() {
         </div>
       </div>
     </section>
-  )
+  );
 }

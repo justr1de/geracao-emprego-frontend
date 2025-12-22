@@ -1,58 +1,58 @@
-import type React from "react"
-import type { Metadata } from "next"
+import type React from 'react';
+import type { Metadata } from 'next';
 
-import { Analytics } from "@vercel/analytics/next"
-import { AppProvider } from "@/contexts/AppContext"
-import "./globals.css"
+import { Analytics } from '@vercel/analytics/next';
+import { AppProvider } from '@/contexts/AppContext';
+import './globals.css';
 
-import { DM_Sans, Space_Mono, Source_Serif_4, DM_Sans as V0_Font_DM_Sans, Space_Mono as V0_Font_Space_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google'
+import { DM_Sans, Space_Mono, Source_Serif_4, DM_Sans as V0_Font_DM_Sans, Space_Mono as V0_Font_Space_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google';
 
 // Initialize fonts
-const _dmSans = V0_Font_DM_Sans({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900","1000"] })
-const _spaceMono = V0_Font_Space_Mono({ subsets: ['latin'], weight: ["400","700"] })
-const _sourceSerif_4 = V0_Font_Source_Serif_4({ subsets: ['latin'], weight: ["200","300","400","500","600","700","800","900"] })
+const _dmSans = V0_Font_DM_Sans({ subsets: ['latin'], weight: ['100','200','300','400','500','600','700','800','900','1000'] });
+const _spaceMono = V0_Font_Space_Mono({ subsets: ['latin'], weight: ['400','700'] });
+const _sourceSerif_4 = V0_Font_Source_Serif_4({ subsets: ['latin'], weight: ['200','300','400','500','600','700','800','900'] });
 
 const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-dm-sans",
-})
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-dm-sans',
+});
 
 const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
-})
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-space-mono',
+});
 
 const sourceSerif4 = Source_Serif_4({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-source-serif",
-})
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-source-serif',
+});
 
 export const metadata: Metadata = {
-  title: "Geração Emprego - Conectando Talentos e Oportunidades",
+  title: 'Geração Emprego - Conectando Talentos e Oportunidades',
   description:
-    "Plataforma brasileira de emprego conectando profissionais e empresas com foco em diversidade e inclusão.",
-  generator: "v0.app",
+    'Plataforma brasileira de emprego conectando profissionais e empresas com foco em diversidade e inclusão.',
+  generator: 'v0.app',
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
+        url: '/icon-light-32x32.png',
+        media: '(prefers-color-scheme: light)',
       },
       {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
+        url: '/icon-dark-32x32.png',
+        media: '(prefers-color-scheme: dark)',
       },
       {
-        url: "/icon.svg",
-        type: "image/svg+xml",
+        url: '/icon.svg',
+        type: 'image/svg+xml',
       },
     ],
-    apple: "/apple-icon.png",
+    apple: '/apple-icon.png',
   },
-}
+};
 
 export default function RootLayout({
   children,
@@ -66,5 +66,5 @@ export default function RootLayout({
         <Analytics />
       </body>
     </html>
-  )
+  );
 }

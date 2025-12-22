@@ -1,10 +1,10 @@
-import styles from "./index.module.css"
+import styles from './index.module.css';
 
 export default function CourseCard({ course }) {
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
-        <img src={course.image || "/placeholder.svg"} alt={course.title} className={styles.image} />
+        <img src={course.image || '/placeholder.svg'} alt={course.title} className={styles.image} />
       </div>
 
       <div className={styles.body}>
@@ -31,5 +31,5 @@ export default function CourseCard({ course }) {
         <p className={styles.description}>{course.description}</p>
       </div>
     </div>
-  )
+  );
 }

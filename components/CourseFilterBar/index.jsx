@@ -1,4 +1,4 @@
-import styles from "./index.module.css"
+import styles from './index.module.css';
 
 export default function CourseFilterBar({ totalCourses, showing }) {
   return (
@@ -24,5 +24,5 @@ export default function CourseFilterBar({ totalCourses, showing }) {
         </select>
       </div>
     </div>
-  )
+  );
 }

@@ -1,40 +1,40 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import BackButton from "@/components/BackButton"
-import ResumeDetailModal from "@/components/ResumeDetailModal"
-import styles from "./page.module.css"
+import { useState } from 'react';
+import BackButton from '@/components/BackButton';
+import ResumeDetailModal from '@/components/ResumeDetailModal';
+import styles from './page.module.css';
 
 const mockResumes = [
   {
     id: 1,
-    name: "João Silva",
+    name: 'João Silva',
     age: 28,
-    profession: "Desenvolvedor Full Stack",
-    location: "São Paulo, SP",
-    experience: "5 anos",
-    education: "Superior Completo",
-    skills: ["JavaScript", "React", "Node.js", "PostgreSQL"],
+    profession: 'Desenvolvedor Full Stack',
+    location: 'São Paulo, SP',
+    experience: '5 anos',
+    education: 'Superior Completo',
+    skills: ['JavaScript', 'React', 'Node.js', 'PostgreSQL'],
   },
   {
     id: 2,
-    name: "Maria Santos",
+    name: 'Maria Santos',
     age: 32,
-    profession: "Designer UX/UI",
-    location: "Rio de Janeiro, RJ",
-    experience: "7 anos",
-    education: "Superior Completo",
-    skills: ["Figma", "Adobe XD", "Prototyping", "User Research"],
+    profession: 'Designer UX/UI',
+    location: 'Rio de Janeiro, RJ',
+    experience: '7 anos',
+    education: 'Superior Completo',
+    skills: ['Figma', 'Adobe XD', 'Prototyping', 'User Research'],
   },
-]
+];
 
 export default function ResumesPage() {
   const [filters, setFilters] = useState({
-    search: "",
-    location: "",
-    experience: "",
-  })
-  const [selectedResume, setSelectedResume] = useState<(typeof mockResumes)[0] | null>(null)
+    search: '',
+    location: '',
+    experience: '',
+  });
+  const [selectedResume, setSelectedResume] = useState<(typeof mockResumes)[0] | null>(null);
 
   return (
     <div className={styles.pageContainer}>
@@ -117,5 +117,5 @@ export default function ResumesPage() {
 
       {selectedResume && <ResumeDetailModal resume={selectedResume} onClose={() => setSelectedResume(null)} />}
     </div>
-  )
+  );
 }

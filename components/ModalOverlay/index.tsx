@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import type { ReactNode } from "react"
-import styles from "./index.module.css"
+import type { ReactNode } from 'react';
+import styles from './index.module.css';
 
 interface ModalOverlayProps {
   children: ReactNode
@@ -18,5 +18,5 @@ export default function ModalOverlay({ children, onClose }: ModalOverlayProps) {
         {children}
       </div>
     </div>
-  )
+  );
 }

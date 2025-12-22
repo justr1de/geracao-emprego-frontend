@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { Calendar, Clock, Archive, ChevronRight } from "lucide-react"
-import styles from "./index.module.css"
+import { Calendar, Clock, Archive, ChevronRight } from 'lucide-react';
+import styles from './index.module.css';
 
 // Exportamos a interface para ser usada na page.tsx e evitar conflitos de tipos
 export interface Notice {
@@ -27,16 +27,16 @@ interface NoticeSidebarProps {
 }
 
 export default function NoticeSidebar({ notices, selectedId, onSelect }: NoticeSidebarProps) {
-  const today = new Date()
-  
+  const today = new Date();
+
   // Lógica de filtro corrigida para tratar a string de data PT-BR
   const parseDate = (dateStr: string) => {
-    const [day, month, year] = dateStr.split("/")
-    return new Date(`${year}-${month}-${day}`)
-  }
+    const [day, month, year] = dateStr.split('/');
+    return new Date(`${year}-${month}-${day}`);
+  };
 
-  const ongoingNotices = notices.filter((n) => parseDate(n.deadline) >= today)
-  const closedNotices = notices.filter((n) => parseDate(n.deadline) < today)
+  const ongoingNotices = notices.filter((n) => parseDate(n.deadline) >= today);
+  const closedNotices = notices.filter((n) => parseDate(n.deadline) < today);
 
   return (
     <aside className={styles.sidebar}>
@@ -51,7 +51,7 @@ export default function NoticeSidebar({ notices, selectedId, onSelect }: NoticeS
           {ongoingNotices.map((notice) => (
             <button
               key={notice.id}
-              className={`${styles.card} ${notice.id === selectedId ? styles.cardActive : ""}`}
+              className={`${styles.card} ${notice.id === selectedId ? styles.cardActive : ''}`}
               onClick={() => onSelect(notice)}
             >
               <div className={styles.cardType}>{notice.type}</div>
@@ -78,7 +78,7 @@ export default function NoticeSidebar({ notices, selectedId, onSelect }: NoticeS
             {closedNotices.map((notice) => (
               <button
                 key={notice.id}
-                className={`${styles.card} ${styles.cardClosed} ${notice.id === selectedId ? styles.cardActive : ""}`}
+                className={`${styles.card} ${styles.cardClosed} ${notice.id === selectedId ? styles.cardActive : ''}`}
                 onClick={() => onSelect(notice)}
               >
                 <div className={styles.cardType}>{notice.type}</div>
@@ -93,5 +93,5 @@ export default function NoticeSidebar({ notices, selectedId, onSelect }: NoticeS
         </div>
       )}
     </aside>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import ModalOverlay from "@/components/ModalOverlay"
-import { User, MapPin, Briefcase, GraduationCap, Award, Phone } from "lucide-react"
-import styles from "./index.module.css"
+import ModalOverlay from '@/components/ModalOverlay';
+import { User, MapPin, Briefcase, GraduationCap, Award, Phone } from 'lucide-react';
+import styles from './index.module.css';
 
 interface Resume {
   id: number
@@ -63,7 +63,7 @@ export default function ResumeDetailModal({ resume, onClose }: ResumeDetailModal
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Resumo Profissional</h3>
           <p className={styles.about}>
-            {resume.about || "Profissional dedicado com experiência comprovada na área."}
+            {resume.about || 'Profissional dedicado com experiência comprovada na área.'}
           </p>
         </div>
 
@@ -80,10 +80,10 @@ export default function ResumeDetailModal({ resume, onClose }: ResumeDetailModal
         </div>
 
         {/* Botão de Contato com animação suave */}
-        <button className={styles.contactBtn} onClick={() => alert("Abrir contato...")}>
+        <button className={styles.contactBtn} onClick={() => alert('Abrir contato...')}>
           <Phone size={20} /> Ver Informações de Contato
         </button>
       </div>
     </ModalOverlay>
-  )
+  );
 }

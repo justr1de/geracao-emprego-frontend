@@ -1,15 +1,15 @@
-"use client"
+'use client';
 
-import { ChevronLeft, ChevronRight, Calendar, Award } from "lucide-react"
-import styles from "./index.module.css"
+import { ChevronLeft, ChevronRight, Calendar, Award } from 'lucide-react';
+import styles from './index.module.css';
 
 export default function Courses() {
   const courses = [
-    { title: "Garçom Profissional", category: "Hospitalidade", date: "15 Jan - 20 Fev", partner: "SENAC", color: "#8b5cf6" },
-    { title: "Cozinha Básica", category: "Gastronomia", date: "22 Jan - 30 Mar", partner: "SENAI", color: "#f59e0b" },
-    { title: "Estética e Beleza", category: "Beleza", date: "01 Fev - 15 Mar", partner: "SENAC", color: "#ec4899" },
-    { title: "Eletricista Predial", category: "Construção", date: "05 Fev - 10 Abr", partner: "SENAI", color: "#3b82f6" },
-  ]
+    { title: 'Garçom Profissional', category: 'Hospitalidade', date: '15 Jan - 20 Fev', partner: 'SENAC', color: '#8b5cf6' },
+    { title: 'Cozinha Básica', category: 'Gastronomia', date: '22 Jan - 30 Mar', partner: 'SENAI', color: '#f59e0b' },
+    { title: 'Estética e Beleza', category: 'Beleza', date: '01 Fev - 15 Mar', partner: 'SENAC', color: '#ec4899' },
+    { title: 'Eletricista Predial', category: 'Construção', date: '05 Fev - 10 Abr', partner: 'SENAI', color: '#3b82f6' },
+  ];
 
   return (
     <section className={styles.section}>
@@ -50,5 +50,5 @@ export default function Courses() {
         </div>
       </div>
     </section>
-  )
+  );
 }

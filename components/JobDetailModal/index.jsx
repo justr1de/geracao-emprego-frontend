@@ -1,8 +1,8 @@
 // @ts-nocheck
-"use client"
+'use client';
 
-import { X, Building2, MapPin, Share2, Briefcase, DollarSign, Calendar, CheckCircle2, Clock } from "lucide-react"
-import styles from "./index.module.css"
+import { X, Building2, MapPin, Share2, Briefcase, DollarSign, Calendar, CheckCircle2, Clock } from 'lucide-react';
+import styles from './index.module.css';
 
 export default function JobDetailModal({ job, onClose }) {
   return (
@@ -47,7 +47,7 @@ export default function JobDetailModal({ job, onClose }) {
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Benefícios</h3>
           <div className={styles.benefits}>
-            {["Vale Alimentação", "Plano de Saúde", "Vale Transporte", "Home Office"].map((benefit, i) => (
+            {['Vale Alimentação', 'Plano de Saúde', 'Vale Transporte', 'Home Office'].map((benefit, i) => (
               <span key={i} className={styles.benefitTag}>{benefit}</span>
             ))}
           </div>
@@ -87,5 +87,5 @@ export default function JobDetailModal({ job, onClose }) {
         <button className={styles.applyButton}>Enviar meu Currículo</button>
       </div>
     </div>
-  )
+  );
 }
