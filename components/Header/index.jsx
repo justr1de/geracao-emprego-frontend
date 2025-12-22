@@ -68,7 +68,7 @@ export default function Header() {
               />
             </a>
             <a
-              href="https://sedec.ro.gov.br"
+              href="https://rondonia.ro.gov.br/sedec/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Acessar site da SEDEC - Secretaria de Desenvolvimento Econômico (abre em nova janela)"
@@ -83,7 +83,7 @@ export default function Header() {
               />
             </a>
             <a
-              href="https://www.gov.br/trabalho-e-emprego/pt-br/servicos/trabalhador/sine"
+              href="https://rondonia.ro.gov.br/sedec/institucional/sine/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Acessar site do SINE - Sistema Nacional de Emprego (abre em nova janela)"
