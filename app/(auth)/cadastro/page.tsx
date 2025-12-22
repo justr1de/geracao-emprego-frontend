@@ -143,7 +143,30 @@ export default function RegisterPage() {
             {step === 1 && (
               <>
                 <h1 className={styles.title}>Criar sua conta</h1>
-                <p className={styles.subtitle}>Para começar, informe seu WhatsApp</p>
+                <p className={styles.subtitle}>Cadastre-se para acessar todas as oportunidades</p>
+
+                {/* Botão Cadastro SouGov */}
+                <button
+                  type="button"
+                  className={styles.sougovBtn}
+                  onClick={() => router.push('/login/sougov')}
+                  aria-label="Cadastrar com conta SouGov.br"
+                >
+                  <Image
+                    src="/logos/sougov.png"
+                    alt=""
+                    width={24}
+                    height={24}
+                    className={styles.sougovLogo}
+                    aria-hidden="true"
+                  />
+                  <span>Cadastrar com SouGov.br</span>
+                </button>
+
+                {/* Divisor */}
+                <div className={styles.divider} role="separator">
+                  <span>ou continue com WhatsApp</span>
+                </div>
 
                 <form onSubmit={handlePhoneSubmit} className={styles.form}>
                   <div className={styles.inputGroup}>
