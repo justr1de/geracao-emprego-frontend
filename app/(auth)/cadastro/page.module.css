@@ -1050,15 +1050,17 @@
 /* Footer */
 .footer {
   text-align: center;
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   color: #64748b;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  background: #f8fafc;
+  border-radius: 0 0 20px 20px;
+  margin-top: 1.5rem;
   border-top: 1px solid #e2e8f0;
-  background: white;
 }
 
 .footer p {
-  margin: 0.25rem 0;
+  margin: 0.2rem 0;
 }
 
 /* Responsividade */
