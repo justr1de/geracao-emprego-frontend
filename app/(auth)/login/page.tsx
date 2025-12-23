@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Eye, EyeOff, LogIn, ArrowLeft, Building2, User, Lock } from 'lucide-react';
+import { Eye, EyeOff, LogIn, ArrowLeft, Building2, User, Lock, AlertCircle } from 'lucide-react';
 import styles from './page.module.css';
 
 export default function LoginPage() {
@@ -14,16 +14,50 @@ export default function LoginPage() {
   const [loginType, setLoginType] = useState<'candidato' | 'empresa'>('candidato');
   const [formData, setFormData] = useState({ login: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     
-    // Simular delay de autenticação
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log('Login enviado:', { ...formData, tipo: loginType });
-    router.push('/');
+    try {
+      const response = await fetch('/api/auth/login-documento', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          documento: formData.login,
+          password: formData.password,
+          tipo: loginType,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Erro ao fazer login');
+        setIsLoading(false);
+        return;
+      }
+
+      // Login bem-sucedido - redirecionar para a página apropriada
+      if (data.redirect) {
+        router.push(data.redirect);
+      } else {
+        // Fallback: redirecionar baseado no tipo de usuário
+        if (loginType === 'candidato') {
+          router.push('/perfil');
+        } else {
+          router.push('/empresa/dashboard');
+        }
+      }
+    } catch (err) {
+      console.error('Erro no login:', err);
+      setError('Erro de conexão. Tente novamente.');
+      setIsLoading(false);
+    }
   };
 
   const handleSouGovLogin = () => {
@@ -59,6 +93,7 @@ export default function LoginPage() {
 
   const handleLoginChange = (e) => {
     const value = e.target.value;
+    setError(null); // Limpar erro ao digitar
     if (loginType === 'candidato') {
       setFormData({ ...formData, login: formatCPF(value) });
     } else {
@@ -69,6 +104,7 @@ export default function LoginPage() {
   const handleTypeChange = (type: 'candidato' | 'empresa') => {
     setLoginType(type);
     setFormData({ ...formData, login: '' }); // Limpar o campo ao trocar de tipo
+    setError(null); // Limpar erro ao trocar tipo
   };
 
   return (
@@ -92,7 +128,7 @@ export default function LoginPage() {
             aria-label="Acessar site do Governo de Rondônia (abre em nova janela)"
           >
             <Image
-              src="/logos/governo-ro.jpg"
+              src="/logos/governo-ro.png"
               alt="Governo de Rondônia"
               width={180}
               height={180}
@@ -178,6 +214,14 @@ export default function LoginPage() {
               </>
             )}
 
+            {/* Mensagem de Erro */}
+            {error && (
+              <div className={styles.errorMessage} role="alert">
+                <AlertCircle size={18} />
+                <span>{error}</span>
+              </div>
+            )}
+
             {/* Formulário */}
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
@@ -220,7 +264,10 @@ export default function LoginPage() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Digite sua senha"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, password: e.target.value });
+                      setError(null);
+                    }}
                     required
                     className={styles.input}
                     autoComplete="current-password"
@@ -297,7 +344,7 @@ export default function LoginPage() {
             aria-label="Acessar site do SINE (abre em nova janela)"
           >
             <Image
-              src="/logos/sine.jpg"
+              src="/logos/sine.png"
               alt="SINE - Sistema Nacional de Emprego"
               width={180}
               height={90}
