@@ -271,7 +271,7 @@
 
 @media (min-width: 1024px) {
   .mainContainer {
-    grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr);
+    grid-template-columns: minmax(0, 4fr) minmax(260px, 1fr);
     align-items: start;
   }
 }
@@ -318,12 +318,6 @@
 }
 
 @media (min-width: 1024px) {
-  .coursesGrid {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-@media (min-width: 1280px) {
   .coursesGrid {
     grid-template-columns: repeat(2, 1fr);
   }
