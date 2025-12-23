@@ -262,7 +262,7 @@
 }
 
 .mainContainer {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: grid;
   gap: 2rem;
@@ -271,7 +271,8 @@
 
 @media (min-width: 1024px) {
   .mainContainer {
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr);
+    align-items: start;
   }
 }
 
@@ -311,6 +312,18 @@
 }
 
 @media (min-width: 640px) and (max-width: 1023px) {
+  .coursesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .coursesGrid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
   .coursesGrid {
     grid-template-columns: repeat(2, 1fr);
   }
