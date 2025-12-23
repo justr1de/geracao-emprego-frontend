@@ -91,7 +91,7 @@ export default function CadastroEmpresaPage() {
     complemento: ''
   });
 
-  const totalSteps = 5;
+  const totalSteps = 3;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -200,7 +200,7 @@ export default function CadastroEmpresaPage() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      setCurrentStep(4);
+      setCurrentStep(2);
     }, 1000);
   };
 
@@ -208,7 +208,7 @@ export default function CadastroEmpresaPage() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      setCurrentStep(5);
+      setCurrentStep(3);
     }, 1000);
   };
 
@@ -222,11 +222,9 @@ export default function CadastroEmpresaPage() {
 
   const getStepInfo = () => {
     switch (currentStep) {
-      case 1: return { title: 'Validação do Celular', subtitle: 'Para maior segurança, valide seu número' };
-      case 2: return { title: 'Confirmação', subtitle: 'Digite o código enviado por SMS' };
-      case 3: return { title: 'Dados do Responsável', subtitle: 'Informações do responsável pela empresa' };
-      case 4: return { title: 'Dados da Empresa', subtitle: 'Informações sobre seu estabelecimento' };
-      case 5: return { title: 'Endereço', subtitle: 'Localização do seu estabelecimento' };
+      case 1: return { title: 'Dados do Responsável', subtitle: 'Informações do responsável pela empresa' };
+      case 2: return { title: 'Dados da Empresa', subtitle: 'Informações sobre seu estabelecimento' };
+      case 3: return { title: 'Endereço', subtitle: 'Localização do seu estabelecimento' };
       default: return { title: '', subtitle: '' };
     }
   };
@@ -307,7 +305,8 @@ export default function CadastroEmpresaPage() {
 
           <div className={styles.cardBody}>
             {currentStep === 1 && (
-              <form onSubmit={(e) => { e.preventDefault(); enviarCodigo(); }}>
+              <form onSubmit={(e) => { e.preventDefault(); salvarResponsavel(); }}>
+                {/* Campo de Telefone */}
                 <div className={styles.formGroup}>
                   <label className={styles.label} htmlFor="telefone">
                     Telefone com WhatsApp <span className={styles.required}>*</span>
@@ -330,82 +329,8 @@ export default function CadastroEmpresaPage() {
                       required
                     />
                   </div>
-                  <p className={styles.helperText}>
-                    Enviaremos um código de verificação via SMS
-                  </p>
                 </div>
 
-                <div className={styles.buttonGroup}>
-                  <Link href="/cadastro" className={styles.btnSecondary}>
-                    ← Voltar
-                  </Link>
-                  <button 
-                    type="submit" 
-                    className={styles.btnPrimary}
-                    disabled={formData.telefone.length < 14 || isLoading}
-                  >
-                    {isLoading ? 'Enviando...' : 'Enviar Código →'}
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {currentStep === 2 && (
-              <form onSubmit={(e) => { e.preventDefault(); verificarCodigo(); }}>
-                <p className={styles.phoneDisplay}>{formData.telefone}</p>
-                
-                <div className={styles.formGroup}>
-                  <label className={styles.label} htmlFor="codigo">
-                    Código de Verificação <span className={styles.required}>*</span>
-                  </label>
-                  <div className={styles.inputWrapper}>
-                    <svg className={styles.inputIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                    <input
-                      type="text"
-                      id="codigo"
-                      name="codigo"
-                      className={styles.input}
-                      value={formData.codigo}
-                      onChange={handleInputChange}
-                      placeholder="Digite o código"
-                      maxLength={6}
-                      aria-label="Código de verificação SMS"
-                      autoComplete="one-time-code"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.countdown}>
-                  {countdown > 0 ? (
-                    <p>Reenviar código em <strong>{countdown}s</strong></p>
-                  ) : (
-                    <button type="button" className={styles.resendBtn} onClick={enviarCodigo}>
-                      Reenviar código
-                    </button>
-                  )}
-                </div>
-
-                <div className={styles.buttonGroup}>
-                  <button type="button" className={styles.btnSecondary} onClick={() => setCurrentStep(1)}>
-                    ← Voltar
-                  </button>
-                  <button 
-                    type="submit" 
-                    className={styles.btnPrimary}
-                    disabled={formData.codigo.length < 4 || isLoading}
-                  >
-                    {isLoading ? 'Verificando...' : 'Verificar →'}
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {currentStep === 3 && (
-              <form onSubmit={(e) => { e.preventDefault(); salvarResponsavel(); }}>
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
                     <label className={styles.label} htmlFor="nome">
@@ -593,9 +518,9 @@ export default function CadastroEmpresaPage() {
                 </div>
 
                 <div className={styles.buttonGroup}>
-                  <button type="button" className={styles.btnSecondary} onClick={() => setCurrentStep(2)}>
+                  <Link href="/cadastro" className={styles.btnSecondary}>
                     ← Voltar
-                  </button>
+                  </Link>
                   <button 
                     type="submit" 
                     className={styles.btnPrimary}
@@ -607,7 +532,7 @@ export default function CadastroEmpresaPage() {
               </form>
             )}
 
-            {currentStep === 4 && (
+            {currentStep === 2 && (
               <form onSubmit={(e) => { e.preventDefault(); salvarEmpresa(); }}>
                 <div className={styles.uploadSection}>
                   <label className={styles.uploadLabel}>Logo da empresa</label>
@@ -790,7 +715,7 @@ export default function CadastroEmpresaPage() {
                 </div>
 
                 <div className={styles.buttonGroup}>
-                  <button type="button" className={styles.btnSecondary} onClick={() => setCurrentStep(3)}>
+                  <button type="button" className={styles.btnSecondary} onClick={() => setCurrentStep(1)}>
                     ← Voltar
                   </button>
                   <button 
@@ -804,7 +729,7 @@ export default function CadastroEmpresaPage() {
               </form>
             )}
 
-            {currentStep === 5 && (
+            {currentStep === 3 && (
               <form onSubmit={(e) => { e.preventDefault(); finalizarCadastro(); }}>
                 <div className={styles.formGroup}>
                   <label className={styles.label} htmlFor="cep">
@@ -931,9 +856,9 @@ export default function CadastroEmpresaPage() {
                 </div>
 
                 <div className={styles.buttonGroup}>
-                  <button type="button" className={styles.btnSecondary} onClick={() => setCurrentStep(4)}>
+                  <Link href="/cadastro" className={styles.btnSecondary}>
                     ← Voltar
-                  </button>
+                  </Link>
                   <button 
                     type="submit" 
                     className={styles.btnPrimary}

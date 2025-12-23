@@ -538,7 +538,7 @@ export default function CadastroPage() {
             {/* Indicador de progresso */}
             {renderProgressIndicator()}
 
-            {/* ========== PASSO 1 - TELEFONE ========== */}
+            {/* ========== PASSO 1 - DADOS PESSOAIS ========== */}
             {step === 1 && (
               <>
                 <h1 className={styles.title}>Criar sua conta</h1>
@@ -564,19 +564,15 @@ export default function CadastroPage() {
 
                 {/* Divisor */}
                 <div className={styles.divider} role="separator">
-                  <span>ou continue com WhatsApp</span>
+                  <span>ou preencha seus dados</span>
                 </div>
 
-                <form onSubmit={handleSendCode} className={styles.form}>
+                <form className={styles.form}>
+                  {/* Telefone/WhatsApp */}
                   <div className={styles.inputGroup}>
                     <label htmlFor="phone">
-                      WhatsApp
-                      <LGPDTooltip 
-                        field="telefone"
-                        description="Usado para verificação de identidade e comunicação sobre vagas"
-                        legalBasis="Execução de contrato e consentimento"
-                        retention="Enquanto a conta estiver ativa"
-                      />
+                      WhatsApp *
+                      <LGPDTooltip field="telefone" />
                     </label>
                     <div className={styles.inputWrapper}>
                       <Phone size={20} className={styles.inputIcon} aria-hidden="true" />
@@ -593,137 +589,6 @@ export default function CadastroPage() {
                     </div>
                   </div>
 
-                  {verificationError && (
-                    <div className={styles.errorMessage}>
-                      <AlertCircle size={16} />
-                      {verificationError}
-                    </div>
-                  )}
-
-                  <button 
-                    type="submit" 
-                    className={styles.primaryBtn}
-                    disabled={isLoading || phone.replace(/\D/g, '').length < 11}
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 size={18} className={styles.spinner} />
-                        Enviando...
-                      </>
-                    ) : (
-                      <>
-                        <MessageSquare size={18} aria-hidden="true" />
-                        Enviar Código SMS
-                      </>
-                    )}
-                  </button>
-
-                  <p className={styles.smsInfo}>
-                    Você receberá um código de 6 dígitos por SMS para verificar seu número.
-                  </p>
-
-                  <p className={styles.loginLink}>
-                    Já tem uma conta?{' '}
-                    <Link href="/login">Fazer login</Link>
-                  </p>
-                </form>
-              </>
-            )}
-
-            {/* ========== PASSO 2 - VERIFICAÇÃO DO CÓDIGO ========== */}
-            {step === 2 && (
-              <>
-                <h1 className={styles.title}>Verificar código</h1>
-                <p className={styles.subtitle}>
-                  Digite o código de 6 dígitos enviado para:
-                </p>
-                <p className={styles.phoneHighlight}>{phone}</p>
-
-                <div className={styles.codeInputs}>
-                  {verificationCode.map((digit, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={6}
-                      value={digit}
-                      data-code-index={index}
-                      className={styles.codeInput}
-                      onChange={(e) => handleCodeInput(index, e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(index, e)}
-                      onFocus={(e) => e.target.select()}
-                      autoFocus={index === 0}
-                    />
-                  ))}
-                </div>
-
-                <p className={styles.testCodeHint}>
-                  <Info size={14} />
-                  Para teste, use o código: <strong>123456</strong>
-                </p>
-
-                {verificationError && (
-                  <div className={styles.errorMessage}>
-                    <AlertCircle size={16} />
-                    {verificationError}
-                  </div>
-                )}
-
-                <button 
-                  className={styles.primaryBtn}
-                  onClick={handleVerifyCode}
-                  disabled={isLoading || verificationCode.join('').length !== 6}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={18} className={styles.spinner} />
-                      Verificando...
-                    </>
-                  ) : (
-                    <>
-                      <Check size={18} aria-hidden="true" />
-                      Verificar Código
-                    </>
-                  )}
-                </button>
-
-                <button 
-                  className={styles.resendBtn}
-                  onClick={handleResend}
-                  disabled={countdown > 0}
-                >
-                  <RefreshCw size={16} />
-                  {countdown > 0 
-                    ? `Reenviar em ${countdown}s` 
-                    : 'Reenviar código'
-                  }
-                </button>
-
-                <button 
-                  type="button" 
-                  className={styles.secondaryBtn} 
-                  onClick={() => {
-                    setStep(1);
-                    setVerificationCode(['', '', '', '', '', '']);
-                    setVerificationError(null);
-                  }}
-                >
-                  <ArrowLeft size={18} aria-hidden="true" />
-                  Alterar número
-                </button>
-              </>
-            )}
-
-            {/* ========== PASSO 3 - DADOS PESSOAIS ========== */}
-            {step === 3 && (
-              <>
-                <h1 className={styles.title}>Dados Pessoais</h1>
-                <p className={styles.subtitle}>
-                  <Check size={16} className={styles.verifiedIcon} />
-                  Telefone verificado! Agora preencha seus dados.
-                </p>
-
-                <form className={styles.form}>
                   {/* Nome e Sobrenome */}
                   <div className={styles.inputRow}>
                     <div className={styles.inputGroup}>
@@ -763,13 +628,7 @@ export default function CadastroPage() {
                     <div className={styles.inputGroup}>
                       <label htmlFor="cpf">
                         CPF *
-                        <LGPDTooltip 
-                          field="cpf"
-                          description="Necessário para identificação única e prevenção de fraudes"
-                          legalBasis="Obrigação legal e execução de políticas públicas"
-                          retention="Conforme legislação vigente"
-                          sensitive
-                        />
+                        <LGPDTooltip field="cpf" />
                       </label>
                       <div className={styles.inputWrapper}>
                         <CreditCard size={20} className={styles.inputIcon} aria-hidden="true" />
@@ -787,12 +646,7 @@ export default function CadastroPage() {
                     <div className={styles.inputGroup}>
                       <label htmlFor="birthDate">
                         Data de Nascimento *
-                        <LGPDTooltip 
-                          field="data_nascimento"
-                          description="Usado para verificar idade mínima e adequação a vagas"
-                          legalBasis="Execução de contrato"
-                          retention="Enquanto a conta estiver ativa"
-                        />
+                        <LGPDTooltip field="dataNascimento" />
                       </label>
                       <div className={styles.inputWrapper}>
                         <Calendar size={20} className={styles.inputIcon} aria-hidden="true" />
@@ -812,12 +666,7 @@ export default function CadastroPage() {
                     <div className={styles.inputGroup}>
                       <label htmlFor="email">
                         E-mail *
-                        <LGPDTooltip 
-                          field="email"
-                          description="Para comunicação e recuperação de conta"
-                          legalBasis="Execução de contrato"
-                          retention="Enquanto a conta estiver ativa"
-                        />
+                        <LGPDTooltip field="email" />
                       </label>
                       <div className={styles.inputWrapper}>
                         <Mail size={20} className={styles.inputIcon} aria-hidden="true" />
@@ -835,14 +684,7 @@ export default function CadastroPage() {
                     <div className={styles.inputGroup}>
                       <label htmlFor="gender">
                         Gênero
-                        <LGPDTooltip 
-                          field="genero"
-                          description="Opcional. Usado para estatísticas e políticas de inclusão"
-                          legalBasis="Consentimento"
-                          retention="Enquanto a conta estiver ativa"
-                          optional
-                          sensitive
-                        />
+                        <LGPDTooltip field="genero" />
                       </label>
                       <div className={styles.inputWrapper}>
                         <User size={20} className={styles.inputIcon} aria-hidden="true" />
@@ -938,31 +780,26 @@ export default function CadastroPage() {
                     </div>
                   )}
 
-                  <div className={styles.navigationButtons}>
-                    <button 
-                      type="button" 
-                      className={styles.secondaryBtn} 
-                      onClick={passoAnterior}
-                    >
-                      <ArrowLeft size={18} aria-hidden="true" />
-                      Voltar
-                    </button>
-                    <button 
-                      type="button" 
-                      className={styles.primaryBtn}
-                      onClick={proximoPasso}
-                      disabled={!formData.firstName || !formData.lastName || !formData.cpf || !formData.birthDate || !formData.email || !formData.password || formData.password !== formData.confirmPassword}
-                    >
-                      Continuar
-                      <ArrowRight size={18} aria-hidden="true" />
-                    </button>
-                  </div>
+                  <p className={styles.loginLink}>
+                    Já tem uma conta?{' '}
+                    <Link href="/login">Fazer login</Link>
+                  </p>
+
+                  <button 
+                    type="button" 
+                    className={styles.primaryBtn}
+                    onClick={proximoPasso}
+                    disabled={!phone || phone.replace(/\D/g, '').length < 11 || !formData.firstName || !formData.lastName || !formData.cpf || !formData.birthDate || !formData.email || !formData.password || formData.password !== formData.confirmPassword}
+                  >
+                    Continuar
+                    <ArrowRight size={18} aria-hidden="true" />
+                  </button>
                 </form>
               </>
             )}
 
-            {/* ========== PASSO 4 - ENDEREÇO ========== */}
-            {step === 4 && (
+            {/* ========== PASSO 2 - ENDEREÇO ========== */}
+            {step === 2 && (
               <>
                 <h1 className={styles.title}>Endereço</h1>
                 <p className={styles.subtitle}>Informe seu endereço para encontrar vagas próximas</p>
@@ -1130,8 +967,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 5 - EXPERIÊNCIA PROFISSIONAL ========== */}
-            {step === 5 && (
+            {/* ========== PASSO 3 - EXPERIÊNCIA PROFISSIONAL ========== */}
+            {step === 3 && (
               <>
                 <h1 className={styles.title}>Experiência Profissional</h1>
                 <p className={styles.subtitle}>Adicione suas experiências de trabalho (opcional)</p>
@@ -1270,8 +1107,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 6 - FORMAÇÃO ACADÊMICA ========== */}
-            {step === 6 && (
+            {/* ========== PASSO 4 - FORMAÇÃO ACADÊMICA ========== */}
+            {step === 4 && (
               <>
                 <h1 className={styles.title}>Formação Acadêmica</h1>
                 <p className={styles.subtitle}>Adicione sua formação educacional (opcional)</p>
@@ -1403,8 +1240,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 7 - HABILIDADES ========== */}
-            {step === 7 && (
+            {/* ========== PASSO 5 - HABILIDADES ========== */}
+            {step === 5 && (
               <>
                 <h1 className={styles.title}>Habilidades e Competências</h1>
                 <p className={styles.subtitle}>Adicione suas habilidades para encontrar vagas compatíveis</p>
@@ -1519,8 +1356,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 8 - PREFERÊNCIAS E FINALIZAÇÃO ========== */}
-            {step === 8 && (
+            {/* ========== PASSO 6 - PREFERÊNCIAS E FINALIZAÇÃO ========== */}
+            {step === 6 && (
               <>
                 <h1 className={styles.title}>Preferências de Emprego</h1>
                 <p className={styles.subtitle}>Configure suas preferências para receber vagas compatíveis</p>
@@ -1671,14 +1508,7 @@ export default function CadastroPage() {
                       />
                       <span>
                         Pessoa com Deficiência (PcD)
-                        <LGPDTooltip 
-                          field="pcd"
-                          description="Informação usada para vagas exclusivas PcD e políticas de inclusão"
-                          legalBasis="Consentimento e políticas públicas de inclusão"
-                          retention="Enquanto a conta estiver ativa"
-                          sensitive
-                          optional
-                        />
+                        <LGPDTooltip field="pcd" />
                       </span>
                     </label>
 
