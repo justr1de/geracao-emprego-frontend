@@ -370,27 +370,28 @@ export default function CoursesPage() {
 
       {/* Conteúdo Principal com Sidebar */}
       <section className={styles.mainContent}>
+        {/* Header dos cursos - fora do grid */}
+        <div className={styles.coursesHeaderWrapper}>
+          <h2 className={styles.coursesTitle}>
+            {filteredCourses.length} {filteredCourses.length === 1 ? 'curso encontrado' : 'cursos encontrados'}
+          </h2>
+          {hasActiveFilters && (
+            <button
+              className={styles.clearFilters}
+              onClick={() => {
+                setSearchTerm('');
+                setSelectedCategory('Todas');
+                setSelectedModality('Todas');
+                setSelectedInstitution('Todas');
+              }}
+            >
+              Limpar filtros
+            </button>
+          )}
+        </div>
         <div className={styles.mainContainer}>
           {/* Lista de Cursos */}
           <div className={styles.coursesSection}>
-            <div className={styles.coursesHeader}>
-              <h2 className={styles.coursesTitle}>
-                {filteredCourses.length} {filteredCourses.length === 1 ? 'curso encontrado' : 'cursos encontrados'}
-              </h2>
-              {hasActiveFilters && (
-                <button
-                  className={styles.clearFilters}
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedCategory('Todas');
-                    setSelectedModality('Todas');
-                    setSelectedInstitution('Todas');
-                  }}
-                >
-                  Limpar filtros
-                </button>
-              )}
-            </div>
 
             {filteredCourses.length > 0 ? (
               <div className={styles.coursesGrid}>

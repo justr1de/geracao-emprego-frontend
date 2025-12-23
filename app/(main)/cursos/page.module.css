@@ -281,6 +281,16 @@
   min-width: 0;
 }
 
+.coursesHeaderWrapper {
+  max-width: 1400px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .coursesHeader {
   display: flex;
   justify-content: space-between;
@@ -451,7 +461,6 @@
 .sidebar {
   position: relative;
   height: fit-content;
-  margin-top: 2.75rem; /* Alinhar com o início dos cards de cursos (após o header "X cursos encontrados") */
 }
 
 @media (max-width: 1023px) {
