@@ -26,19 +26,26 @@ export async function GET(request: NextRequest) {
 
     // Aplicar paginação
     const { data, error, count } = await query
-      .order('created_at', { ascending: false })
+      .order('nome_completo', { ascending: true })
       .range(offset, offset + limit - 1)
 
     if (error) {
       console.error('Erro ao buscar candidatos:', error)
       return NextResponse.json(
-        { error: 'Erro ao buscar candidatos' },
+        { error: 'Erro ao buscar candidatos: ' + error.message },
         { status: 500 }
       )
     }
 
+    // Mapear os dados para incluir id como user_id
+    const candidatos = (data || []).map(c => ({
+      ...c,
+      id: c.user_id, // Usar user_id como id
+      is_active: true // Assumir ativo por padrão
+    }))
+
     return NextResponse.json({
-      candidatos: data || [],
+      candidatos,
       total: count || 0,
       page,
       limit,
@@ -62,40 +69,40 @@ export async function PUT(request: NextRequest) {
   try {
     const supabase = await createClient()
     const body = await request.json()
-    const { id, ...updateData } = body
+    const { id, user_id, ...updateData } = body
 
-    if (!id) {
+    const candidatoId = user_id || id
+
+    if (!candidatoId) {
       return NextResponse.json(
         { error: 'ID do candidato é obrigatório' },
         { status: 400 }
       )
     }
 
-    // Remover campos que não devem ser atualizados
+    // Remover campos que não existem na tabela
     delete updateData.created_at
-    delete updateData.user_id
+    delete updateData.updated_at
+    delete updateData.is_active
 
     const { data, error } = await supabase
       .from('candidatos')
-      .update({
-        ...updateData,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', id)
+      .update(updateData)
+      .eq('user_id', candidatoId)
       .select()
       .single()
 
     if (error) {
       console.error('Erro ao atualizar candidato:', error)
       return NextResponse.json(
-        { error: 'Erro ao atualizar candidato' },
+        { error: 'Erro ao atualizar candidato: ' + error.message },
         { status: 500 }
       )
     }
 
     return NextResponse.json({
       success: true,
-      candidato: data
+      candidato: { ...data, id: data.user_id }
     })
 
   } catch (error) {
@@ -109,7 +116,7 @@ export async function PUT(request: NextRequest) {
 
 /**
  * DELETE /api/admin/candidatos
- * Desativa um candidato (soft delete)
+ * Remove um candidato
  */
 export async function DELETE(request: NextRequest) {
   try {
@@ -124,26 +131,23 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    // Soft delete - apenas desativa o candidato
+    // Deletar o candidato
     const { error } = await supabase
       .from('candidatos')
-      .update({ 
-        is_active: false,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', id)
+      .delete()
+      .eq('user_id', id)
 
     if (error) {
-      console.error('Erro ao desativar candidato:', error)
+      console.error('Erro ao remover candidato:', error)
       return NextResponse.json(
-        { error: 'Erro ao desativar candidato' },
+        { error: 'Erro ao remover candidato: ' + error.message },
         { status: 500 }
       )
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Candidato desativado com sucesso'
+      message: 'Candidato removido com sucesso'
     })
 
   } catch (error) {

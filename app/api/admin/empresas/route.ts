@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 
     // Aplicar busca se fornecida
     if (search) {
-      query = query.or(`razao_social.ilike.%${search}%,nome_fantasia.ilike.%${search}%,cnpj.ilike.%${search}%,email.ilike.%${search}%`)
+      query = query.or(`razao_social.ilike.%${search}%,nome_fantasia.ilike.%${search}%,cnpj.ilike.%${search}%,email_contato.ilike.%${search}%`)
     }
 
     // Aplicar paginação
