@@ -4,11 +4,12 @@
   display: flex;
   flex-direction: column;
   background: var(--background);
+  overflow-x: hidden;
 }
 
 /* Header */
 .header {
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -32,8 +33,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
-  gap: 3rem;
+  padding: 1rem;
+  gap: 2rem;
 }
 
 /* Left Column - Governo de Rondônia */
@@ -111,7 +112,7 @@
   max-width: 400px;
   background: white;
   border-radius: var(--radius);
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--border);
 }
@@ -119,7 +120,7 @@
 /* Logo Section */
 .logoSection {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .geracaoLogoLink {
@@ -132,7 +133,7 @@
 }
 
 .geracaoLogo {
-  width: 200px;
+  width: 160px;
   height: auto;
   object-fit: contain;
 }
@@ -140,18 +141,18 @@
 /* Title Section */
 .titleSection {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.25rem;
 }
 
 .subtitle {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   margin: 0;
 }
@@ -161,14 +162,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 0.625rem 1rem;
   background: #1351b4;
   color: white;
   border: none;
   border-radius: var(--radius);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -192,7 +193,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 }
 
 .divider::before,
@@ -213,7 +214,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .inputGroup {
@@ -261,7 +262,7 @@
 
 .input {
   width: 100%;
-  padding: 0.75rem 0.875rem 0.75rem 2.75rem;
+  padding: 0.625rem 0.875rem 0.625rem 2.75rem;
   font-size: 0.875rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -306,7 +307,7 @@
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 0.75rem 1rem;
   background: var(--primary);
   color: white;
   border: none;
@@ -315,7 +316,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
 }
 
 .submitBtn:hover:not(:disabled) {
@@ -340,11 +341,11 @@
 
 /* LGPD Notice */
 .lgpdNotice {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--text-secondary);
   text-align: center;
-  margin-top: 1rem;
-  line-height: 1.5;
+  margin-top: 0.75rem;
+  line-height: 1.4;
 }
 
 .lgpdLink {
@@ -360,8 +361,8 @@
 /* Footer */
 .footer {
   text-align: center;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--border);
 }
 
@@ -384,7 +385,7 @@
 
 /* Copyright */
 .copyright {
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
   border-top: 1px solid var(--border);
 }
@@ -473,8 +474,8 @@
 /* Type Selector - Candidato/Empresa */
 .typeSelector {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .typeBtn {
@@ -483,8 +484,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  padding: 1rem 0.75rem;
+  gap: 0.15rem;
+  padding: 0.75rem 0.5rem;
   background: var(--background);
   border: 2px solid var(--border);
   border-radius: var(--radius);
