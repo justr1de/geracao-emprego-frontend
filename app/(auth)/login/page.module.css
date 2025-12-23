@@ -469,3 +469,111 @@
     width: 220px;
   }
 }
+
+/* Type Selector - Candidato/Empresa */
+.typeSelector {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.typeBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1rem 0.75rem;
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.typeBtn span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.typeBtn small {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.typeBtn:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.typeBtn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Candidato Active State - Green */
+.typeBtnActive {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.typeBtnActive span {
+  color: var(--primary);
+}
+
+.typeBtnActive svg {
+  color: var(--primary);
+}
+
+/* Empresa Active State - Purple */
+.typeBtnActiveEmpresa {
+  border-color: #7c3aed;
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.typeBtnActiveEmpresa span {
+  color: #7c3aed;
+}
+
+.typeBtnActiveEmpresa svg {
+  color: #7c3aed;
+}
+
+.typeBtnActiveEmpresa small {
+  color: #7c3aed;
+}
+
+/* Submit Button Empresa Variant */
+.submitBtnEmpresa {
+  background: #7c3aed;
+}
+
+.submitBtnEmpresa:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.submitBtnEmpresa:focus {
+  outline-color: #7c3aed;
+}
+
+/* Responsive adjustments for type selector */
+@media (max-width: 480px) {
+  .typeSelector {
+    gap: 0.5rem;
+  }
+
+  .typeBtn {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .typeBtn span {
+    font-size: 0.8rem;
+  }
+
+  .typeBtn small {
+    font-size: 0.65rem;
+  }
+}

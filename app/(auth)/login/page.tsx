@@ -5,12 +5,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Eye, EyeOff, LogIn, ArrowLeft, Mail, Lock } from 'lucide-react';
+import { Eye, EyeOff, LogIn, ArrowLeft, Building2, User, Lock } from 'lucide-react';
 import styles from './page.module.css';
 
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [loginType, setLoginType] = useState<'candidato' | 'empresa'>('candidato');
   const [formData, setFormData] = useState({ login: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,12 +22,53 @@ export default function LoginPage() {
     // Simular delay de autenticação
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    console.log('Login enviado:', formData);
+    console.log('Login enviado:', { ...formData, tipo: loginType });
     router.push('/');
   };
 
   const handleSouGovLogin = () => {
     router.push('/login/sougov');
+  };
+
+  // Formatar CPF enquanto digita
+  const formatCPF = (value: string) => {
+    const numbers = value.replace(/\D/g, '');
+    if (numbers.length <= 11) {
+      return numbers
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+        .replace(/(-\d{2})\d+?$/, '$1');
+    }
+    return value;
+  };
+
+  // Formatar CNPJ enquanto digita
+  const formatCNPJ = (value: string) => {
+    const numbers = value.replace(/\D/g, '');
+    if (numbers.length <= 14) {
+      return numbers
+        .replace(/(\d{2})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1/$2')
+        .replace(/(\d{4})(\d{1,2})/, '$1-$2')
+        .replace(/(-\d{2})\d+?$/, '$1');
+    }
+    return value;
+  };
+
+  const handleLoginChange = (e) => {
+    const value = e.target.value;
+    if (loginType === 'candidato') {
+      setFormData({ ...formData, login: formatCPF(value) });
+    } else {
+      setFormData({ ...formData, login: formatCNPJ(value) });
+    }
+  };
+
+  const handleTypeChange = (type: 'candidato' | 'empresa') => {
+    setLoginType(type);
+    setFormData({ ...formData, login: '' }); // Limpar o campo ao trocar de tipo
   };
 
   return (
@@ -81,50 +123,83 @@ export default function LoginPage() {
             <div className={styles.titleSection}>
               <h1 className={styles.title}>Bem-vindo de volta</h1>
               <p className={styles.subtitle}>
-                Acesse sua conta para continuar
+                Selecione o tipo de conta para continuar
               </p>
             </div>
 
-            {/* Botão Login SouGov */}
-            <button
-              type="button"
-              className={styles.sougovBtn}
-              onClick={handleSouGovLogin}
-              aria-label="Entrar com conta SouGov.br"
-            >
-              <Image
-                src="/logos/sougov.png"
-                alt=""
-                width={24}
-                height={24}
-                className={styles.sougovLogo}
-                aria-hidden="true"
-              />
-              <span>Entrar com SouGov.br</span>
-            </button>
-
-            {/* Divisor */}
-            <div className={styles.divider} role="separator">
-              <span>ou continue com e-mail</span>
+            {/* Seletor de Tipo de Login */}
+            <div className={styles.typeSelector}>
+              <button
+                type="button"
+                className={`${styles.typeBtn} ${loginType === 'candidato' ? styles.typeBtnActive : ''}`}
+                onClick={() => handleTypeChange('candidato')}
+                aria-pressed={loginType === 'candidato'}
+              >
+                <User size={20} aria-hidden="true" />
+                <span>Candidato</span>
+                <small>Login com CPF</small>
+              </button>
+              <button
+                type="button"
+                className={`${styles.typeBtn} ${loginType === 'empresa' ? styles.typeBtnActiveEmpresa : ''}`}
+                onClick={() => handleTypeChange('empresa')}
+                aria-pressed={loginType === 'empresa'}
+              >
+                <Building2 size={20} aria-hidden="true" />
+                <span>Empresa</span>
+                <small>Login com CNPJ</small>
+              </button>
             </div>
+
+            {/* Botão Login SouGov - Apenas para Candidatos */}
+            {loginType === 'candidato' && (
+              <>
+                <button
+                  type="button"
+                  className={styles.sougovBtn}
+                  onClick={handleSouGovLogin}
+                  aria-label="Entrar com conta SouGov.br"
+                >
+                  <Image
+                    src="/logos/sougov.png"
+                    alt=""
+                    width={24}
+                    height={24}
+                    className={styles.sougovLogo}
+                    aria-hidden="true"
+                  />
+                  <span>Entrar com SouGov.br</span>
+                </button>
+
+                {/* Divisor */}
+                <div className={styles.divider} role="separator">
+                  <span>ou continue com CPF</span>
+                </div>
+              </>
+            )}
 
             {/* Formulário */}
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
                 <label htmlFor="login" className={styles.label}>
-                  E-mail ou CPF
+                  {loginType === 'candidato' ? 'CPF' : 'CNPJ'}
                 </label>
                 <div className={styles.inputWrapper}>
-                  <Mail size={18} className={styles.inputIcon} aria-hidden="true" />
+                  {loginType === 'candidato' ? (
+                    <User size={18} className={styles.inputIcon} aria-hidden="true" />
+                  ) : (
+                    <Building2 size={18} className={styles.inputIcon} aria-hidden="true" />
+                  )}
                   <input
                     id="login"
                     type="text"
-                    placeholder="Digite seu e-mail ou CPF"
+                    placeholder={loginType === 'candidato' ? '000.000.000-00' : '00.000.000/0000-00'}
                     value={formData.login}
-                    onChange={(e) => setFormData({ ...formData, login: e.target.value })}
+                    onChange={handleLoginChange}
                     required
                     className={styles.input}
                     autoComplete="username"
+                    maxLength={loginType === 'candidato' ? 14 : 18}
                   />
                 </div>
               </div>
@@ -163,7 +238,7 @@ export default function LoginPage() {
 
               <button 
                 type="submit" 
-                className={styles.submitBtn}
+                className={`${styles.submitBtn} ${loginType === 'empresa' ? styles.submitBtnEmpresa : ''}`}
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -171,7 +246,7 @@ export default function LoginPage() {
                 ) : (
                   <>
                     <LogIn size={18} aria-hidden="true" />
-                    <span>Entrar</span>
+                    <span>Entrar como {loginType === 'candidato' ? 'Candidato' : 'Empresa'}</span>
                   </>
                 )}
               </button>
