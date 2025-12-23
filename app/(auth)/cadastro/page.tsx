@@ -18,10 +18,12 @@ import {
   CreditCard,
   Eye,
   EyeOff,
-  Shield
+  Shield,
+  AlertCircle
 } from 'lucide-react';
 import { LGPDTooltip } from '@/components/LGPDTooltip';
 import { LGPDConsent } from '@/components/LGPDConsent';
+import { useRegister } from '@/hooks/useApi';
 import styles from './page.module.css';
 
 export default function RegisterPage() {
@@ -66,24 +68,50 @@ export default function RegisterPage() {
     setStep(3);
   };
 
+  const { register, loading: registerLoading, error: registerError } = useRegister();
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
     
     if (formData.password !== formData.confirmPassword) {
-      alert('As senhas não coincidem!');
+      setSubmitError('As senhas não coincidem!');
       return;
     }
 
     if (!lgpdAccepted) {
-      alert('Você precisa aceitar os termos de tratamento de dados para continuar.');
+      setSubmitError('Você precisa aceitar os termos de tratamento de dados para continuar.');
       return;
     }
     
     setIsLoading(true);
-    // Simular envio
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Dados para o Banco:', { ...formData, phone, userType, lgpdAccepted });
-    router.push('/');
+    
+    // Chamar API de registro
+    const result = await register({
+      email: formData.email,
+      password: formData.password,
+      nome_completo: `${formData.firstName} ${formData.lastName}`.trim(),
+      cpf: formData.cpf,
+      telefone: phone,
+      data_nascimento: formData.birthDate,
+      genero: formData.gender || undefined,
+      tipo_usuario: userType === 'candidate' ? 1 : 2,
+      lgpd_aceito: lgpdAccepted,
+    });
+
+    setIsLoading(false);
+
+    if (result.success) {
+      setSubmitSuccess(true);
+      // Redirecionar após 2 segundos
+      setTimeout(() => {
+        router.push('/login?registered=true');
+      }, 2000);
+    } else {
+      setSubmitError(result.error || 'Erro ao criar conta. Tente novamente.');
+    }
   };
 
   return (
@@ -254,10 +282,26 @@ export default function RegisterPage() {
             {/* Passo 3 - Dados completos */}
             {step === 3 && (
               <>
-                <h1 className={styles.title}>Complete seu perfil</h1>
-                <p className={styles.subtitle}>Quase lá! Preencha seus dados</p>
+                {submitSuccess ? (
+                  <div className={styles.successMessage}>
+                    <Check size={48} className={styles.successIcon} />
+                    <h2>Cadastro realizado com sucesso!</h2>
+                    <p>Redirecionando para o login...</p>
+                  </div>
+                ) : (
+                  <>
+                    <h1 className={styles.title}>Complete seu perfil</h1>
+                    <p className={styles.subtitle}>Quase lá! Preencha seus dados</p>
 
-                {/* Seleção de tipo de usuário */}
+                    {/* Mensagem de erro */}
+                    {submitError && (
+                      <div className={styles.errorMessage}>
+                        <AlertCircle size={20} />
+                        <span>{submitError}</span>
+                      </div>
+                    )}
+
+                    {/* Seleção de tipo de usuário */}
                 <div className={styles.userTypeSelection}>
                   <button 
                     type="button"
@@ -506,6 +550,8 @@ export default function RegisterPage() {
                     Voltar
                   </button>
                 </form>
+                  </>
+                )}
               </>
             )}
           </div>

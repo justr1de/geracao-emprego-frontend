@@ -605,3 +605,50 @@
 .select:hover {
   border-color: #16a34a;
 }
+
+
+/* Mensagem de erro */
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.errorMessage svg {
+  flex-shrink: 0;
+}
+
+/* Mensagem de sucesso */
+.successMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.successIcon {
+  color: #16a34a;
+  margin-bottom: 16px;
+}
+
+.successMessage h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #16a34a;
+  margin: 0 0 8px 0;
+}
+
+.successMessage p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
