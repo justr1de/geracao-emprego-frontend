@@ -34,6 +34,16 @@ interface Habilidade {
   nivel: 'basico' | 'intermediario' | 'avancado';
 }
 
+interface Certificado {
+  id: string;
+  nome: string;
+  instituicao: string;
+  dataEmissao: string;
+  cargaHoraria: string;
+  arquivo: string | null;
+  arquivoNome: string | null;
+}
+
 interface PerfilData {
   nome: string;
   sobrenome: string;
@@ -53,6 +63,7 @@ interface PerfilData {
   experiencias: Experiencia[];
   formacoes: Formacao[];
   habilidades: Habilidade[];
+  certificados: Certificado[];
 }
 
 function ProfileContent() {
@@ -86,6 +97,7 @@ function ProfileContent() {
     experiencias: [],
     formacoes: [],
     habilidades: [],
+    certificados: [],
   });
 
   // Carregar dados do perfil
@@ -272,6 +284,76 @@ function ProfileContent() {
     }));
   };
 
+  // Funções para certificados
+  const addCertificado = () => {
+    setPerfil(prev => ({
+      ...prev,
+      certificados: [...prev.certificados, {
+        id: `cert-${Date.now()}`,
+        nome: '',
+        instituicao: '',
+        dataEmissao: '',
+        cargaHoraria: '',
+        arquivo: null,
+        arquivoNome: null,
+      }],
+    }));
+  };
+
+  const removeCertificado = (id: string) => {
+    setPerfil(prev => ({
+      ...prev,
+      certificados: prev.certificados.filter(cert => cert.id !== id),
+    }));
+  };
+
+  const updateCertificado = (id: string, field: keyof Certificado, value: string | null) => {
+    setPerfil(prev => ({
+      ...prev,
+      certificados: prev.certificados.map(cert =>
+        cert.id === id ? { ...cert, [field]: value } : cert
+      ),
+    }));
+  };
+
+  const handleCertificadoUpload = async (id: string, file: File) => {
+    // Validar tipo de arquivo
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(file.type)) {
+      setMessage({ type: 'error', text: 'Tipo de arquivo não permitido. Use PDF, JPG ou PNG.' });
+      return;
+    }
+
+    // Validar tamanho (máx 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'Arquivo muito grande. Máximo 5MB.' });
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('tipo', 'certificado');
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        updateCertificado(id, 'arquivo', data.url);
+        updateCertificado(id, 'arquivoNome', file.name);
+        setMessage({ type: 'success', text: 'Certificado enviado com sucesso!' });
+      } else {
+        setMessage({ type: 'error', text: 'Erro ao enviar certificado.' });
+      }
+    } catch (error) {
+      console.error('Erro no upload:', error);
+      setMessage({ type: 'error', text: 'Erro ao enviar certificado.' });
+    }
+  };
+
   // Calcular completude do perfil
   const calculateCompletude = (): number => {
     let total = 0;
@@ -414,6 +496,12 @@ function ProfileContent() {
           onClick={() => setActiveTab('habilidades')}
         >
           <Star size={18} /> Habilidades
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'certificados' ? styles.active : ''}`}
+          onClick={() => setActiveTab('certificados')}
+        >
+          <Award size={18} /> Certificados
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'security' ? styles.active : ''}`}
@@ -727,6 +815,129 @@ function ProfileContent() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Tab Certificados */}
+        {activeTab === 'certificados' && (
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Meus Certificados</h2>
+              <button onClick={addCertificado} className={styles.addBtn}>
+                + Adicionar Certificado
+              </button>
+            </div>
+            <p className={styles.sectionDescription}>
+              Adicione certificados de cursos, oficinas, eventos ou qualquer capacitação que possa melhorar suas chances de conseguir um emprego.
+            </p>
+
+            {perfil.certificados.length === 0 ? (
+              <div className={styles.emptyState}>
+                <Award size={48} className={styles.emptyIcon} />
+                <p>Você ainda não adicionou nenhum certificado.</p>
+                <p className={styles.emptyHint}>Certificados de cursos e capacitações aumentam suas chances de ser contratado!</p>
+                <button onClick={addCertificado} className={styles.addBtnLarge}>
+                  Adicionar meu primeiro certificado
+                </button>
+              </div>
+            ) : (
+              <div className={styles.certificadosList}>
+                {perfil.certificados.map((cert, index) => (
+                  <div key={cert.id} className={styles.certificadoCard}>
+                    <div className={styles.certificadoHeader}>
+                      <span className={styles.certificadoNumber}>Certificado {index + 1}</span>
+                      <button
+                        onClick={() => removeCertificado(cert.id)}
+                        className={styles.removeBtn}
+                        title="Remover certificado"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    <div className={styles.formGrid}>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Nome do Curso/Evento *</label>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          value={cert.nome}
+                          onChange={(e) => updateCertificado(cert.id, 'nome', e.target.value)}
+                          placeholder="Ex: Curso de Excel Avançado"
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Instituição Emissora *</label>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          value={cert.instituicao}
+                          onChange={(e) => updateCertificado(cert.id, 'instituicao', e.target.value)}
+                          placeholder="Ex: SENAI, SEBRAE, etc."
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Data de Emissão *</label>
+                        <input
+                          type="date"
+                          className={styles.input}
+                          value={cert.dataEmissao}
+                          onChange={(e) => updateCertificado(cert.id, 'dataEmissao', e.target.value)}
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Carga Horária</label>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          value={cert.cargaHoraria}
+                          onChange={(e) => updateCertificado(cert.id, 'cargaHoraria', e.target.value)}
+                          placeholder="Ex: 40 horas"
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.uploadSection}>
+                      <label className={styles.label}>Arquivo do Certificado (PDF ou Imagem)</label>
+                      {cert.arquivoNome ? (
+                        <div className={styles.uploadedFile}>
+                          <FileText size={20} />
+                          <span>{cert.arquivoNome}</span>
+                          <a href={cert.arquivo || '#'} target="_blank" rel="noopener noreferrer" className={styles.viewLink}>
+                            Visualizar
+                          </a>
+                          <button
+                            onClick={() => {
+                              updateCertificado(cert.id, 'arquivo', null);
+                              updateCertificado(cert.id, 'arquivoNome', null);
+                            }}
+                            className={styles.removeFileBtn}
+                          >
+                            Remover
+                          </button>
+                        </div>
+                      ) : (
+                        <div className={styles.uploadArea}>
+                          <input
+                            type="file"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handleCertificadoUpload(cert.id, file);
+                            }}
+                            className={styles.fileInput}
+                            id={`cert-file-${cert.id}`}
+                          />
+                          <label htmlFor={`cert-file-${cert.id}`} className={styles.uploadLabel}>
+                            <FileText size={24} />
+                            <span>Clique para enviar ou arraste o arquivo</span>
+                            <span className={styles.uploadHint}>PDF, JPG ou PNG (máx. 5MB)</span>
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

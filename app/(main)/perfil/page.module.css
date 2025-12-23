@@ -644,3 +644,156 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Certificados */
+.sectionDescription {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.emptyIcon {
+  color: #d1d5db;
+}
+
+.emptyHint {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.addBtnLarge {
+  margin-top: 1rem;
+  padding: 0.875rem 2rem;
+  background: #1a5f2a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.addBtnLarge:hover {
+  background: #155724;
+}
+
+.certificadosList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.certificadoCard {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.certificadoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.certificadoNumber {
+  font-weight: 600;
+  color: #1a5f2a;
+  font-size: 0.9rem;
+}
+
+.uploadSection {
+  margin-top: 1rem;
+}
+
+.uploadArea {
+  position: relative;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.uploadArea:hover {
+  border-color: #1a5f2a;
+  background: #f0fdf4;
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.uploadLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.uploadLabel svg {
+  color: #9ca3af;
+}
+
+.uploadHint {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.uploadedFile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+}
+
+.uploadedFile svg {
+  color: #1a5f2a;
+}
+
+.uploadedFile span {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.viewLink {
+  color: #1a5f2a;
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.viewLink:hover {
+  text-decoration: underline;
+}
+
+.removeFileBtn {
+  padding: 0.25rem 0.5rem;
+  background: transparent;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.removeFileBtn:hover {
+  background: #dc2626;
+  color: white;
+}

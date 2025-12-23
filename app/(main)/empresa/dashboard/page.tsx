@@ -22,7 +22,15 @@ import {
   ChevronDown,
   ChevronUp,
   Search,
-  Filter
+  Filter,
+  Gift,
+  Heart,
+  Shield,
+  Car,
+  Utensils,
+  GraduationCap,
+  Baby,
+  Dumbbell
 } from 'lucide-react';
 import { useAuthContext as useAuth } from '@/contexts/AuthContext';
 import styles from './page.module.css';
@@ -69,6 +77,32 @@ interface EmpresaStats {
   entrevistasAgendadas: number;
 }
 
+interface Beneficio {
+  id: string;
+  tipo: string;
+  descricao: string;
+  ativo: boolean;
+}
+
+// Lista de benefícios comuns para seleção
+const BENEFICIOS_DISPONIVEIS = [
+  { tipo: 'plano_saude', nome: 'Plano de Saúde', icone: 'Heart' },
+  { tipo: 'plano_odonto', nome: 'Plano Odontológico', icone: 'Shield' },
+  { tipo: 'vale_transporte', nome: 'Vale Transporte', icone: 'Car' },
+  { tipo: 'vale_alimentacao', nome: 'Vale Alimentação', icone: 'Utensils' },
+  { tipo: 'vale_refeicao', nome: 'Vale Refeição', icone: 'Utensils' },
+  { tipo: 'auxilio_educacao', nome: 'Auxílio Educação', icone: 'GraduationCap' },
+  { tipo: 'auxilio_creche', nome: 'Auxílio Creche', icone: 'Baby' },
+  { tipo: 'seguro_vida', nome: 'Seguro de Vida', icone: 'Shield' },
+  { tipo: 'gympass', nome: 'Gympass/Academia', icone: 'Dumbbell' },
+  { tipo: 'participacao_lucros', nome: 'Participação nos Lucros', icone: 'Gift' },
+  { tipo: 'bonus', nome: 'Bônus por Desempenho', icone: 'Gift' },
+  { tipo: 'home_office', nome: 'Home Office', icone: 'Building2' },
+  { tipo: 'horario_flexivel', nome: 'Horário Flexível', icone: 'Clock' },
+  { tipo: 'day_off', nome: 'Day Off Aniversário', icone: 'Calendar' },
+  { tipo: 'outro', nome: 'Outro', icone: 'Gift' },
+];
+
 function DashboardContent() {
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') || 'overview';
@@ -87,6 +121,52 @@ function DashboardContent() {
   const [expandedCandidatura, setExpandedCandidatura] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('todos');
+  const [beneficios, setBeneficios] = useState<Beneficio[]>([]);
+  const [novoBeneficio, setNovoBeneficio] = useState({ tipo: '', descricao: '' });
+
+  // Funções para gerenciar benefícios
+  const addBeneficio = () => {
+    if (!novoBeneficio.tipo) return;
+    const beneficioInfo = BENEFICIOS_DISPONIVEIS.find(b => b.tipo === novoBeneficio.tipo);
+    setBeneficios(prev => [...prev, {
+      id: `ben-${Date.now()}`,
+      tipo: novoBeneficio.tipo,
+      descricao: novoBeneficio.descricao || beneficioInfo?.nome || '',
+      ativo: true,
+    }]);
+    setNovoBeneficio({ tipo: '', descricao: '' });
+  };
+
+  const removeBeneficio = (id: string) => {
+    setBeneficios(prev => prev.filter(b => b.id !== id));
+  };
+
+  const toggleBeneficio = (id: string) => {
+    setBeneficios(prev => prev.map(b => 
+      b.id === id ? { ...b, ativo: !b.ativo } : b
+    ));
+  };
+
+  const getBeneficioIcon = (tipo: string) => {
+    const icones: { [key: string]: React.ReactNode } = {
+      'plano_saude': <Heart size={20} />,
+      'plano_odonto': <Shield size={20} />,
+      'vale_transporte': <Car size={20} />,
+      'vale_alimentacao': <Utensils size={20} />,
+      'vale_refeicao': <Utensils size={20} />,
+      'auxilio_educacao': <GraduationCap size={20} />,
+      'auxilio_creche': <Baby size={20} />,
+      'seguro_vida': <Shield size={20} />,
+      'gympass': <Dumbbell size={20} />,
+      'participacao_lucros': <Gift size={20} />,
+      'bonus': <Gift size={20} />,
+      'home_office': <Building2 size={20} />,
+      'horario_flexivel': <Clock size={20} />,
+      'day_off': <Calendar size={20} />,
+      'outro': <Gift size={20} />,
+    };
+    return icones[tipo] || <Gift size={20} />;
+  };
 
   // Carregar dados
   useEffect(() => {
@@ -338,6 +418,12 @@ function DashboardContent() {
         >
           Candidaturas
         </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'beneficios' ? styles.active : ''}`}
+          onClick={() => setActiveTab('beneficios')}
+        >
+          <Gift size={18} /> Nossos Benefícios
+        </button>
       </div>
 
       {/* Content */}
@@ -553,6 +639,116 @@ function DashboardContent() {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Tab Benefícios */}
+        {activeTab === 'beneficios' && (
+          <div className={styles.beneficiosSection}>
+            <div className={styles.sectionHeader}>
+              <div>
+                <h2>Nossos Benefícios</h2>
+                <p className={styles.sectionDescription}>
+                  Adicione os benefícios que sua empresa oferece aos colaboradores. 
+                  Isso ajuda a atrair candidatos qualificados!
+                </p>
+              </div>
+            </div>
+
+            {/* Adicionar novo benefício */}
+            <div className={styles.addBeneficioForm}>
+              <h3>Adicionar Benefício</h3>
+              <div className={styles.beneficioFormGrid}>
+                <div className={styles.formGroup}>
+                  <label>Tipo de Benefício</label>
+                  <select
+                    value={novoBeneficio.tipo}
+                    onChange={(e) => setNovoBeneficio(prev => ({ ...prev, tipo: e.target.value }))}
+                    className={styles.select}
+                  >
+                    <option value="">Selecione um benefício...</option>
+                    {BENEFICIOS_DISPONIVEIS.map(b => (
+                      <option key={b.tipo} value={b.tipo}>{b.nome}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Descrição (opcional)</label>
+                  <input
+                    type="text"
+                    value={novoBeneficio.descricao}
+                    onChange={(e) => setNovoBeneficio(prev => ({ ...prev, descricao: e.target.value }))}
+                    placeholder="Ex: Plano Unimed com coparticipação"
+                    className={styles.input}
+                  />
+                </div>
+                <button onClick={addBeneficio} className={styles.addBeneficioBtn} disabled={!novoBeneficio.tipo}>
+                  <Plus size={18} /> Adicionar
+                </button>
+              </div>
+            </div>
+
+            {/* Lista de benefícios */}
+            {beneficios.length === 0 ? (
+              <div className={styles.emptyState}>
+                <Gift size={48} />
+                <p>Nenhum benefício cadastrado ainda</p>
+                <p className={styles.emptyHint}>Adicione benefícios para atrair mais candidatos!</p>
+              </div>
+            ) : (
+              <div className={styles.beneficiosList}>
+                {beneficios.map(beneficio => {
+                  const beneficioInfo = BENEFICIOS_DISPONIVEIS.find(b => b.tipo === beneficio.tipo);
+                  return (
+                    <div key={beneficio.id} className={`${styles.beneficioCard} ${!beneficio.ativo ? styles.inativo : ''}`}>
+                      <div className={styles.beneficioIcon}>
+                        {getBeneficioIcon(beneficio.tipo)}
+                      </div>
+                      <div className={styles.beneficioInfo}>
+                        <span className={styles.beneficioNome}>{beneficioInfo?.nome || beneficio.tipo}</span>
+                        {beneficio.descricao && (
+                          <span className={styles.beneficioDescricao}>{beneficio.descricao}</span>
+                        )}
+                      </div>
+                      <div className={styles.beneficioActions}>
+                        <button
+                          onClick={() => toggleBeneficio(beneficio.id)}
+                          className={`${styles.toggleBtn} ${beneficio.ativo ? styles.ativo : ''}`}
+                          title={beneficio.ativo ? 'Desativar' : 'Ativar'}
+                        >
+                          {beneficio.ativo ? 'Ativo' : 'Inativo'}
+                        </button>
+                        <button
+                          onClick={() => removeBeneficio(beneficio.id)}
+                          className={styles.removeBtn}
+                          title="Remover benefício"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Preview público */}
+            {beneficios.filter(b => b.ativo).length > 0 && (
+              <div className={styles.beneficiosPreview}>
+                <h3>Pré-visualização (como candidatos verão)</h3>
+                <div className={styles.beneficiosPreviewGrid}>
+                  {beneficios.filter(b => b.ativo).map(beneficio => {
+                    const beneficioInfo = BENEFICIOS_DISPONIVEIS.find(b => b.tipo === beneficio.tipo);
+                    return (
+                      <div key={beneficio.id} className={styles.beneficioPreviewItem}>
+                        {getBeneficioIcon(beneficio.tipo)}
+                        <span>{beneficioInfo?.nome || beneficio.tipo}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
