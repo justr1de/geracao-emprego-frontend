@@ -37,6 +37,7 @@ import {
 import styles from './page.module.css';
 import { LGPDTooltip } from '@/components/LGPDTooltip';
 import PasswordTooltip from '@/components/PasswordTooltip';
+import EmailValidator from '@/components/EmailValidator';
 
 // Interfaces para tipagem
 interface ExperienciaProfissional {
@@ -129,6 +130,10 @@ export default function CadastroPage() {
   const [verificationCode, setVerificationCode] = useState(['', '', '', '', '', '']);
   const [showAssistantCode, setShowAssistantCode] = useState(false);
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({});
+  
+  // Estados para validação de CPF duplicado
+  const [cpfStatus, setCpfStatus] = useState<'idle' | 'checking' | 'available' | 'exists'>('idle');
+  const [cpfError, setCpfError] = useState<string | null>(null);
 
   // Estados do formulário
   const [phone, setPhone] = useState('');
@@ -188,6 +193,32 @@ export default function CadastroPage() {
       return () => clearTimeout(timer);
     }
   }, [countdown]);
+
+  // Verificar se CPF já está cadastrado
+  const verificarCPF = async (cpf: string) => {
+    const cpfLimpo = cpf.replace(/\D/g, '');
+    if (cpfLimpo.length === 11) {
+      setCpfStatus('checking');
+      setCpfError(null);
+      try {
+        const response = await fetch(`/api/auth/check-cpf?cpf=${cpfLimpo}`);
+        const data = await response.json();
+        if (data.exists) {
+          setCpfStatus('exists');
+          setCpfError('Este CPF já está cadastrado no sistema');
+        } else {
+          setCpfStatus('available');
+          setCpfError(null);
+        }
+      } catch (error) {
+        console.error('Erro ao verificar CPF:', error);
+        setCpfStatus('idle');
+      }
+    } else {
+      setCpfStatus('idle');
+      setCpfError(null);
+    }
+  };
 
   // Buscar endereço pelo CEP
   const buscarCEP = async (cep: string) => {
@@ -635,12 +666,29 @@ export default function CadastroPage() {
                           id="cpf"
                           type="text" 
                           value={formData.cpf} 
-                          onChange={(e) => setFormData({ ...formData, cpf: formatCPF(e.target.value) })} 
+                          onChange={(e) => {
+                            const formatted = formatCPF(e.target.value);
+                            setFormData({ ...formData, cpf: formatted });
+                            verificarCPF(formatted);
+                          }}
                           placeholder="000.000.000-00"
                           maxLength={14} 
                           required 
+                          className={cpfStatus === 'exists' ? styles.inputError : cpfStatus === 'available' ? styles.inputSuccess : ''}
                         />
+                        {cpfStatus === 'checking' && (
+                          <Loader2 size={18} className={`${styles.statusIcon} ${styles.spinning}`} />
+                        )}
+                        {cpfStatus === 'available' && (
+                          <Check size={18} className={`${styles.statusIcon} ${styles.success}`} />
+                        )}
+                        {cpfStatus === 'exists' && (
+                          <AlertCircle size={18} className={`${styles.statusIcon} ${styles.error}`} />
+                        )}
                       </div>
+                      {cpfError && (
+                        <span className={styles.errorMessage}>{cpfError}</span>
+                      )}
                     </div>
                     <div className={styles.inputGroup}>
                       <label htmlFor="birthDate">
@@ -663,8 +711,9 @@ export default function CadastroPage() {
                   {/* E-mail e Gênero */}
                   <div className={styles.inputRow}>
                     <div className={styles.inputGroup}>
-                      <label htmlFor="email">
+                      <label htmlFor="email" className={styles.labelWithTooltip}>
                         E-mail *
+                        <EmailValidator email={formData.email} showValidation={true} />
                         <LGPDTooltip field="email" />
                       </label>
                       <div className={styles.inputWrapper}>

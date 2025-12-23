@@ -584,3 +584,50 @@
     justify-content: center;
   }
 }
+
+/* Estilos de validação de CNPJ */
+.inputError {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.inputSuccess {
+  border-color: #16a34a !important;
+  background-color: #f0fdf4 !important;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.statusIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.statusIcon.success {
+  color: #16a34a;
+}
+
+.statusIcon.error {
+  color: #dc2626;
+}
+
+.errorMessage {
+  display: block;
+  font-size: 0.75rem;
+  color: #dc2626;
+  margin-top: 0.25rem;
+  padding-left: 0.25rem;
+}

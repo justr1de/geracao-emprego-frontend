@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './page.module.css';
+import PasswordTooltip from '@/components/PasswordTooltip';
+import EmailValidator from '@/components/EmailValidator';
 
 const ramosAtuacao = [
   'Academias',
@@ -62,6 +64,10 @@ export default function CadastroEmpresaPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [success, setSuccess] = useState(false);
+  
+  // Estados para validação de CNPJ duplicado
+  const [cnpjStatus, setCnpjStatus] = useState<'idle' | 'checking' | 'available' | 'exists'>('idle');
+  const [cnpjError, setCnpjError] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
     telefone: '',
@@ -135,6 +141,32 @@ export default function CadastroEmpresaPage() {
     if (numbers.length <= 8) return `${numbers.slice(0, 2)}.${numbers.slice(2, 5)}.${numbers.slice(5)}`;
     if (numbers.length <= 12) return `${numbers.slice(0, 2)}.${numbers.slice(2, 5)}.${numbers.slice(5, 8)}/${numbers.slice(8)}`;
     return `${numbers.slice(0, 2)}.${numbers.slice(2, 5)}.${numbers.slice(5, 8)}/${numbers.slice(8, 12)}-${numbers.slice(12, 14)}`;
+  };
+
+  // Verificar se CNPJ já está cadastrado
+  const verificarCNPJ = async (cnpj: string) => {
+    const cnpjLimpo = cnpj.replace(/\D/g, '');
+    if (cnpjLimpo.length === 14) {
+      setCnpjStatus('checking');
+      setCnpjError(null);
+      try {
+        const response = await fetch(`/api/auth/check-cnpj?cnpj=${cnpjLimpo}`);
+        const data = await response.json();
+        if (data.exists) {
+          setCnpjStatus('exists');
+          setCnpjError('Este CNPJ já está cadastrado no sistema');
+        } else {
+          setCnpjStatus('available');
+          setCnpjError(null);
+        }
+      } catch (error) {
+        console.error('Erro ao verificar CNPJ:', error);
+        setCnpjStatus('idle');
+      }
+    } else {
+      setCnpjStatus('idle');
+      setCnpjError(null);
+    }
   };
 
   const formatCEP = (value: string) => {
@@ -386,6 +418,7 @@ export default function CadastroEmpresaPage() {
                   <div className={styles.formGroup}>
                     <label className={styles.label} htmlFor="email">
                       E-mail <span className={styles.required}>*</span>
+                      <EmailValidator email={formData.email} showValidation={true} />
                     </label>
                     <input
                       type="email"
@@ -441,6 +474,7 @@ export default function CadastroEmpresaPage() {
                   <div className={styles.formGroup}>
                     <label className={styles.label} htmlFor="senha">
                       Senha <span className={styles.required}>*</span>
+                      <PasswordTooltip password={formData.senha} showValidation={true} />
                     </label>
                     <div className={styles.inputWrapper}>
                       <svg className={styles.inputIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -471,6 +505,7 @@ export default function CadastroEmpresaPage() {
                   <div className={styles.formGroup}>
                     <label className={styles.label} htmlFor="confirmarSenha">
                       Confirmar Senha <span className={styles.required}>*</span>
+                      <PasswordTooltip />
                     </label>
                     <div className={styles.inputWrapper}>
                       <svg className={styles.inputIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -614,17 +649,36 @@ export default function CadastroEmpresaPage() {
                       <p>Você indicou que não possui CNPJ. Algumas funcionalidades podem ser limitadas.</p>
                     </div>
                   ) : (
-                    <input
-                      type="text"
-                      id="cnpj"
-                      name="cnpj"
-                      className={`${styles.input} ${styles.inputNoIcon}`}
-                      value={formData.cnpj}
-                      onChange={(e) => handleMaskedInput(e, formatCNPJ)}
-                      placeholder="00.000.000/0000-00"
-                      maxLength={18}
-                      required={!formData.semCnpj}
-                    />
+                    <>
+                      <div className={styles.inputWrapper}>
+                        <input
+                          type="text"
+                          id="cnpj"
+                          name="cnpj"
+                          className={`${styles.input} ${styles.inputNoIcon} ${cnpjStatus === 'exists' ? styles.inputError : cnpjStatus === 'available' ? styles.inputSuccess : ''}`}
+                          value={formData.cnpj}
+                          onChange={(e) => {
+                            handleMaskedInput(e, formatCNPJ);
+                            verificarCNPJ(formatCNPJ(e.target.value));
+                          }}
+                          placeholder="00.000.000/0000-00"
+                          maxLength={18}
+                          required={!formData.semCnpj}
+                        />
+                        {cnpjStatus === 'checking' && (
+                          <span className={styles.statusIcon}>⏳</span>
+                        )}
+                        {cnpjStatus === 'available' && (
+                          <span className={`${styles.statusIcon} ${styles.success}`}>✓</span>
+                        )}
+                        {cnpjStatus === 'exists' && (
+                          <span className={`${styles.statusIcon} ${styles.error}`}>✗</span>
+                        )}
+                      </div>
+                      {cnpjError && (
+                        <span className={styles.errorMessage}>{cnpjError}</span>
+                      )}
+                    </>
                   )}
                 </div>
 

@@ -1141,3 +1141,48 @@
     flex-direction: column;
   }
 }
+
+/* Estilos de validação de CPF/CNPJ */
+.inputError {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.inputSuccess {
+  border-color: #16a34a !important;
+  background-color: #f0fdf4 !important;
+}
+
+.statusIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.statusIcon.spinning {
+  animation: spin 1s linear infinite;
+  color: #6b7280;
+}
+
+.statusIcon.success {
+  color: #16a34a;
+}
+
+.statusIcon.error {
+  color: #dc2626;
+}
+
+@keyframes spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.errorMessage {
+  display: block;
+  font-size: 0.75rem;
+  color: #dc2626;
+  margin-top: 0.25rem;
+  padding-left: 0.25rem;
+}

@@ -1,6 +1,7 @@
 'use client';
 
-import { BarChart3, TrendingUp, Users, Briefcase, Building2, Clock, Target, Award } from 'lucide-react';
+import { BarChart3, Construction, Wrench } from 'lucide-react';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 export default function ObservatorioPage() {
@@ -14,7 +15,7 @@ export default function ObservatorioPage() {
           </div>
           <h1 className={styles.heroTitle}>Observatório do Emprego</h1>
           <p className={styles.heroSubtitle}>
-            Acompanhe em tempo real a eficiência dos serviços prestados pela plataforma Geração Emprego
+            Painel de indicadores do mercado de trabalho em Rondônia
           </p>
         </div>
       </section>
@@ -22,47 +23,27 @@ export default function ObservatorioPage() {
       {/* Em Construção */}
       <section className={styles.construction}>
         <div className={styles.constructionCard}>
-          <div className={styles.constructionIcon}>
-            <Clock size={64} />
-          </div>
-          <h2 className={styles.constructionTitle}>Em Desenvolvimento</h2>
-          <p className={styles.constructionText}>
-            Estamos trabalhando para trazer dados e métricas detalhadas sobre o mercado de trabalho em Rondônia.
-          </p>
-          
-          {/* Preview das métricas que serão exibidas */}
-          <div className={styles.previewSection}>
-            <h3 className={styles.previewTitle}>O que você poderá acompanhar:</h3>
-            <div className={styles.previewGrid}>
-              <div className={styles.previewItem}>
-                <Users size={24} />
-                <span>Candidatos cadastrados</span>
-              </div>
-              <div className={styles.previewItem}>
-                <Building2 size={24} />
-                <span>Empresas parceiras</span>
-              </div>
-              <div className={styles.previewItem}>
-                <Briefcase size={24} />
-                <span>Vagas publicadas</span>
-              </div>
-              <div className={styles.previewItem}>
-                <Target size={24} />
-                <span>Contratações realizadas</span>
-              </div>
-              <div className={styles.previewItem}>
-                <TrendingUp size={24} />
-                <span>Taxa de empregabilidade</span>
-              </div>
-              <div className={styles.previewItem}>
-                <Award size={24} />
-                <span>Cursos concluídos</span>
-              </div>
+          <div className={styles.constructionImageWrapper}>
+            <div className={styles.constructionIcon}>
+              <Construction size={80} />
+            </div>
+            <div className={styles.gearIcon}>
+              <Wrench size={32} />
             </div>
           </div>
+          
+          <h2 className={styles.constructionTitle}>Em Construção</h2>
+          
+          <p className={styles.constructionText}>
+            Estamos desenvolvendo o painel de indicadores com dados em tempo real sobre o mercado de trabalho em Rondônia.
+          </p>
 
-          <p className={styles.comingSoon}>
-            Em breve disponível para consulta pública
+          <div className={styles.comingSoonBadge}>
+            <span>Em breve</span>
+          </div>
+
+          <p className={styles.featureText}>
+            O Observatório apresentará métricas de currículos cadastrados, vagas disponíveis, contratações efetivadas e outros indicadores de empregabilidade.
           </p>
         </div>
       </section>
