@@ -669,7 +669,7 @@ function ProfileContent() {
                         value={form.dataConclusao}
                         onChange={(e) => updateFormacao(form.id, 'dataConclusao', e.target.value)}
                         disabled={form.emAndamento}
-                        placeholder="2024"
+                        placeholder="2025"
                       />
                     </div>
                   </div>
@@ -742,8 +742,8 @@ function ProfileContent() {
                 <span>Local</span>
               </div>
               {[
-                { date: '23/12/2024 14:35', ip: '192.168.1.100', device: 'Chrome - Windows', location: 'Porto Velho, RO' },
-                { date: '22/12/2024 09:12', ip: '192.168.1.100', device: 'Chrome - Windows', location: 'Porto Velho, RO' },
+                { date: '23/12/2025 14:35', ip: '192.168.1.100', device: 'Chrome - Windows', location: 'Porto Velho, RO' },
+                { date: '22/12/2025 09:12', ip: '192.168.1.100', device: 'Chrome - Windows', location: 'Porto Velho, RO' },
               ].map((log, i) => (
                 <div key={i} className={styles.tableRow}>
                   <span>{log.date}</span>

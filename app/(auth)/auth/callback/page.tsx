@@ -2,7 +2,6 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
 import styles from './page.module.css'
 
 function AuthCallbackContent() {
@@ -27,6 +26,8 @@ function AuthCallbackContent() {
       // Se for confirmação de e-mail
       if (type === 'email_confirmation' || type === 'signup') {
         try {
+          // Importa dinamicamente para evitar erro de prerender
+          const { createClient } = await import('@/lib/supabase/client')
           const supabase = createClient()
 
           // O Supabase geralmente já processa o token automaticamente

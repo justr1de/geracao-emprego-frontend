@@ -234,7 +234,7 @@ export default function LoginPage() {
 
       {/* Copyright */}
       <footer className={styles.copyright}>
-        <p>© 2024 Geração Emprego - Todos os Direitos Reservados</p>
+        <p>© 2025 Geração Emprego - Todos os Direitos Reservados</p>
       </footer>
     </div>
   );

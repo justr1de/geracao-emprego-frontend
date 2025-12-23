@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createAdminClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 // GET - Obter todas as tabelas de referência
 export async function GET(request: NextRequest) {
@@ -7,22 +7,31 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const tabela = searchParams.get('tabela')
 
-    const supabase = createAdminClient()
+    const supabase = await createClient()
+
+    // Tabelas permitidas para consulta
+    const tabelasPermitidas = [
+      'tipos_usuario',
+      'areas_vaga',
+      'niveis_escolaridade',
+      'modelos_trabalho',
+      'tipos_contrato',
+      'portes_empresa',
+      'ramos_atuacao',
+      'status_candidatura',
+      'habilidades',
+      'estados_civis',
+      'tipos_deficiencia',
+      'categorias_cnh',
+      'idiomas',
+      'niveis_idioma',
+      'disponibilidades_horario',
+      'niveis_experiencia',
+      'zonas'
+    ]
 
     // Se uma tabela específica foi solicitada
     if (tabela) {
-      const tabelasPermitidas = [
-        'tipos_usuario',
-        'areas_vaga',
-        'niveis_escolaridade',
-        'modelos_trabalho',
-        'tipos_contrato',
-        'portes_empresa',
-        'ramos_atuacao',
-        'status_candidatura',
-        'habilidades'
-      ]
-
       if (!tabelasPermitidas.includes(tabela)) {
         return NextResponse.json(
           { error: 'Tabela não encontrada' },
@@ -56,17 +65,33 @@ export async function GET(request: NextRequest) {
       portesEmpresa,
       ramosAtuacao,
       statusCandidatura,
-      habilidades
+      habilidades,
+      estadosCivis,
+      tiposDeficiencia,
+      categoriasCnh,
+      idiomas,
+      niveisIdioma,
+      disponibilidadesHorario,
+      niveisExperiencia,
+      zonas
     ] = await Promise.all([
       supabase.from('tipos_usuario').select('*').order('id'),
       supabase.from('areas_vaga').select('*').order('nome'),
-      supabase.from('niveis_escolaridade').select('*').order('id'),
+      supabase.from('niveis_escolaridade').select('*').order('ordem'),
       supabase.from('modelos_trabalho').select('*').order('id'),
       supabase.from('tipos_contrato').select('*').order('id'),
       supabase.from('portes_empresa').select('*').order('id'),
       supabase.from('ramos_atuacao').select('*').order('nome'),
       supabase.from('status_candidatura').select('*').order('id'),
-      supabase.from('habilidades').select('*').order('nome')
+      supabase.from('habilidades').select('*').order('nome'),
+      supabase.from('estados_civis').select('*').order('id'),
+      supabase.from('tipos_deficiencia').select('*').order('id'),
+      supabase.from('categorias_cnh').select('*').order('id'),
+      supabase.from('idiomas').select('*').order('nome'),
+      supabase.from('niveis_idioma').select('*').order('ordem'),
+      supabase.from('disponibilidades_horario').select('*').order('id'),
+      supabase.from('niveis_experiencia').select('*').order('id'),
+      supabase.from('zonas').select('*').order('nome')
     ])
 
     return NextResponse.json({
@@ -78,7 +103,15 @@ export async function GET(request: NextRequest) {
       portes_empresa: portesEmpresa.data || [],
       ramos_atuacao: ramosAtuacao.data || [],
       status_candidatura: statusCandidatura.data || [],
-      habilidades: habilidades.data || []
+      habilidades: habilidades.data || [],
+      estados_civis: estadosCivis.data || [],
+      tipos_deficiencia: tiposDeficiencia.data || [],
+      categorias_cnh: categoriasCnh.data || [],
+      idiomas: idiomas.data || [],
+      niveis_idioma: niveisIdioma.data || [],
+      disponibilidades_horario: disponibilidadesHorario.data || [],
+      niveis_experiencia: niveisExperiencia.data || [],
+      zonas: zonas.data || []
     })
 
   } catch (error) {

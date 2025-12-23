@@ -120,7 +120,7 @@ function DashboardContent() {
             status: 'ativa',
             candidaturas: 15,
             visualizacoes: 234,
-            criadaEm: '2024-12-15',
+            criadaEm: '2025-12-15',
             expiraEm: '2025-01-15',
           },
           {
@@ -136,7 +136,7 @@ function DashboardContent() {
             status: 'ativa',
             candidaturas: 22,
             visualizacoes: 456,
-            criadaEm: '2024-12-10',
+            criadaEm: '2025-12-10',
             expiraEm: '2025-01-10',
           },
         ]);
@@ -156,7 +156,7 @@ function DashboardContent() {
               estado: 'RO',
             },
             status: 'pendente',
-            dataAplicacao: '2024-12-20',
+            dataAplicacao: '2025-12-20',
             curriculoUrl: null,
           },
           {
@@ -173,7 +173,7 @@ function DashboardContent() {
               estado: 'RO',
             },
             status: 'em_analise',
-            dataAplicacao: '2024-12-19',
+            dataAplicacao: '2025-12-19',
             curriculoUrl: null,
           },
           {
@@ -190,7 +190,7 @@ function DashboardContent() {
               estado: 'RO',
             },
             status: 'entrevista',
-            dataAplicacao: '2024-12-18',
+            dataAplicacao: '2025-12-18',
             curriculoUrl: null,
           },
         ]);
