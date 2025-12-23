@@ -797,3 +797,40 @@
   background: #dc2626;
   color: white;
 }
+
+/* Responsividade adicional para dispositivos móveis */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem 0.75rem;
+  }
+
+  .profileHeader {
+    padding: 1.25rem;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+
+  .profileName {
+    font-size: 1.375rem;
+  }
+
+  .content {
+    padding: 1.25rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.125rem;
+  }
+
+  .curriculoSection {
+    min-width: 100%;
+  }
+
+  .progressBar {
+    max-width: 150px;
+  }
+}
