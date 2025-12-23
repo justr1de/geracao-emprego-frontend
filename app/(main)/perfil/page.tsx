@@ -36,6 +36,7 @@ interface Habilidade {
 
 interface Certificado {
   id: string;
+  tipo: string;
   nome: string;
   instituicao: string;
   dataEmissao: string;
@@ -43,6 +44,25 @@ interface Certificado {
   arquivo: string | null;
   arquivoNome: string | null;
 }
+
+const TIPOS_CERTIFICADO = [
+  { value: 'oficina', label: 'Oficina' },
+  { value: 'palestra', label: 'Palestra' },
+  { value: 'workshop', label: 'Workshop' },
+  { value: 'seminario', label: 'Seminário' },
+  { value: 'congresso', label: 'Congresso' },
+  { value: 'curso_curta_duracao', label: 'Curso de Curta Duração' },
+  { value: 'curso_aperfeicoamento', label: 'Curso de Aperfeiçoamento' },
+  { value: 'curso_tecnico', label: 'Curso Técnico' },
+  { value: 'graduacao', label: 'Graduação' },
+  { value: 'pos_graduacao', label: 'Pós-Graduação / Especialização' },
+  { value: 'mestrado', label: 'Mestrado' },
+  { value: 'doutorado', label: 'Doutorado' },
+  { value: 'mba', label: 'MBA' },
+  { value: 'certificacao_profissional', label: 'Certificação Profissional' },
+  { value: 'treinamento', label: 'Treinamento' },
+  { value: 'outro', label: 'Outro' },
+];
 
 interface PerfilData {
   nome: string;
@@ -290,6 +310,7 @@ function ProfileContent() {
       ...prev,
       certificados: [...prev.certificados, {
         id: `cert-${Date.now()}`,
+        tipo: '',
         nome: '',
         instituicao: '',
         dataEmissao: '',
@@ -855,6 +876,19 @@ function ProfileContent() {
                       </button>
                     </div>
                     <div className={styles.formGrid}>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Tipo de Atividade *</label>
+                        <select
+                          className={styles.select}
+                          value={cert.tipo}
+                          onChange={(e) => updateCertificado(cert.id, 'tipo', e.target.value)}
+                        >
+                          <option value="">Selecione o tipo...</option>
+                          {TIPOS_CERTIFICADO.map(tipo => (
+                            <option key={tipo.value} value={tipo.value}>{tipo.label}</option>
+                          ))}
+                        </select>
+                      </div>
                       <div className={styles.formGroup}>
                         <label className={styles.label}>Nome do Curso/Evento *</label>
                         <input
