@@ -631,3 +631,83 @@
   margin-top: 0.25rem;
   padding-left: 0.25rem;
 }
+
+
+/* ========== Estilos para Verificação SMS ========== */
+
+.stepDescription {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.verificationPending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
+  color: #64748b;
+}
+
+.verificationPending p {
+  font-size: 0.875rem;
+}
+
+.loginLink {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.loginLink a {
+  color: #059669;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.loginLink a:hover {
+  text-decoration: underline;
+}
+
+.verified {
+  color: #16a34a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.inputHint {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+  .mainContainer {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .sideColumn {
+    display: none;
+  }
+
+  .formCard {
+    max-width: 100%;
+  }
+
+  .cardBody {
+    padding: 1.5rem;
+  }
+
+  .formRow,
+  .formRowThree {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import PasswordTooltip from '@/components/PasswordTooltip';
 import EmailValidator from '@/components/EmailValidator';
+import PhoneVerification from '@/components/PhoneVerification';
 
 const ramosAtuacao = [
   'Academias',
@@ -69,6 +70,12 @@ export default function CadastroEmpresaPage() {
   const [cnpjStatus, setCnpjStatus] = useState<'idle' | 'checking' | 'available' | 'exists'>('idle');
   const [cnpjError, setCnpjError] = useState<string | null>(null);
   
+  // Estados para verificação de telefone (SMS)
+  const [phoneVerified, setPhoneVerified] = useState(false);
+  const [showPhoneVerification, setShowPhoneVerification] = useState(false);
+  const [verificationError, setVerificationError] = useState<string | null>(null);
+  const [firebaseUid, setFirebaseUid] = useState<string | undefined>(undefined);
+  
   const [formData, setFormData] = useState({
     telefone: '',
     codigo: '',
@@ -97,7 +104,7 @@ export default function CadastroEmpresaPage() {
     complemento: ''
   });
 
-  const totalSteps = 3;
+  const totalSteps = 5;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -204,13 +211,21 @@ export default function CadastroEmpresaPage() {
     }
   };
 
-  const enviarCodigo = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setCurrentStep(2);
-      setCountdown(30);
-    }, 1500);
+  // Callback quando telefone for verificado
+  const handlePhoneVerified = (verifiedPhone: string, uid?: string) => {
+    setPhoneVerified(true);
+    setShowPhoneVerification(false);
+    if (uid) setFirebaseUid(uid);
+    setCurrentStep(3); // Avançar para etapa de Dados do Responsável
+  };
+
+  // Iniciar verificação de telefone
+  const iniciarVerificacaoTelefone = () => {
+    const phoneClean = formData.telefone.replace(/\D/g, '');
+    if (phoneClean.length === 11) {
+      setShowPhoneVerification(true);
+      setCurrentStep(2); // Ir para etapa de código
+    }
   };
 
   useEffect(() => {
@@ -220,19 +235,11 @@ export default function CadastroEmpresaPage() {
     }
   }, [countdown]);
 
-  const verificarCodigo = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setCurrentStep(3);
-    }, 1000);
-  };
-
   const salvarResponsavel = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      setCurrentStep(2);
+      setCurrentStep(4);
     }, 1000);
   };
 
@@ -240,7 +247,7 @@ export default function CadastroEmpresaPage() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      setCurrentStep(3);
+      setCurrentStep(5);
     }, 1000);
   };
 
@@ -254,9 +261,11 @@ export default function CadastroEmpresaPage() {
 
   const getStepInfo = () => {
     switch (currentStep) {
-      case 1: return { title: 'Dados do Responsável', subtitle: 'Informações do responsável pela empresa' };
-      case 2: return { title: 'Dados da Empresa', subtitle: 'Informações sobre seu estabelecimento' };
-      case 3: return { title: 'Endereço', subtitle: 'Localização do seu estabelecimento' };
+      case 1: return { title: 'Verificar Telefone', subtitle: 'Informe seu número de WhatsApp' };
+      case 2: return { title: 'Verificar Código', subtitle: 'Digite o código SMS recebido' };
+      case 3: return { title: 'Dados do Responsável', subtitle: 'Informações do responsável pela empresa' };
+      case 4: return { title: 'Dados da Empresa', subtitle: 'Informações sobre seu estabelecimento' };
+      case 5: return { title: 'Endereço', subtitle: 'Localização do seu estabelecimento' };
       default: return { title: '', subtitle: '' };
     }
   };
@@ -296,7 +305,7 @@ export default function CadastroEmpresaPage() {
   return (
     <div className={styles.pageWrapper}>
       <header className={styles.backHeader}>
-        <Link href="/cadastro" className={styles.backLink}>
+        <Link href="/tipo-cadastro" className={styles.backLink}>
           ← Voltar
         </Link>
       </header>
@@ -336,12 +345,100 @@ export default function CadastroEmpresaPage() {
           </div>
 
           <div className={styles.cardBody}>
+            {/* ========== PASSO 1 - TELEFONE ========== */}
             {currentStep === 1 && (
+              <>
+                <h2 className={styles.stepTitle}>Verificar Telefone</h2>
+                <p className={styles.stepDescription}>Informe seu número de WhatsApp para começar</p>
+
+                <form onSubmit={(e) => { e.preventDefault(); iniciarVerificacaoTelefone(); }}>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label} htmlFor="telefone-step1">
+                      WhatsApp <span className={styles.required}>*</span>
+                    </label>
+                    <div className={styles.inputWrapper}>
+                      <svg className={styles.inputIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                      </svg>
+                      <input
+                        type="tel"
+                        id="telefone-step1"
+                        name="telefone"
+                        className={styles.input}
+                        value={formData.telefone}
+                        onChange={(e) => handleMaskedInput(e, formatPhone)}
+                        placeholder="(00) 00000-0000"
+                        maxLength={15}
+                        required
+                        autoFocus
+                      />
+                    </div>
+                    <p className={styles.inputHint}>Você receberá um código SMS para verificar seu número</p>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className={styles.btnPrimary}
+                    disabled={formData.telefone.replace(/\D/g, '').length !== 11}
+                  >
+                    Enviar Código SMS →
+                  </button>
+                </form>
+
+                <p className={styles.loginLink}>
+                  Já tem uma conta? <Link href="/login">Fazer login</Link>
+                </p>
+              </>
+            )}
+
+            {/* ========== PASSO 2 - VERIFICAÇÃO SMS ========== */}
+            {currentStep === 2 && (
+              <>
+                <h2 className={styles.stepTitle}>Verificar Código</h2>
+                <p className={styles.stepDescription}>Digite o código enviado para seu WhatsApp</p>
+
+                {showPhoneVerification ? (
+                  <PhoneVerification
+                    phoneNumber={formData.telefone.replace(/\D/g, '')}
+                    onVerified={handlePhoneVerified}
+                    onError={(error) => setVerificationError(error)}
+                    onCancel={() => {
+                      setShowPhoneVerification(false);
+                      setCurrentStep(1);
+                    }}
+                  />
+                ) : (
+                  <div className={styles.verificationPending}>
+                    <p>Iniciando verificação...</p>
+                  </div>
+                )}
+
+                {verificationError && (
+                  <div className={styles.errorMessage}>
+                    {verificationError}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  className={styles.btnSecondary}
+                  onClick={() => {
+                    setShowPhoneVerification(false);
+                    setCurrentStep(1);
+                  }}
+                >
+                  ← Voltar e alterar número
+                </button>
+              </>
+            )}
+
+            {/* ========== PASSO 3 - DADOS DO RESPONSÁVEL ========== */}
+            {currentStep === 3 && (
               <form onSubmit={(e) => { e.preventDefault(); salvarResponsavel(); }}>
-                {/* Campo de Telefone */}
+                {/* Campo de Telefone (já verificado) */}
                 <div className={styles.formGroup}>
                   <label className={styles.label} htmlFor="telefone">
-                    Telefone com WhatsApp <span className={styles.required}>*</span>
+                    Telefone com WhatsApp <span className={styles.verified}>✓ Verificado</span>
                   </label>
                   <div className={styles.inputWrapper}>
                     <svg className={styles.inputIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -353,12 +450,8 @@ export default function CadastroEmpresaPage() {
                       name="telefone"
                       className={styles.input}
                       value={formData.telefone}
-                      onChange={(e) => handleMaskedInput(e, formatPhone)}
-                      placeholder="(99) 99999-9999"
-                      maxLength={15}
-                      aria-label="Número de telefone com DDD"
-                      autoComplete="tel"
-                      required
+                      readOnly
+                      style={{ backgroundColor: '#f5f5f5' }}
                     />
                   </div>
                 </div>
@@ -403,38 +496,26 @@ export default function CadastroEmpresaPage() {
                     <label className={styles.label} htmlFor="cpf">
                       CPF <span className={styles.required}>*</span>
                     </label>
-                    <input
-                      type="text"
-                      id="cpf"
-                      name="cpf"
-                      className={`${styles.input} ${styles.inputNoIcon}`}
-                      value={formData.cpf}
-                      onChange={(e) => handleMaskedInput(e, formatCPF)}
-                      placeholder="000.000.000-00"
-                      maxLength={14}
-                      required
-                    />
+                    <div className={styles.inputWrapper}>
+                      <svg className={styles.inputIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                        <line x1="7" y1="8" x2="17" y2="8"></line>
+                        <line x1="7" y1="12" x2="13" y2="12"></line>
+                      </svg>
+                      <input
+                        type="text"
+                        id="cpf"
+                        name="cpf"
+                        className={styles.input}
+                        value={formData.cpf}
+                        onChange={(e) => handleMaskedInput(e, formatCPF)}
+                        placeholder="000.000.000-00"
+                        maxLength={14}
+                        autoComplete="off"
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className={styles.formGroup}>
-                    <label className={styles.label} htmlFor="email">
-                      E-mail <span className={styles.required}>*</span>
-                      <EmailValidator email={formData.email} showValidation={true} />
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      className={`${styles.input} ${styles.inputNoIcon}`}
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="seu@email.com"
-                      autoComplete="email"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.formRow}>
                   <div className={styles.formGroup}>
                     <label className={styles.label} htmlFor="dataNascimento">
                       Data de Nascimento <span className={styles.required}>*</span>
@@ -449,32 +530,25 @@ export default function CadastroEmpresaPage() {
                       required
                     />
                   </div>
-                  <div className={styles.formGroup}>
-                    <label className={styles.label} htmlFor="genero">
-                      Gênero <span className={styles.required}>*</span>
-                    </label>
-                    <select
-                      id="genero"
-                      name="genero"
-                      className={styles.select}
-                      value={formData.genero}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Selecione</option>
-                      <option value="masculino">Masculino</option>
-                      <option value="feminino">Feminino</option>
-                      <option value="outro">Outro</option>
-                      <option value="prefiro_nao_informar">Prefiro não informar</option>
-                    </select>
-                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.label} htmlFor="email">
+                    E-mail <span className={styles.required}>*</span>
+                  </label>
+                  <EmailValidator
+                    value={formData.email}
+                    onChange={(value) => setFormData(prev => ({ ...prev, email: value }))}
+                    placeholder="seu@email.com"
+                    required
+                  />
                 </div>
 
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
                     <label className={styles.label} htmlFor="senha">
                       Senha <span className={styles.required}>*</span>
-                      <PasswordTooltip password={formData.senha} showValidation={true} />
+                      <PasswordTooltip />
                     </label>
                     <div className={styles.inputWrapper}>
                       <svg className={styles.inputIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -488,7 +562,7 @@ export default function CadastroEmpresaPage() {
                         className={styles.input}
                         value={formData.senha}
                         onChange={handleInputChange}
-                        placeholder="Sua senha"
+                        placeholder="Crie uma senha segura"
                         autoComplete="new-password"
                         required
                       />
@@ -553,9 +627,13 @@ export default function CadastroEmpresaPage() {
                 </div>
 
                 <div className={styles.buttonGroup}>
-                  <Link href="/cadastro" className={styles.btnSecondary}>
+                  <button 
+                    type="button" 
+                    className={styles.btnSecondary}
+                    onClick={() => setCurrentStep(1)}
+                  >
                     ← Voltar
-                  </Link>
+                  </button>
                   <button 
                     type="submit" 
                     className={styles.btnPrimary}
@@ -567,7 +645,8 @@ export default function CadastroEmpresaPage() {
               </form>
             )}
 
-            {currentStep === 2 && (
+            {/* ========== PASSO 4 - DADOS DA EMPRESA ========== */}
+            {currentStep === 4 && (
               <form onSubmit={(e) => { e.preventDefault(); salvarEmpresa(); }}>
                 <div className={styles.uploadSection}>
                   <label className={styles.uploadLabel}>Logo da empresa</label>
@@ -735,7 +814,7 @@ export default function CadastroEmpresaPage() {
                           alt="Banner preview" 
                           width={500} 
                           height={125} 
-                          className={styles.bannerPreview}
+                          className={styles.bannerPreviewImage}
                         />
                         <button 
                           type="button" 
@@ -769,7 +848,7 @@ export default function CadastroEmpresaPage() {
                 </div>
 
                 <div className={styles.buttonGroup}>
-                  <button type="button" className={styles.btnSecondary} onClick={() => setCurrentStep(1)}>
+                  <button type="button" className={styles.btnSecondary} onClick={() => setCurrentStep(3)}>
                     ← Voltar
                   </button>
                   <button 
@@ -783,7 +862,8 @@ export default function CadastroEmpresaPage() {
               </form>
             )}
 
-            {currentStep === 3 && (
+            {/* ========== PASSO 5 - ENDEREÇO ========== */}
+            {currentStep === 5 && (
               <form onSubmit={(e) => { e.preventDefault(); finalizarCadastro(); }}>
                 <div className={styles.formGroup}>
                   <label className={styles.label} htmlFor="cep">
@@ -910,9 +990,9 @@ export default function CadastroEmpresaPage() {
                 </div>
 
                 <div className={styles.buttonGroup}>
-                  <Link href="/cadastro" className={styles.btnSecondary}>
+                  <button type="button" className={styles.btnSecondary} onClick={() => setCurrentStep(4)}>
                     ← Voltar
-                  </Link>
+                  </button>
                   <button 
                     type="submit" 
                     className={styles.btnPrimary}

@@ -38,6 +38,7 @@ import styles from './page.module.css';
 import { LGPDTooltip } from '@/components/LGPDTooltip';
 import PasswordTooltip from '@/components/PasswordTooltip';
 import EmailValidator from '@/components/EmailValidator';
+import PhoneVerification from '@/components/PhoneVerification';
 
 // Interfaces para tipagem
 interface ExperienciaProfissional {
@@ -134,6 +135,11 @@ export default function CadastroPage() {
   // Estados para validação de CPF duplicado
   const [cpfStatus, setCpfStatus] = useState<'idle' | 'checking' | 'available' | 'exists'>('idle');
   const [cpfError, setCpfError] = useState<string | null>(null);
+  
+  // Estado de verificação de telefone
+  const [phoneVerified, setPhoneVerified] = useState(false);
+  const [showPhoneVerification, setShowPhoneVerification] = useState(false);
+  const [firebaseUid, setFirebaseUid] = useState<string | undefined>(undefined);
 
   // Estados do formulário
   const [phone, setPhone] = useState('');
@@ -427,6 +433,23 @@ export default function CadastroPage() {
     if (step < 8) setStep(step + 1);
   };
 
+  // Callback quando telefone for verificado
+  const handlePhoneVerified = (verifiedPhone: string, uid?: string) => {
+    setPhoneVerified(true);
+    setShowPhoneVerification(false);
+    if (uid) setFirebaseUid(uid);
+    setStep(3); // Avançar para etapa de Dados
+  };
+
+  // Iniciar verificação de telefone
+  const iniciarVerificacaoTelefone = () => {
+    const phoneClean = phone.replace(/\D/g, '');
+    if (phoneClean.length === 11) {
+      setShowPhoneVerification(true);
+      setStep(2); // Ir para etapa de código
+    }
+  };
+
   const passoAnterior = () => {
     if (step > 1) setStep(step - 1);
   };
@@ -483,12 +506,14 @@ export default function CadastroPage() {
   // Renderizar indicador de progresso
   const renderProgressIndicator = () => {
     const etapas = [
-      { num: 1, label: 'Dados' },
-      { num: 2, label: 'Endereço' },
-      { num: 3, label: 'Experiência' },
-      { num: 4, label: 'Formação' },
-      { num: 5, label: 'Habilidades' },
-      { num: 6, label: 'Preferências' }
+      { num: 1, label: 'Telefone' },
+      { num: 2, label: 'Código' },
+      { num: 3, label: 'Dados' },
+      { num: 4, label: 'Endereço' },
+      { num: 5, label: 'Experiência' },
+      { num: 6, label: 'Formação' },
+      { num: 7, label: 'Habilidades' },
+      { num: 8, label: 'Preferências' }
     ];
 
     return (
@@ -496,7 +521,7 @@ export default function CadastroPage() {
         <div className={styles.progressBar}>
           <div 
             className={styles.progressFill} 
-            style={{ width: `${((step - 1) / 5) * 100}%` }}
+            style={{ width: `${((step - 1) / 7) * 100}%` }}
           />
         </div>
         <div className={styles.stepIndicator}>
@@ -568,8 +593,97 @@ export default function CadastroPage() {
             {/* Indicador de progresso */}
             {renderProgressIndicator()}
 
-            {/* ========== PASSO 1 - DADOS PESSOAIS ========== */}
+            {/* ========== PASSO 1 - TELEFONE ========== */}
             {step === 1 && (
+              <>
+                <h1 className={styles.title}>Verificar Telefone</h1>
+                <p className={styles.subtitle}>Informe seu número de WhatsApp para começar</p>
+
+                <form className={styles.form} onSubmit={(e) => { e.preventDefault(); iniciarVerificacaoTelefone(); }}>
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="phone-step1">
+                      WhatsApp *
+                      <LGPDTooltip field="telefone" />
+                    </label>
+                    <div className={styles.inputWrapper}>
+                      <Phone size={20} className={styles.inputIcon} aria-hidden="true" />
+                      <input 
+                        id="phone-step1"
+                        type="tel" 
+                        value={phone} 
+                        onChange={(e) => setPhone(formatPhone(e.target.value))} 
+                        placeholder="(00) 00000-0000" 
+                        maxLength={15} 
+                        required 
+                        autoComplete="tel"
+                        autoFocus
+                      />
+                    </div>
+                    <p className={styles.inputHint}>Você receberá um código SMS para verificar seu número</p>
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    className={styles.submitBtn}
+                    disabled={phone.replace(/\D/g, '').length !== 11}
+                  >
+                    Enviar Código SMS
+                    <ArrowRight size={20} />
+                  </button>
+                </form>
+
+                <p className={styles.loginLink}>
+                  Já tem uma conta? <Link href="/login">Fazer login</Link>
+                </p>
+              </>
+            )}
+
+            {/* ========== PASSO 2 - VERIFICAÇÃO SMS ========== */}
+            {step === 2 && (
+              <>
+                <h1 className={styles.title}>Verificar Código</h1>
+                <p className={styles.subtitle}>Digite o código enviado para seu WhatsApp</p>
+
+                {showPhoneVerification ? (
+                  <PhoneVerification
+                    phoneNumber={phone.replace(/\D/g, '')}
+                    onVerified={handlePhoneVerified}
+                    onError={(error) => setVerificationError(error)}
+                    onCancel={() => {
+                      setShowPhoneVerification(false);
+                      setStep(1);
+                    }}
+                  />
+                ) : (
+                  <div className={styles.verificationPending}>
+                    <Loader2 size={32} className={styles.spinner} />
+                    <p>Iniciando verificação...</p>
+                  </div>
+                )}
+
+                {verificationError && (
+                  <div className={styles.errorMessage}>
+                    <AlertCircle size={16} />
+                    {verificationError}
+                  </div>
+                )}
+
+                <button 
+                  type="button" 
+                  className={styles.backBtn}
+                  onClick={() => {
+                    setShowPhoneVerification(false);
+                    setStep(1);
+                  }}
+                >
+                  <ArrowLeft size={20} />
+                  Voltar e alterar número
+                </button>
+              </>
+            )}
+
+            {/* ========== PASSO 3 - DADOS PESSOAIS ========== */}
+            {step === 3 && (
               <>
                 <h1 className={styles.title}>Criar sua conta</h1>
                 <p className={styles.subtitle}>Cadastre-se para acessar todas as oportunidades</p>
@@ -852,8 +966,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 2 - ENDEREÇO ========== */}
-            {step === 2 && (
+            {/* ========== PASSO 4 - ENDEREÇO ========== */}
+            {step === 4 && (
               <>
                 <h1 className={styles.title}>Endereço</h1>
                 <p className={styles.subtitle}>Informe seu endereço para encontrar vagas próximas</p>
@@ -1021,8 +1135,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 3 - EXPERIÊNCIA PROFISSIONAL ========== */}
-            {step === 3 && (
+            {/* ========== PASSO 5 - EXPERIÊNCIA PROFISSIONAL ========== */}
+            {step === 5 && (
               <>
                 <h1 className={styles.title}>Experiência Profissional</h1>
                 <p className={styles.subtitle}>Adicione suas experiências de trabalho (opcional)</p>
@@ -1161,8 +1275,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 4 - FORMAÇÃO ACADÊMICA ========== */}
-            {step === 4 && (
+            {/* ========== PASSO 6 - FORMAÇÃO ACADÊMICA ========== */}
+            {step === 6 && (
               <>
                 <h1 className={styles.title}>Formação Acadêmica</h1>
                 <p className={styles.subtitle}>Adicione sua formação educacional (opcional)</p>
@@ -1294,8 +1408,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 5 - HABILIDADES ========== */}
-            {step === 5 && (
+            {/* ========== PASSO 7 - HABILIDADES ========== */}
+            {step === 7 && (
               <>
                 <h1 className={styles.title}>Habilidades e Competências</h1>
                 <p className={styles.subtitle}>Adicione suas habilidades para encontrar vagas compatíveis</p>
@@ -1410,8 +1524,8 @@ export default function CadastroPage() {
               </>
             )}
 
-            {/* ========== PASSO 6 - PREFERÊNCIAS E FINALIZAÇÃO ========== */}
-            {step === 6 && (
+            {/* ========== PASSO 8 - PREFERÊNCIAS E FINALIZAÇÃO ========== */}
+            {step === 8 && (
               <>
                 <h1 className={styles.title}>Preferências de Emprego</h1>
                 <p className={styles.subtitle}>Configure suas preferências para receber vagas compatíveis</p>
