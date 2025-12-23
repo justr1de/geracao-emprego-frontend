@@ -41,7 +41,7 @@ export default function Footer() {
           <div className={styles.column}>
             <h3 className={styles.columnTitle}>Serviços</h3>
             <nav className={styles.nav} aria-label="Links de serviços">
-              <Link href="/curriculos" className={styles.link}>
+              <Link href="/cadastro-empresa" className={styles.link}>
                 <ChevronRight size={14} aria-hidden="true" />
                 Quero currículos
               </Link>
