@@ -20,6 +20,8 @@ import {
   EyeOff,
   Shield
 } from 'lucide-react';
+import { LGPDTooltip } from '@/components/LGPDTooltip';
+import { LGPDConsent } from '@/components/LGPDConsent';
 import styles from './page.module.css';
 
 export default function RegisterPage() {
@@ -32,6 +34,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [lgpdAccepted, setLgpdAccepted] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -70,11 +73,16 @@ export default function RegisterPage() {
       alert('As senhas não coincidem!');
       return;
     }
+
+    if (!lgpdAccepted) {
+      alert('Você precisa aceitar os termos de tratamento de dados para continuar.');
+      return;
+    }
     
     setIsLoading(true);
     // Simular envio
     await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Dados para o Banco:', { ...formData, phone, userType });
+    console.log('Dados para o Banco:', { ...formData, phone, userType, lgpdAccepted });
     router.push('/');
   };
 
@@ -170,7 +178,10 @@ export default function RegisterPage() {
 
                 <form onSubmit={handlePhoneSubmit} className={styles.form}>
                   <div className={styles.inputGroup}>
-                    <label htmlFor="phone">WhatsApp</label>
+                    <label htmlFor="phone" className={styles.labelWithTooltip}>
+                      WhatsApp
+                      <LGPDTooltip field="telefone" />
+                    </label>
                     <div className={styles.inputWrapper}>
                       <Phone size={20} className={styles.inputIcon} aria-hidden="true" />
                       <input 
@@ -306,7 +317,10 @@ export default function RegisterPage() {
                   {/* CPF e Data de Nascimento */}
                   <div className={styles.inputRow}>
                     <div className={styles.inputGroup}>
-                      <label htmlFor="cpf">CPF</label>
+                      <label htmlFor="cpf" className={styles.labelWithTooltip}>
+                        CPF
+                        <LGPDTooltip field="cpf" />
+                      </label>
                       <div className={styles.inputWrapper}>
                         <CreditCard size={20} className={styles.inputIcon} aria-hidden="true" />
                         <input 
@@ -321,7 +335,10 @@ export default function RegisterPage() {
                       </div>
                     </div>
                     <div className={styles.inputGroup}>
-                      <label htmlFor="birthDate">Data de Nascimento</label>
+                      <label htmlFor="birthDate" className={styles.labelWithTooltip}>
+                        Data de Nascimento
+                        <LGPDTooltip field="dataNascimento" />
+                      </label>
                       <div className={styles.inputWrapper}>
                         <Calendar size={20} className={styles.inputIcon} aria-hidden="true" />
                         <input 
@@ -337,7 +354,10 @@ export default function RegisterPage() {
 
                   {/* E-mail */}
                   <div className={styles.inputGroup}>
-                    <label htmlFor="email">E-mail</label>
+                    <label htmlFor="email" className={styles.labelWithTooltip}>
+                      E-mail
+                      <LGPDTooltip field="email" />
+                    </label>
                     <div className={styles.inputWrapper}>
                       <Mail size={20} className={styles.inputIcon} aria-hidden="true" />
                       <input 
@@ -349,6 +369,28 @@ export default function RegisterPage() {
                         required 
                         autoComplete="email"
                       />
+                    </div>
+                  </div>
+
+                  {/* Gênero (opcional) */}
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="gender" className={styles.labelWithTooltip}>
+                      Gênero <span className={styles.optionalLabel}>(opcional)</span>
+                      <LGPDTooltip field="genero" />
+                    </label>
+                    <div className={styles.inputWrapper}>
+                      <User size={20} className={styles.inputIcon} aria-hidden="true" />
+                      <select 
+                        id="gender"
+                        value={formData.gender} 
+                        onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                        className={styles.select}
+                      >
+                        <option value="">Prefiro não informar</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="outro">Outro</option>
+                      </select>
                     </div>
                   </div>
 
@@ -429,23 +471,17 @@ export default function RegisterPage() {
                     </div>
                   )}
 
-                  {/* Aviso LGPD */}
-                  <div className={styles.lgpdNotice}>
-                    <Shield size={16} className={styles.lgpdIcon} aria-hidden="true" />
-                    <p>
-                      Ao se cadastrar, você concorda com nossa{' '}
-                      <Link href="/politicas-privacidade" className={styles.lgpdLink}>
-                        Política de Privacidade
-                      </Link>{' '}
-                      e confirma que seus dados serão tratados conforme a{' '}
-                      <strong>Lei Geral de Proteção de Dados (LGPD)</strong>.
-                    </p>
-                  </div>
+                  {/* Componente de Consentimento LGPD */}
+                  <LGPDConsent 
+                    type="candidato"
+                    accepted={lgpdAccepted}
+                    onAccept={setLgpdAccepted}
+                  />
 
                   <button 
                     type="submit" 
                     className={styles.primaryBtn}
-                    disabled={isLoading}
+                    disabled={isLoading || !lgpdAccepted}
                     aria-busy={isLoading}
                   >
                     {isLoading ? (
