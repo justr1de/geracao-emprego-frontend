@@ -38,7 +38,7 @@ export function formatPhoneNumber(phone: string): string {
  * @param containerId ID do elemento HTML que conterá o reCAPTCHA
  * @param invisible Se true, usa reCAPTCHA invisível
  */
-export function initRecaptcha(containerId: string, invisible: boolean = true): RecaptchaVerifier {
+export function initRecaptcha(containerId: string, invisible: boolean = false): RecaptchaVerifier {
   // Limpar verifier anterior se existir
   if (recaptchaVerifier) {
     recaptchaVerifier.clear();
