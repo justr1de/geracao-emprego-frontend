@@ -189,7 +189,7 @@ export default function LoginPage() {
             <footer className={styles.footer}>
               <p className={styles.registerText}>
                 Ainda não tem conta?{' '}
-                <Link href="/cadastro" className={styles.registerLink}>
+                <Link href="/tipo-cadastro" className={styles.registerLink}>
                   Cadastre-se gratuitamente
                 </Link>
               </p>

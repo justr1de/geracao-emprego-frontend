@@ -33,7 +33,7 @@ export default function StartNow() {
           </ul>
 
           <div className={styles.actions}>
-            <Link href="/cadastro" className={styles.primaryBtn}>
+            <Link href="/tipo-cadastro" className={styles.primaryBtn}>
               Criar minha conta grátis
             </Link>
             <Link href="/vagas" className={styles.secondaryBtn}>

@@ -134,7 +134,7 @@ export default function Header() {
                   <LogIn size={18} />
                   <span>Entrar</span>
                 </Link>
-                <Link href="/cadastro" className={styles.signupBtn}>
+                <Link href="/tipo-cadastro" className={styles.signupBtn}>
                   Cadastre-se
                 </Link>
               </>
@@ -179,7 +179,7 @@ export default function Header() {
                     <Link href="/login" className={styles.mobileLoginBtn} onClick={closeMenu}>
                       Entrar
                     </Link>
-                    <Link href="/cadastro" className={styles.mobileSignupBtn} onClick={closeMenu}>
+                    <Link href="/tipo-cadastro" className={styles.mobileSignupBtn} onClick={closeMenu}>
                       Cadastre-se Grátis
                     </Link>
                   </>

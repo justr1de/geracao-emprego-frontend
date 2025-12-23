@@ -137,7 +137,7 @@ export default function Courses() {
               Em breve, você poderá fazer cursos com <strong>certificado oficial</strong> diretamente
               pela plataforma Geração Emprego. Cadastre-se para ser notificado!
             </p>
-            <Link href="/cadastro" className={styles.noticeBtn}>
+            <Link href="/tipo-cadastro" className={styles.noticeBtn}>
               Cadastrar para receber novidades
             </Link>
           </div>
