@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { GraduationCap, Clock, MapPin, Monitor, Search, Filter, ChevronDown, Building2, Award, Users, ExternalLink } from 'lucide-react';
 import CourseDetailModal from '@/components/CourseDetailModal';
 import styles from './page.module.css';
@@ -141,42 +142,56 @@ const externalPlatforms = [
     name: 'SEBRAE',
     description: 'Cursos de empreendedorismo e gestão',
     url: 'https://sebrae.com.br/sites/PortalSebrae/cursosonline',
-    color: '#0066B3',
+    logo: '/logos/sebrae.png',
   },
   {
     id: 2,
     name: 'ENAP',
     description: 'Escola Nacional de Administração Pública',
     url: 'https://www.escolavirtual.gov.br/',
-    color: '#1351B4',
+    logo: '/logos/enap.png',
   },
   {
     id: 3,
     name: 'Fundação Bradesco',
     description: 'Cursos de tecnologia e negócios',
     url: 'https://www.ev.org.br/',
-    color: '#CC092F',
+    logo: '/logos/bradesco.jpg',
   },
   {
     id: 4,
     name: 'FGV Online',
     description: 'Cursos de gestão e liderança',
     url: 'https://educacao-executiva.fgv.br/cursos/gratuitos',
-    color: '#003366',
+    logo: '/logos/fgv.png',
   },
   {
     id: 5,
     name: 'Cisco Networking Academy',
     description: 'Cursos de TI e redes',
     url: 'https://www.netacad.com/',
-    color: '#049FD9',
+    logo: '/logos/cisco.jpg',
   },
   {
     id: 6,
-    name: 'Senai',
+    name: 'SENAI',
     description: 'Cursos técnicos e profissionalizantes',
     url: 'https://www.mundosenai.com.br/',
-    color: '#E30613',
+    logo: '/logos/senai.png',
+  },
+  {
+    id: 7,
+    name: 'IFRO',
+    description: 'Instituto Federal de Rondônia',
+    url: 'https://www.ifro.edu.br/',
+    logo: '/logos/ifro.png',
+  },
+  {
+    id: 8,
+    name: 'IDEP',
+    description: 'Instituto de Desenvolvimento da Educação Profissional',
+    url: 'https://rfrancisco.com.br/idep/',
+    logo: '/logos/idep.png',
   },
 ];
 
@@ -307,9 +322,21 @@ export default function CoursesPage() {
         <div className={styles.partnersContainer}>
           <span className={styles.partnersLabel}>Parceiros:</span>
           <div className={styles.partnersList}>
-            <span className={styles.partnerBadge}>SENAI</span>
-            <span className={styles.partnerBadge}>SENAC</span>
-            <span className={styles.partnerBadge}>SEBRAE</span>
+            <a href="https://www.senai.br" target="_blank" rel="noopener noreferrer" className={styles.partnerLogo} aria-label="SENAI - Abre em nova janela">
+              <Image src="/logos/senai.png" alt="SENAI" width={80} height={40} style={{ objectFit: 'contain' }} />
+            </a>
+            <a href="https://www.senac.br" target="_blank" rel="noopener noreferrer" className={styles.partnerLogo} aria-label="SENAC - Abre em nova janela">
+              <Image src="/logos/senac.jpg" alt="SENAC" width={80} height={40} style={{ objectFit: 'contain' }} />
+            </a>
+            <a href="https://www.sebrae.com.br" target="_blank" rel="noopener noreferrer" className={styles.partnerLogo} aria-label="SEBRAE - Abre em nova janela">
+              <Image src="/logos/sebrae.png" alt="SEBRAE" width={80} height={40} style={{ objectFit: 'contain' }} />
+            </a>
+            <a href="https://www.ifro.edu.br" target="_blank" rel="noopener noreferrer" className={styles.partnerLogo} aria-label="IFRO - Abre em nova janela">
+              <Image src="/logos/ifro.png" alt="IFRO" width={80} height={40} style={{ objectFit: 'contain' }} />
+            </a>
+            <a href="https://rfrancisco.com.br/idep/" target="_blank" rel="noopener noreferrer" className={styles.partnerLogo} aria-label="IDEP - Abre em nova janela">
+              <Image src="/logos/idep.png" alt="IDEP" width={80} height={40} style={{ objectFit: 'contain' }} />
+            </a>
           </div>
         </div>
       </section>
@@ -334,7 +361,7 @@ export default function CoursesPage() {
           <div className={styles.statCard}>
             <Building2 className={styles.statIcon} aria-hidden="true" />
             <div>
-              <span className={styles.statNumber}>3</span>
+              <span className={styles.statNumber}>5</span>
               <span className={styles.statLabel}>Instituições Parceiras</span>
             </div>
           </div>
@@ -427,17 +454,16 @@ export default function CoursesPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.externalCard}
-                    style={{ '--platform-color': platform.color } as React.CSSProperties}
                     aria-label={`Acessar cursos do ${platform.name} (abre em nova janela)`}
                   >
                     <div className={styles.externalLogo}>
-                      <span 
-                        className={styles.logoPlaceholder} 
-                        style={{ backgroundColor: platform.color }}
-                        aria-hidden="true"
-                      >
-                        {platform.name.charAt(0)}
-                      </span>
+                      <Image 
+                        src={platform.logo} 
+                        alt={platform.name}
+                        width={48}
+                        height={48}
+                        style={{ objectFit: 'contain' }}
+                      />
                     </div>
                     <div className={styles.externalInfo}>
                       <h4 className={styles.externalName}>{platform.name}</h4>

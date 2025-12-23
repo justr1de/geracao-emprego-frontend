@@ -195,6 +195,23 @@
   border-radius: 999px;
 }
 
+.partnerLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.partnerLogo:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
 /* Stats Section */
 .stats {
   background: var(--background-alt);
@@ -505,6 +522,10 @@
   font-size: 1rem;
   font-weight: 700;
   color: white;
+}
+
+.externalLogo img {
+  border-radius: var(--radius);
 }
 
 .externalInfo {

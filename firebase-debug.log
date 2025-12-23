@@ -1,0 +1,120 @@
+[debug] [2025-12-23T05:42:55.699Z] ----------------------------------------------------------------------
+[debug] [2025-12-23T05:42:55.702Z] Command:       /home/ubuntu/.nvm/versions/node/v22.13.0/bin/node /home/ubuntu/.nvm/versions/node/v22.13.0/bin/firebase init
+[debug] [2025-12-23T05:42:55.702Z] CLI Version:   15.1.0
+[debug] [2025-12-23T05:42:55.702Z] Platform:      linux
+[debug] [2025-12-23T05:42:55.702Z] Node Version:  v22.13.0
+[debug] [2025-12-23T05:42:55.703Z] Time:          Tue Dec 23 2025 00:42:55 GMT-0500 (Eastern Standard Time)
+[debug] [2025-12-23T05:42:55.703Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/ubuntu/v0-geracao-emprego-frontend
+
+[debug] [2025-12-23T05:44:50.276Z] Error: setRawMode EIO
+    at ReadStream.setRawMode (node:tty:81:24)
+    at [_setRawMode] [as _setRawMode] (node:internal/readline/interface:373:18)
+    at Interface.close (node:internal/readline/interface:523:24)
+    at ReadStream.ontermend (node:internal/readline/interface:259:10)
+    at ReadStream.emit (node:events:536:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-12-23T05:44:50.279Z] Error: write EIO
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:971:11)
+    at Socket._write (node:net:983:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at Console.log (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston/lib/winston/transports/console.js:87:23)
+    at Console._write (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/modern.js:103:17)
+    at doWrite (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/node_modules/readable-stream/lib/_stream_writable.js:390:139)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-12-23T05:44:50.280Z] Error: write EIO
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:971:11)
+    at Socket._write (node:net:983:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at Console.log (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston/lib/winston/transports/console.js:87:23)
+    at Console._write (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/modern.js:103:17)
+    at doWrite (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/node_modules/readable-stream/lib/_stream_writable.js:390:139)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-12-23T05:44:50.281Z] Error: write EIO
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:971:11)
+    at Socket._write (node:net:983:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at Console.log (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston/lib/winston/transports/console.js:87:23)
+    at Console._write (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/modern.js:103:17)
+    at doWrite (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/node_modules/readable-stream/lib/_stream_writable.js:390:139)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-12-23T05:44:50.282Z] Error: write EIO
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:971:11)
+    at Socket._write (node:net:983:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at Console.log (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston/lib/winston/transports/console.js:87:23)
+    at Console._write (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/modern.js:103:17)
+    at doWrite (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/node_modules/readable-stream/lib/_stream_writable.js:390:139)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-12-23T05:44:50.283Z] Error: write EIO
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:971:11)
+    at Socket._write (node:net:983:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at Console.log (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston/lib/winston/transports/console.js:87:23)
+    at Console._write (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/modern.js:103:17)
+    at doWrite (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/node_modules/readable-stream/lib/_stream_writable.js:390:139)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-12-23T05:44:50.284Z] Error: write EIO
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:971:11)
+    at Socket._write (node:net:983:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at Console.log (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston/lib/winston/transports/console.js:87:23)
+    at Console._write (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/modern.js:103:17)
+    at doWrite (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/node_modules/readable-stream/lib/_stream_writable.js:390:139)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-12-23T05:44:50.284Z] Error: write EIO
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:971:11)
+    at Socket._write (node:net:983:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at Console.log (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston/lib/winston/transports/console.js:87:23)
+    at Console._write (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/modern.js:103:17)
+    at doWrite (/home/ubuntu/.nvm/versions/node/v22.13.0/lib/node_modules/firebase-tools/node_modules/winston-transport/node_modules/readable-stream/lib/_stream_writable.js:390:139)
+[error] 
+[error] Error: An unexpected error has occurred.

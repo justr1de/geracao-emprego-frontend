@@ -1,0 +1,308 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.candidatado {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  cursor: default;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal */
+.modal {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Modal Header */
+.modalHeader {
+  padding: 24px 24px 16px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modalIcon {
+  color: #16a34a;
+  margin-bottom: 12px;
+}
+
+.modalHeader h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.vagaTitulo {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* Error Message */
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  margin: 16px 24px 0;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+/* Modal Content */
+.modalContent {
+  padding: 24px;
+}
+
+.infoBox {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.infoBox p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.infoBox p + p {
+  margin-top: 8px;
+}
+
+.infoBox strong {
+  color: #666;
+}
+
+/* Form Group */
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.optional {
+  font-weight: 400;
+  color: #888;
+  font-size: 12px;
+}
+
+.formGroup textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+.charCount {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* LGPD Notice */
+.lgpdNotice {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+}
+
+.lgpdNotice svg {
+  flex-shrink: 0;
+  color: #16a34a;
+  margin-top: 2px;
+}
+
+.lgpdNotice p {
+  font-size: 12px;
+  color: #333;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.lgpdNotice a {
+  color: #16a34a;
+  text-decoration: underline;
+}
+
+/* Modal Actions */
+.modalActions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 12px 20px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: #e0e0e0;
+}
+
+.submitButton {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .modal {
+    max-height: 100vh;
+    border-radius: 16px 16px 0 0;
+    margin-top: auto;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .cancelButton,
+  .submitButton {
+    flex: none;
+    width: 100%;
+  }
+}

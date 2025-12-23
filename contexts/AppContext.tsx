@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, type ReactNode } from 'react';
+import { AuthProvider } from './AuthContext';
 
 interface AppContextType {
   isAdmin: boolean
@@ -15,7 +16,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
 
-  return <AppContext.Provider value={{ isAdmin, setIsAdmin, isLogged, setIsLogged }}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={{ isAdmin, setIsAdmin, isLogged, setIsLogged }}>
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </AppContext.Provider>
+  );
 }
 
 export function useApp() {

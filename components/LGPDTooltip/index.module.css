@@ -1,0 +1,210 @@
+.container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trigger:hover {
+  background-color: #c8e6c9;
+  transform: scale(1.1);
+}
+
+.trigger:focus {
+  outline: 2px solid #2e7d32;
+  outline-offset: 2px;
+}
+
+.trigger.sensitive {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.trigger.sensitive:hover {
+  background-color: #ffe0b2;
+}
+
+.trigger.sensitive:focus {
+  outline-color: #e65100;
+}
+
+.tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  border-left: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  border-radius: 12px 12px 0 0;
+  color: #ffffff;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 14px;
+  flex: 1;
+}
+
+.optionalBadge,
+.sensitiveBadge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.optionalBadge {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.sensitiveBadge {
+  background-color: #ff9800;
+  color: #ffffff;
+}
+
+.content {
+  padding: 16px;
+}
+
+.section {
+  margin-bottom: 12px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.section strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.section p {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.footer {
+  padding: 10px 16px;
+  background-color: #f5f5f5;
+  border-radius: 0 0 12px 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.governmentNote {
+  font-size: 11px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Label component styles */
+.label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.labelText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.optionalText {
+  font-size: 12px;
+  color: #888;
+  font-weight: 400;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .tooltip {
+    width: calc(100vw - 32px);
+    left: auto;
+    right: -8px;
+    transform: none;
+  }
+
+  .tooltip::before {
+    left: auto;
+    right: 16px;
+    transform: rotate(45deg);
+  }
+}
