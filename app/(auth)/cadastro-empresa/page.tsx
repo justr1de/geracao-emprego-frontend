@@ -275,7 +275,7 @@ export default function CadastroEmpresaPage() {
         <aside className={styles.sideColumn}>
           <Link href="https://www.rondonia.ro.gov.br" target="_blank" rel="noopener noreferrer">
             <Image
-              src="/logos/governo-ro.png"
+              src="/logos/governo-ro.jpg"
               alt="Governo de Rondônia"
               width={180}
               height={100}
