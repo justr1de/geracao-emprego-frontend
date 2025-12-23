@@ -1,0 +1,259 @@
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.recaptchaContainer {
+  position: absolute;
+  left: -9999px;
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.iconWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  color: #1a5f2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.iconWrapper.success {
+  background: #dcfce7;
+  color: #16a34a;
+  animation: pulse 0.5s ease;
+}
+
+.iconWrapper.error {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+}
+
+.description {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+}
+
+.phoneDisplay {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a5f2a;
+  margin: 0 0 1.5rem 0;
+  padding: 0.75rem 1.25rem;
+  background: #f0fdf4;
+  border-radius: 8px;
+}
+
+/* Code Inputs */
+.codeInputs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.codeInput {
+  width: 48px;
+  height: 56px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1a1a1a;
+  transition: all 0.2s;
+  -moz-appearance: textfield;
+}
+
+.codeInput::-webkit-outer-spin-button,
+.codeInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.codeInput:focus {
+  outline: none;
+  border-color: #1a5f2a;
+  box-shadow: 0 0 0 3px rgba(26, 95, 42, 0.1);
+}
+
+.codeInput:not(:placeholder-shown) {
+  border-color: #1a5f2a;
+  background: #f0fdf4;
+}
+
+/* Error Message */
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #fef2f2;
+  color: #dc2626;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.primaryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: #1a5f2a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: #155724;
+  transform: translateY(-1px);
+}
+
+.primaryButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: white;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.secondaryButton:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.resendButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  color: #1a5f2a;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.resendButton:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.resendButton:disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.helpText {
+  font-size: 0.8125rem;
+  color: #9ca3af;
+  margin: 1rem 0 0 0;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .stepContent {
+    padding: 1.5rem;
+  }
+
+  .codeInput {
+    width: 42px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .codeInputs {
+    gap: 0.375rem;
+  }
+}
