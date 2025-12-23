@@ -449,14 +449,14 @@
 
 /* Sidebar */
 .sidebar {
-  position: sticky;
-  top: 100px;
+  position: relative;
   height: fit-content;
+  margin-top: 2.75rem; /* Alinhar com o início dos cards de cursos (após o header "X cursos encontrados") */
 }
 
 @media (max-width: 1023px) {
   .sidebar {
-    position: static;
+    margin-top: 0;
   }
 }
 
