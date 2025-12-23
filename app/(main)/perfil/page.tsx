@@ -1,108 +1,749 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Shield, Award, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Shield, Award, ThumbsUp, ThumbsDown, User, Briefcase, GraduationCap, Star, Bell, Lock, FileText } from 'lucide-react';
+import { useAuthContext as useAuth } from '@/contexts/AuthContext';
 import styles from './page.module.css';
 
-export default function ProfilePage() {
+interface Experiencia {
+  id: string;
+  cargo: string;
+  empresa: string;
+  dataInicio: string;
+  dataFim: string;
+  atual: boolean;
+  descricao: string;
+}
+
+interface Formacao {
+  id: string;
+  curso: string;
+  instituicao: string;
+  nivel: string;
+  dataInicio: string;
+  dataConclusao: string;
+  emAndamento: boolean;
+}
+
+interface Habilidade {
+  id: string;
+  nome: string;
+  nivel: 'basico' | 'intermediario' | 'avancado';
+}
+
+interface PerfilData {
+  nome: string;
+  sobrenome: string;
+  email: string;
+  telefone: string;
+  cpf: string;
+  dataNascimento: string;
+  genero: string;
+  foto: string | null;
+  curriculo: string | null;
+  curriculoNome: string | null;
+  sobre: string;
+  pretensaoSalarial: string;
+  disponibilidade: string;
+  cidade: string;
+  estado: string;
+  experiencias: Experiencia[];
+  formacoes: Formacao[];
+  habilidades: Habilidade[];
+}
+
+function ProfileContent() {
   const searchParams = useSearchParams();
-  const initialTab = searchParams.get('tab') || 'profile';
+  const initialTab = searchParams.get('tab') || 'dados';
+  const { user, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState(initialTab);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  
+  const fotoInputRef = useRef<HTMLInputElement>(null);
+  const curriculoInputRef = useRef<HTMLInputElement>(null);
+  
+  const [perfil, setPerfil] = useState<PerfilData>({
+    nome: '',
+    sobrenome: '',
+    email: '',
+    telefone: '',
+    cpf: '',
+    dataNascimento: '',
+    genero: '',
+    foto: null,
+    curriculo: null,
+    curriculoNome: null,
+    sobre: '',
+    pretensaoSalarial: '',
+    disponibilidade: 'imediata',
+    cidade: '',
+    estado: 'RO',
+    experiencias: [],
+    formacoes: [],
+    habilidades: [],
+  });
+
+  // Carregar dados do perfil
+  useEffect(() => {
+    const loadPerfil = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/candidatos/${user.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setPerfil(prev => ({ ...prev, ...data }));
+        }
+      } catch (error) {
+        console.error('Erro ao carregar perfil:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    if (!authLoading) {
+      loadPerfil();
+    }
+  }, [user, authLoading]);
+
+  // Salvar perfil
+  const handleSave = async () => {
+    setSaving(true);
+    setMessage(null);
+    
+    try {
+      const response = await fetch('/api/candidatos', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(perfil),
+      });
+      
+      if (response.ok) {
+        setMessage({ type: 'success', text: 'Perfil salvo com sucesso!' });
+      } else {
+        throw new Error('Erro ao salvar');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Erro ao salvar perfil. Tente novamente.' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Upload de foto
+  const handleFotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    if (file.size > 2 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'A foto deve ter no máximo 2MB' });
+      return;
+    }
+    
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      setMessage({ type: 'error', text: 'Formato inválido. Use JPG, PNG ou WebP' });
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setPerfil(prev => ({ ...prev, foto: e.target?.result as string }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Upload de currículo
+  const handleCurriculoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'O currículo deve ter no máximo 5MB' });
+      return;
+    }
+    
+    if (!['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type)) {
+      setMessage({ type: 'error', text: 'Formato inválido. Use PDF ou Word' });
+      return;
+    }
+    
+    setPerfil(prev => ({ ...prev, curriculoNome: file.name }));
+    setMessage({ type: 'success', text: 'Currículo carregado com sucesso!' });
+  };
+
+  // Funções para experiências
+  const addExperiencia = () => {
+    setPerfil(prev => ({
+      ...prev,
+      experiencias: [...prev.experiencias, {
+        id: `exp-${Date.now()}`,
+        cargo: '',
+        empresa: '',
+        dataInicio: '',
+        dataFim: '',
+        atual: false,
+        descricao: '',
+      }],
+    }));
+  };
+
+  const removeExperiencia = (id: string) => {
+    setPerfil(prev => ({
+      ...prev,
+      experiencias: prev.experiencias.filter(exp => exp.id !== id),
+    }));
+  };
+
+  const updateExperiencia = (id: string, field: keyof Experiencia, value: string | boolean) => {
+    setPerfil(prev => ({
+      ...prev,
+      experiencias: prev.experiencias.map(exp =>
+        exp.id === id ? { ...exp, [field]: value } : exp
+      ),
+    }));
+  };
+
+  // Funções para formações
+  const addFormacao = () => {
+    setPerfil(prev => ({
+      ...prev,
+      formacoes: [...prev.formacoes, {
+        id: `form-${Date.now()}`,
+        curso: '',
+        instituicao: '',
+        nivel: 'medio',
+        dataInicio: '',
+        dataConclusao: '',
+        emAndamento: false,
+      }],
+    }));
+  };
+
+  const removeFormacao = (id: string) => {
+    setPerfil(prev => ({
+      ...prev,
+      formacoes: prev.formacoes.filter(form => form.id !== id),
+    }));
+  };
+
+  const updateFormacao = (id: string, field: keyof Formacao, value: string | boolean) => {
+    setPerfil(prev => ({
+      ...prev,
+      formacoes: prev.formacoes.map(form =>
+        form.id === id ? { ...form, [field]: value } : form
+      ),
+    }));
+  };
+
+  // Funções para habilidades
+  const addHabilidade = (nome?: string) => {
+    if (nome && perfil.habilidades.find(h => h.nome === nome)) return;
+    setPerfil(prev => ({
+      ...prev,
+      habilidades: [...prev.habilidades, {
+        id: `hab-${Date.now()}`,
+        nome: nome || '',
+        nivel: 'intermediario',
+      }],
+    }));
+  };
+
+  const removeHabilidade = (id: string) => {
+    setPerfil(prev => ({
+      ...prev,
+      habilidades: prev.habilidades.filter(hab => hab.id !== id),
+    }));
+  };
+
+  const updateHabilidade = (id: string, field: keyof Habilidade, value: string) => {
+    setPerfil(prev => ({
+      ...prev,
+      habilidades: prev.habilidades.map(hab =>
+        hab.id === id ? { ...hab, [field]: value } : hab
+      ),
+    }));
+  };
+
+  // Calcular completude do perfil
+  const calculateCompletude = (): number => {
+    let total = 0;
+    let preenchido = 0;
+    
+    const camposBasicos = ['nome', 'sobrenome', 'email', 'telefone', 'cidade', 'sobre'];
+    total += camposBasicos.length * 4;
+    camposBasicos.forEach(campo => {
+      if (perfil[campo as keyof PerfilData]) preenchido += 4;
+    });
+    
+    total += 20;
+    if (perfil.curriculoNome) preenchido += 20;
+    
+    total += 20;
+    if (perfil.experiencias.length > 0) preenchido += 20;
+    
+    total += 10;
+    if (perfil.formacoes.length > 0) preenchido += 10;
+    
+    total += 10;
+    if (perfil.habilidades.length >= 3) preenchido += 10;
+    else if (perfil.habilidades.length > 0) preenchido += 5;
+    
+    return Math.round((preenchido / total) * 100);
+  };
+
+  if (authLoading || loading) {
+    return (
+      <div className={styles.loading}>
+        <div className={styles.spinner}></div>
+        <p>Carregando perfil...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className={styles.notLogged}>
+        <User size={48} />
+        <h2>Acesso Restrito</h2>
+        <p>Você precisa estar logado para acessar seu perfil.</p>
+        <Link href="/login" className={styles.loginButton}>
+          Fazer Login
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
+      {/* Header do Perfil */}
       <div className={styles.profileHeader}>
         <div className={styles.avatarSection}>
-          <div className={styles.avatar}>JD</div>
+          <div 
+            className={styles.avatar}
+            onClick={() => fotoInputRef.current?.click()}
+            style={{ cursor: 'pointer' }}
+          >
+            {perfil.foto ? (
+              <Image src={perfil.foto} alt="Foto" width={100} height={100} />
+            ) : (
+              <span>{perfil.nome?.[0] || 'U'}{perfil.sobrenome?.[0] || ''}</span>
+            )}
+          </div>
+          <input
+            ref={fotoInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleFotoUpload}
+            style={{ display: 'none' }}
+          />
           <div className={styles.badges}>
-            <div className={styles.badge} title="Selo de Contratado">
-              <Award size={16} />
-              <span>Contratado</span>
-            </div>
-            <div className={`${styles.badge} ${styles.vulnerability}`} title="Selo de Vulnerabilidade">
+            <div className={styles.badge} title="Perfil Verificado">
               <Shield size={16} />
-              <span>Vulnerabilidade</span>
+              <span>Verificado</span>
             </div>
           </div>
         </div>
         <div className={styles.profileInfo}>
-          <h1 className={styles.profileName}>João da Silva</h1>
-          <p className={styles.profileRole}>Desenvolvedor Full Stack</p>
-          <p className={styles.profileLocation}>São Paulo, SP</p>
+          <h1 className={styles.profileName}>{perfil.nome} {perfil.sobrenome}</h1>
+          <p className={styles.profileLocation}>{perfil.cidade}, {perfil.estado}</p>
+          <div className={styles.completude}>
+            <span>Perfil {calculateCompletude()}% completo</span>
+            <div className={styles.progressBar}>
+              <div className={styles.progress} style={{ width: `${calculateCompletude()}%` }}></div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.curriculoSection}>
+          <FileText size={24} />
+          {perfil.curriculoNome ? (
+            <div>
+              <p className={styles.curriculoNome}>{perfil.curriculoNome}</p>
+              <button onClick={() => curriculoInputRef.current?.click()}>Substituir</button>
+            </div>
+          ) : (
+            <button onClick={() => curriculoInputRef.current?.click()}>
+              Enviar Currículo
+            </button>
+          )}
+          <input
+            ref={curriculoInputRef}
+            type="file"
+            accept=".pdf,.doc,.docx"
+            onChange={handleCurriculoUpload}
+            style={{ display: 'none' }}
+          />
         </div>
       </div>
 
+      {message && (
+        <div className={`${styles.message} ${styles[message.type]}`}>
+          {message.text}
+        </div>
+      )}
+
+      {/* Tabs de navegação */}
       <div className={styles.tabs}>
         <button
-          className={`${styles.tab} ${activeTab === 'profile' ? styles.active : ''}`}
-          onClick={() => setActiveTab('profile')}
+          className={`${styles.tab} ${activeTab === 'dados' ? styles.active : ''}`}
+          onClick={() => setActiveTab('dados')}
         >
-          Perfil
+          <User size={18} /> Dados Pessoais
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'experiencia' ? styles.active : ''}`}
+          onClick={() => setActiveTab('experiencia')}
+        >
+          <Briefcase size={18} /> Experiência
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'formacao' ? styles.active : ''}`}
+          onClick={() => setActiveTab('formacao')}
+        >
+          <GraduationCap size={18} /> Formação
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'habilidades' ? styles.active : ''}`}
+          onClick={() => setActiveTab('habilidades')}
+        >
+          <Star size={18} /> Habilidades
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'security' ? styles.active : ''}`}
           onClick={() => setActiveTab('security')}
         >
-          Histórico de Segurança
+          <Lock size={18} /> Segurança
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'notifications' ? styles.active : ''}`}
           onClick={() => setActiveTab('notifications')}
         >
-          Notificações
-        </button>
-        <button
-          className={`${styles.tab} ${activeTab === 'feedback' ? styles.active : ''}`}
-          onClick={() => setActiveTab('feedback')}
-        >
-          Avaliações
+          <Bell size={18} /> Notificações
         </button>
       </div>
 
+      {/* Conteúdo das Tabs */}
       <div className={styles.content}>
-        {activeTab === 'profile' && (
+        {/* Tab Dados Pessoais */}
+        {activeTab === 'dados' && (
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Informações do Perfil</h2>
-            <p>Conteúdo do perfil do usuário...</p>
+            <h2 className={styles.sectionTitle}>Informações Pessoais</h2>
+            <div className={styles.formGrid}>
+              <div className={styles.formGroup}>
+                <label>Nome</label>
+                <input
+                  type="text"
+                  value={perfil.nome}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, nome: e.target.value }))}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Sobrenome</label>
+                <input
+                  type="text"
+                  value={perfil.sobrenome}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, sobrenome: e.target.value }))}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>E-mail</label>
+                <input
+                  type="email"
+                  value={perfil.email}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, email: e.target.value }))}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Telefone</label>
+                <input
+                  type="tel"
+                  value={perfil.telefone}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, telefone: e.target.value }))}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>CPF</label>
+                <input type="text" value={perfil.cpf} disabled className={styles.disabled} />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Data de Nascimento</label>
+                <input
+                  type="date"
+                  value={perfil.dataNascimento}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, dataNascimento: e.target.value }))}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Cidade</label>
+                <input
+                  type="text"
+                  value={perfil.cidade}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, cidade: e.target.value }))}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Estado</label>
+                <select
+                  value={perfil.estado}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, estado: e.target.value }))}
+                >
+                  <option value="RO">Rondônia</option>
+                  <option value="AC">Acre</option>
+                  <option value="AM">Amazonas</option>
+                  <option value="MT">Mato Grosso</option>
+                </select>
+              </div>
+            </div>
+            <div className={styles.formGroup + ' ' + styles.fullWidth}>
+              <label>Sobre mim</label>
+              <textarea
+                value={perfil.sobre}
+                onChange={(e) => setPerfil(prev => ({ ...prev, sobre: e.target.value }))}
+                placeholder="Conte um pouco sobre você..."
+                rows={4}
+              />
+            </div>
+            <div className={styles.formGrid}>
+              <div className={styles.formGroup}>
+                <label>Pretensão Salarial</label>
+                <input
+                  type="text"
+                  value={perfil.pretensaoSalarial}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, pretensaoSalarial: e.target.value }))}
+                  placeholder="Ex: R$ 2.000,00"
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Disponibilidade</label>
+                <select
+                  value={perfil.disponibilidade}
+                  onChange={(e) => setPerfil(prev => ({ ...prev, disponibilidade: e.target.value }))}
+                >
+                  <option value="imediata">Imediata</option>
+                  <option value="15dias">15 dias</option>
+                  <option value="30dias">30 dias</option>
+                  <option value="negociar">A negociar</option>
+                </select>
+              </div>
+            </div>
           </div>
         )}
 
+        {/* Tab Experiência */}
+        {activeTab === 'experiencia' && (
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Experiências Profissionais</h2>
+              <button className={styles.addButton} onClick={addExperiencia}>
+                + Adicionar
+              </button>
+            </div>
+            {perfil.experiencias.length === 0 ? (
+              <div className={styles.emptyState}>
+                <Briefcase size={48} />
+                <p>Nenhuma experiência cadastrada</p>
+                <button onClick={addExperiencia}>Adicionar primeira experiência</button>
+              </div>
+            ) : (
+              perfil.experiencias.map((exp) => (
+                <div key={exp.id} className={styles.itemCard}>
+                  <button className={styles.removeBtn} onClick={() => removeExperiencia(exp.id)}>✕</button>
+                  <div className={styles.formGrid}>
+                    <div className={styles.formGroup}>
+                      <label>Cargo</label>
+                      <input
+                        type="text"
+                        value={exp.cargo}
+                        onChange={(e) => updateExperiencia(exp.id, 'cargo', e.target.value)}
+                        placeholder="Ex: Auxiliar Administrativo"
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label>Empresa</label>
+                      <input
+                        type="text"
+                        value={exp.empresa}
+                        onChange={(e) => updateExperiencia(exp.id, 'empresa', e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label>Início</label>
+                      <input
+                        type="month"
+                        value={exp.dataInicio}
+                        onChange={(e) => updateExperiencia(exp.id, 'dataInicio', e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label>Término</label>
+                      <input
+                        type="month"
+                        value={exp.dataFim}
+                        onChange={(e) => updateExperiencia(exp.id, 'dataFim', e.target.value)}
+                        disabled={exp.atual}
+                      />
+                    </div>
+                  </div>
+                  <label className={styles.checkbox}>
+                    <input
+                      type="checkbox"
+                      checked={exp.atual}
+                      onChange={(e) => updateExperiencia(exp.id, 'atual', e.target.checked)}
+                    />
+                    Trabalho atual
+                  </label>
+                  <div className={styles.formGroup}>
+                    <label>Descrição</label>
+                    <textarea
+                      value={exp.descricao}
+                      onChange={(e) => updateExperiencia(exp.id, 'descricao', e.target.value)}
+                      rows={3}
+                    />
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* Tab Formação */}
+        {activeTab === 'formacao' && (
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Formação Acadêmica</h2>
+              <button className={styles.addButton} onClick={addFormacao}>
+                + Adicionar
+              </button>
+            </div>
+            {perfil.formacoes.length === 0 ? (
+              <div className={styles.emptyState}>
+                <GraduationCap size={48} />
+                <p>Nenhuma formação cadastrada</p>
+                <button onClick={addFormacao}>Adicionar primeira formação</button>
+              </div>
+            ) : (
+              perfil.formacoes.map((form) => (
+                <div key={form.id} className={styles.itemCard}>
+                  <button className={styles.removeBtn} onClick={() => removeFormacao(form.id)}>✕</button>
+                  <div className={styles.formGrid}>
+                    <div className={styles.formGroup}>
+                      <label>Curso</label>
+                      <input
+                        type="text"
+                        value={form.curso}
+                        onChange={(e) => updateFormacao(form.id, 'curso', e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label>Instituição</label>
+                      <input
+                        type="text"
+                        value={form.instituicao}
+                        onChange={(e) => updateFormacao(form.id, 'instituicao', e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label>Nível</label>
+                      <select
+                        value={form.nivel}
+                        onChange={(e) => updateFormacao(form.id, 'nivel', e.target.value)}
+                      >
+                        <option value="fundamental">Fundamental</option>
+                        <option value="medio">Médio</option>
+                        <option value="tecnico">Técnico</option>
+                        <option value="superior">Superior</option>
+                        <option value="pos">Pós-Graduação</option>
+                      </select>
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label>Conclusão</label>
+                      <input
+                        type="number"
+                        value={form.dataConclusao}
+                        onChange={(e) => updateFormacao(form.id, 'dataConclusao', e.target.value)}
+                        disabled={form.emAndamento}
+                        placeholder="2024"
+                      />
+                    </div>
+                  </div>
+                  <label className={styles.checkbox}>
+                    <input
+                      type="checkbox"
+                      checked={form.emAndamento}
+                      onChange={(e) => updateFormacao(form.id, 'emAndamento', e.target.checked)}
+                    />
+                    Em andamento
+                  </label>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* Tab Habilidades */}
+        {activeTab === 'habilidades' && (
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Habilidades</h2>
+              <button className={styles.addButton} onClick={() => addHabilidade()}>
+                + Adicionar
+              </button>
+            </div>
+            <div className={styles.habilidadesGrid}>
+              {perfil.habilidades.map((hab) => (
+                <div key={hab.id} className={styles.habilidadeCard}>
+                  <button className={styles.removeBtn} onClick={() => removeHabilidade(hab.id)}>✕</button>
+                  <input
+                    type="text"
+                    value={hab.nome}
+                    onChange={(e) => updateHabilidade(hab.id, 'nome', e.target.value)}
+                    placeholder="Nome da habilidade"
+                  />
+                  <select
+                    value={hab.nivel}
+                    onChange={(e) => updateHabilidade(hab.id, 'nivel', e.target.value)}
+                  >
+                    <option value="basico">Básico</option>
+                    <option value="intermediario">Intermediário</option>
+                    <option value="avancado">Avançado</option>
+                  </select>
+                </div>
+              ))}
+            </div>
+            <div className={styles.sugestoes}>
+              <h4>Sugestões:</h4>
+              <div className={styles.tags}>
+                {['Pacote Office', 'Atendimento ao Cliente', 'Trabalho em Equipe', 'Comunicação', 'Organização', 'Proatividade', 'Informática', 'Vendas'].map((s) => (
+                  <button key={s} onClick={() => addHabilidade(s)} className={styles.tagBtn}>
+                    + {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tab Segurança */}
         {activeTab === 'security' && (
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}>Histórico de Segurança</h2>
             <div className={styles.securityTable}>
               <div className={styles.tableHeader}>
                 <span>Data/Hora</span>
-                <span>Endereço IP</span>
+                <span>IP</span>
                 <span>Dispositivo</span>
-                <span>Localização</span>
+                <span>Local</span>
               </div>
               {[
-                {
-                  date: '21/12/2024 14:35',
-                  ip: '192.168.1.100',
-                  device: 'Chrome - Windows 10',
-                  location: 'São Paulo, SP',
-                },
-                {
-                  date: '20/12/2024 09:12',
-                  ip: '192.168.1.100',
-                  device: 'Chrome - Windows 10',
-                  location: 'São Paulo, SP',
-                },
-                {
-                  date: '19/12/2024 16:48',
-                  ip: '192.168.1.101',
-                  device: 'Safari - iPhone 14',
-                  location: 'São Paulo, SP',
-                },
-                {
-                  date: '18/12/2024 11:22',
-                  ip: '192.168.1.100',
-                  device: 'Chrome - Windows 10',
-                  location: 'São Paulo, SP',
-                },
+                { date: '23/12/2024 14:35', ip: '192.168.1.100', device: 'Chrome - Windows', location: 'Porto Velho, RO' },
+                { date: '22/12/2024 09:12', ip: '192.168.1.100', device: 'Chrome - Windows', location: 'Porto Velho, RO' },
               ].map((log, i) => (
                 <div key={i} className={styles.tableRow}>
                   <span>{log.date}</span>
@@ -115,37 +756,51 @@ export default function ProfilePage() {
           </div>
         )}
 
+        {/* Tab Notificações */}
         {activeTab === 'notifications' && (
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Todas as Notificações</h2>
-            <p>Lista completa de notificações e matches...</p>
-          </div>
-        )}
-
-        {activeTab === 'feedback' && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Avaliação de Contratação</h2>
-            <p className={styles.feedbackDescription}>Para empresas: avalie suas contratações encerradas</p>
-            <div className={styles.feedbackWidget}>
-              <div className={styles.feedbackItem}>
-                <h3>Vaga: Desenvolvedor Frontend</h3>
-                <p>Candidato: João da Silva</p>
-                <p className={styles.feedbackDate}>Contratado em: 15/11/2024</p>
-                <div className={styles.feedbackButtons}>
-                  <button className={styles.feedbackBtn}>
-                    <ThumbsUp size={20} />
-                    Positiva
-                  </button>
-                  <button className={`${styles.feedbackBtn} ${styles.negative}`}>
-                    <ThumbsDown size={20} />
-                    Negativa
-                  </button>
+            <h2 className={styles.sectionTitle}>Preferências de Notificação</h2>
+            <div className={styles.notificationSettings}>
+              <label className={styles.notificationOption}>
+                <input type="checkbox" defaultChecked />
+                <div>
+                  <strong>E-mail</strong>
+                  <p>Receber notificações por e-mail</p>
                 </div>
-              </div>
+              </label>
+              <label className={styles.notificationOption}>
+                <input type="checkbox" defaultChecked />
+                <div>
+                  <strong>SMS/WhatsApp</strong>
+                  <p>Receber notificações por SMS ou WhatsApp</p>
+                </div>
+              </label>
+              <label className={styles.notificationOption}>
+                <input type="checkbox" defaultChecked />
+                <div>
+                  <strong>Push</strong>
+                  <p>Receber notificações push no navegador</p>
+                </div>
+              </label>
             </div>
           </div>
         )}
       </div>
+
+      {/* Botão Salvar */}
+      <div className={styles.actions}>
+        <button className={styles.saveButton} onClick={handleSave} disabled={saving}>
+          {saving ? 'Salvando...' : 'Salvar Alterações'}
+        </button>
+      </div>
     </div>
+  );
+}
+
+export default function PerfilPage() {
+  return (
+    <Suspense fallback={<div className={styles.loading}><div className={styles.spinner}></div><p>Carregando...</p></div>}>
+      <ProfileContent />
+    </Suspense>
   );
 }
