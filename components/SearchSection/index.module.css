@@ -80,6 +80,17 @@
   background: var(--primary-dark);
 }
 
+/* Garantir que o texto do botão inativo fique visível no hover */
+.tab:not(.tabActive):hover {
+  color: var(--primary);
+  background: rgba(22, 163, 74, 0.1);
+}
+
+.tab:not(.tabActive):hover span,
+.tab:not(.tabActive):hover svg {
+  opacity: 1;
+}
+
 /* Search Panel */
 .searchPanel {
   background: var(--card);
