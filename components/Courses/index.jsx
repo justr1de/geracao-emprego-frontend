@@ -2,6 +2,7 @@
 
 import { Clock, Users, ArrowRight, ExternalLink, Award, Bell } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './index.module.css';
 
 export default function Courses() {
@@ -51,7 +52,7 @@ export default function Courses() {
       name: 'Fundação Bradesco',
       description: 'Cursos de tecnologia e negócios',
       url: 'https://www.ev.org.br/',
-      logo: '/logos/bradesco.png',
+      logo: '/logos/bradesco.jpg',
       color: '#CC092F',
     },
     {
@@ -67,7 +68,7 @@ export default function Courses() {
       name: 'Cisco Networking Academy',
       description: 'Cursos de TI e redes',
       url: 'https://www.netacad.com/',
-      logo: '/logos/cisco.png',
+      logo: '/logos/cisco.jpg',
       color: '#049FD9',
     },
     {
@@ -163,9 +164,14 @@ export default function Courses() {
                 aria-label={`Acessar cursos do ${platform.name} (abre em nova janela)`}
               >
                 <div className={styles.externalLogo}>
-                  <span className={styles.logoPlaceholder} style={{ backgroundColor: platform.color }}>
-                    {platform.name.charAt(0)}
-                  </span>
+                  <Image
+                    src={platform.logo}
+                    alt={`Logo ${platform.name}`}
+                    width={48}
+                    height={48}
+                    className={styles.platformLogo}
+                    style={{ objectFit: 'contain' }}
+                  />
                 </div>
                 <div className={styles.externalInfo}>
                   <h3 className={styles.externalName}>{platform.name}</h3>
