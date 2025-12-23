@@ -451,14 +451,12 @@ export default function CadastroPage() {
   // Renderizar indicador de progresso
   const renderProgressIndicator = () => {
     const etapas = [
-      { num: 1, label: 'Telefone' },
-      { num: 2, label: 'Código' },
-      { num: 3, label: 'Dados' },
-      { num: 4, label: 'Endereço' },
-      { num: 5, label: 'Experiência' },
-      { num: 6, label: 'Formação' },
-      { num: 7, label: 'Habilidades' },
-      { num: 8, label: 'Preferências' }
+      { num: 1, label: 'Dados' },
+      { num: 2, label: 'Endereço' },
+      { num: 3, label: 'Experiência' },
+      { num: 4, label: 'Formação' },
+      { num: 5, label: 'Habilidades' },
+      { num: 6, label: 'Preferências' }
     ];
 
     return (
@@ -466,7 +464,7 @@ export default function CadastroPage() {
         <div className={styles.progressBar}>
           <div 
             className={styles.progressFill} 
-            style={{ width: `${((step - 1) / 7) * 100}%` }}
+            style={{ width: `${((step - 1) / 5) * 100}%` }}
           />
         </div>
         <div className={styles.stepIndicator}>
