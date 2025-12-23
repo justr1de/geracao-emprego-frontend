@@ -33,11 +33,11 @@ export async function POST(request: NextRequest) {
 
     const supabase = createAdminClient()
 
-    // 1. Criar usuário no Supabase Auth
+    // 1. Criar usuário no Supabase Auth (sem auto-confirmar e-mail)
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
-      email_confirm: true, // Auto-confirmar email para simplificar
+      email_confirm: false, // Requer confirmação por e-mail
       user_metadata: {
         nome_completo,
         tipo_usuario,
@@ -98,9 +98,24 @@ export async function POST(request: NextRequest) {
     // 3. Registrar aceite LGPD (se houver tabela para isso)
     // TODO: Criar tabela lgpd_consents para auditoria
 
+    // 4. Gerar link de confirmação de e-mail
+    const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+      type: 'signup',
+      email,
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'https://geracao-emprego-dev.vercel.app'}/auth/callback?type=email_confirmation`
+      }
+    })
+
+    if (linkError) {
+      console.error('Erro ao gerar link de confirmação:', linkError)
+      // Não falha o cadastro, apenas loga o erro
+    }
+
     return NextResponse.json({
       success: true,
-      message: 'Cadastro realizado com sucesso',
+      message: 'Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta.',
+      requiresEmailConfirmation: true,
       user: {
         id: userId,
         email: authData.user.email,

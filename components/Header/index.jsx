@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, X, User, LogIn, Home, Briefcase, GraduationCap, Building2 } from 'lucide-react';
+import { Menu, X, User, LogIn, Home, Briefcase, GraduationCap, Building2, BarChart3 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -39,6 +39,7 @@ export default function Header() {
     { href: '/vagas', label: 'Vagas', icon: Briefcase },
     { href: '/cursos', label: 'Cursos', icon: GraduationCap },
     { href: '/empresas', label: 'Empresas', icon: Building2 },
+    { href: '/observatorio', label: 'Observatório', icon: BarChart3 },
   ];
 
   return (

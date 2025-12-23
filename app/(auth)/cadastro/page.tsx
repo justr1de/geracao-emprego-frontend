@@ -36,6 +36,7 @@ import {
 } from 'lucide-react';
 import styles from './page.module.css';
 import { LGPDTooltip } from '@/components/LGPDTooltip';
+import PasswordTooltip from '@/components/PasswordTooltip';
 
 // Interfaces para tipagem
 interface ExperienciaProfissional {
@@ -704,7 +705,10 @@ export default function CadastroPage() {
                   {/* Senhas */}
                   <div className={styles.inputRow}>
                     <div className={styles.inputGroup}>
-                      <label htmlFor="password">Senha *</label>
+                      <label htmlFor="password" className={styles.labelWithTooltip}>
+                        Senha *
+                        <PasswordTooltip password={formData.password} showValidation={true} />
+                      </label>
                       <div className={styles.inputWrapper}>
                         <Lock size={20} className={styles.inputIcon} aria-hidden="true" />
                         <input 
@@ -728,7 +732,10 @@ export default function CadastroPage() {
                       </div>
                     </div>
                     <div className={styles.inputGroup}>
-                      <label htmlFor="confirmPassword">Confirmar Senha *</label>
+                      <label htmlFor="confirmPassword" className={styles.labelWithTooltip}>
+                        Confirmar Senha *
+                        <PasswordTooltip />
+                      </label>
                       <div className={styles.inputWrapper}>
                         <Lock size={20} className={styles.inputIcon} aria-hidden="true" />
                         <input 
