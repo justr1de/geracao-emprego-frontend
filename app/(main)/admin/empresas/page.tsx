@@ -773,23 +773,69 @@ export default function AdminEmpresasPage() {
                                             </div>
                                           </div>
                                           <div className={`${styles.matchingScore} ${getScoreColor(candidato.score)}`}>
-                                            <div className={styles.scoreCircle}>
-                                              <svg viewBox="0 0 36 36" className={styles.scoreCircleSvg}>
-                                                <path
-                                                  className={styles.scoreCircleBg}
-                                                  d="M18 2.0845
-                                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                                                />
-                                                <path
-                                                  className={styles.scoreCircleProgress}
-                                                  strokeDasharray={`${candidato.score}, 100`}
-                                                  d="M18 2.0845
-                                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                                                />
-                                              </svg>
-                                              <span className={styles.scoreValue}>{candidato.score}%</span>
+                                            <div className={styles.scoreCircleWrapper}>
+                                              <div className={styles.scoreCircle}>
+                                                <svg viewBox="0 0 36 36" className={styles.scoreCircleSvg}>
+                                                  <path
+                                                    className={styles.scoreCircleBg}
+                                                    d="M18 2.0845
+                                                      a 15.9155 15.9155 0 0 1 0 31.831
+                                                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                  />
+                                                  <path
+                                                    className={styles.scoreCircleProgress}
+                                                    strokeDasharray={`${candidato.score}, 100`}
+                                                    d="M18 2.0845
+                                                      a 15.9155 15.9155 0 0 1 0 31.831
+                                                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                  />
+                                                </svg>
+                                                <span className={styles.scoreValue}>{candidato.score}%</span>
+                                              </div>
+                                              <div className={styles.scoreTooltip}>
+                                                <div className={styles.tooltipHeader}>Cálculo de Compatibilidade</div>
+                                                <div className={styles.tooltipContent}>
+                                                  <div className={styles.tooltipItem}>
+                                                    <span className={styles.tooltipLabel}>Localização</span>
+                                                    <span className={`${styles.tooltipValue} ${candidato.criterios?.localizacao?.match ? styles.tooltipMatch : styles.tooltipNoMatch}`}>
+                                                      {candidato.criterios?.localizacao?.match ? '✓ 30pts' : '✗ 0pts'}
+                                                    </span>
+                                                  </div>
+                                                  <div className={styles.tooltipItem}>
+                                                    <span className={styles.tooltipLabel}>Perfil Completo</span>
+                                                    <span className={`${styles.tooltipValue} ${candidato.criterios?.perfilCompleto?.completo ? styles.tooltipMatch : styles.tooltipNoMatch}`}>
+                                                      {candidato.criterios?.perfilCompleto?.percentual || 0}% ({candidato.criterios?.perfilCompleto?.completo ? '✓ 20pts' : `${Math.round((candidato.criterios?.perfilCompleto?.percentual || 0) * 0.2)}pts`})
+                                                    </span>
+                                                  </div>
+                                                  <div className={styles.tooltipItem}>
+                                                    <span className={styles.tooltipLabel}>CNH</span>
+                                                    <span className={`${styles.tooltipValue} ${!candidato.criterios?.cnh?.requerido ? styles.tooltipNA : (candidato.criterios?.cnh?.match ? styles.tooltipMatch : styles.tooltipNoMatch)}`}>
+                                                      {!candidato.criterios?.cnh?.requerido ? 'N/A' : (candidato.criterios?.cnh?.match ? '✓ 15pts' : '✗ 0pts')}
+                                                    </span>
+                                                  </div>
+                                                  <div className={styles.tooltipItem}>
+                                                    <span className={styles.tooltipLabel}>Veículo Próprio</span>
+                                                    <span className={`${styles.tooltipValue} ${!candidato.criterios?.veiculo?.requerido ? styles.tooltipNA : (candidato.criterios?.veiculo?.match ? styles.tooltipMatch : styles.tooltipNoMatch)}`}>
+                                                      {!candidato.criterios?.veiculo?.requerido ? 'N/A' : (candidato.criterios?.veiculo?.match ? '✓ 10pts' : '✗ 0pts')}
+                                                    </span>
+                                                  </div>
+                                                  <div className={styles.tooltipItem}>
+                                                    <span className={styles.tooltipLabel}>PCD</span>
+                                                    <span className={`${styles.tooltipValue} ${!candidato.criterios?.pcd?.vagaPCD ? styles.tooltipNA : (candidato.criterios?.pcd?.match ? styles.tooltipMatch : styles.tooltipNoMatch)}`}>
+                                                      {!candidato.criterios?.pcd?.vagaPCD ? 'N/A' : (candidato.criterios?.pcd?.match ? '✓ 15pts' : '✗ 0pts')}
+                                                    </span>
+                                                  </div>
+                                                  <div className={styles.tooltipItem}>
+                                                    <span className={styles.tooltipLabel}>Disponibilidade</span>
+                                                    <span className={`${styles.tooltipValue} ${styles.tooltipMatch}`}>
+                                                      ✓ 10pts
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                                <div className={styles.tooltipFooter}>
+                                                  <strong>Total: {candidato.score}pts</strong>
+                                                </div>
+                                              </div>
                                             </div>
                                             <small>{candidato.scoreLabel}</small>
                                           </div>
