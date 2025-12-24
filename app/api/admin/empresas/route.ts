@@ -7,10 +7,12 @@ import { createClient } from '@/lib/supabase/server'
  * Query params:
  * - search: busca por razão social, nome fantasia, CNPJ ou email
  * - cidade: filtrar por cidade
- * - ramo_atividade: filtrar por área de atuação/ramo de atividade
+ * - ramo_atuacao_id: filtrar por área de atuação (ID do ramo)
  * - page: página atual (default: 1)
  * - limit: itens por página (default: 10)
  * - includeVagas: incluir vagas da empresa (true/false)
+ * - getCidades: retornar lista de cidades únicas
+ * - getRamos: retornar lista de ramos de atuação
  */
 export async function GET(request: NextRequest) {
   try {
@@ -19,7 +21,7 @@ export async function GET(request: NextRequest) {
     
     const search = searchParams.get('search') || ''
     const cidade = searchParams.get('cidade') || ''
-    const ramoAtividade = searchParams.get('ramo_atividade') || ''
+    const ramoAtuacaoId = searchParams.get('ramo_atuacao_id') || ''
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
     const includeVagas = searchParams.get('includeVagas') === 'true'
@@ -45,22 +47,34 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ cidades: cidadesUnicas })
     }
 
-    // Se solicitado, retornar lista de ramos de atividade únicos
+    // Se solicitado, retornar lista de ramos de atuação
     if (getRamos) {
+      // Tentar buscar da tabela ramos_atuacao
       const { data: ramosData, error: ramosError } = await supabase
-        .from('empresas')
-        .select('ramo_atividade')
-        .not('ramo_atividade', 'is', null)
-        .order('ramo_atividade')
+        .from('ramos_atuacao')
+        .select('id, nome')
+        .order('nome')
 
       if (ramosError) {
         console.error('Erro ao buscar ramos:', ramosError)
-        return NextResponse.json({ ramos: [] })
+        // Fallback: retornar ramos hardcoded
+        return NextResponse.json({ 
+          ramos: [
+            { id: 1, nome: 'Comércio Varejista' },
+            { id: 2, nome: 'Construção Civil' },
+            { id: 3, nome: 'Saúde' },
+            { id: 4, nome: 'Alimentação' },
+            { id: 5, nome: 'Tecnologia da Informação' },
+            { id: 6, nome: 'Educação' },
+            { id: 7, nome: 'Indústria' },
+            { id: 8, nome: 'Serviços' },
+            { id: 9, nome: 'Agronegócio' },
+            { id: 10, nome: 'Transporte e Logística' }
+          ]
+        })
       }
 
-      // Extrair ramos únicos
-      const ramosUnicos = [...new Set(ramosData?.map(e => e.ramo_atividade).filter(Boolean))]
-      return NextResponse.json({ ramos: ramosUnicos })
+      return NextResponse.json({ ramos: ramosData || [] })
     }
 
     let query = supabase
@@ -77,9 +91,9 @@ export async function GET(request: NextRequest) {
       query = query.eq('cidade', cidade)
     }
 
-    // Aplicar filtro por ramo de atividade
-    if (ramoAtividade) {
-      query = query.eq('ramo_atividade', ramoAtividade)
+    // Aplicar filtro por ramo de atuação
+    if (ramoAtuacaoId) {
+      query = query.eq('ramo_atuacao_id', parseInt(ramoAtuacaoId))
     }
 
     // Aplicar paginação
@@ -95,8 +109,37 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    // Buscar nomes dos ramos de atuação
+    let ramosMap: Record<number, string> = {}
+    const { data: ramosData } = await supabase
+      .from('ramos_atuacao')
+      .select('id, nome')
+
+    if (ramosData) {
+      ramosData.forEach(r => {
+        ramosMap[r.id] = r.nome
+      })
+    } else {
+      // Fallback hardcoded
+      ramosMap = {
+        1: 'Comércio Varejista',
+        2: 'Construção Civil',
+        3: 'Saúde',
+        4: 'Alimentação',
+        5: 'Tecnologia da Informação',
+        6: 'Educação',
+        7: 'Indústria',
+        8: 'Serviços',
+        9: 'Agronegócio',
+        10: 'Transporte e Logística'
+      }
+    }
+
     // Se includeVagas for true, buscar vagas de cada empresa
-    let empresasComVagas = empresas || []
+    let empresasComVagas = (empresas || []).map(e => ({
+      ...e,
+      ramo_atividade: ramosMap[e.ramo_atuacao_id] || null
+    }))
     
     if (includeVagas && empresas && empresas.length > 0) {
       const empresaIds = empresas.map(e => e.id)
@@ -148,7 +191,7 @@ export async function GET(request: NextRequest) {
         })
 
         // Adicionar vagas às empresas
-        empresasComVagas = empresas.map(empresa => ({
+        empresasComVagas = empresasComVagas.map(empresa => ({
           ...empresa,
           vagas: vagasPorEmpresa[empresa.id] || [],
           totalVagas: (vagasPorEmpresa[empresa.id] || []).length,
@@ -196,6 +239,7 @@ export async function PUT(request: NextRequest) {
     delete updateData.vagas
     delete updateData.totalVagas
     delete updateData.vagasAbertas
+    delete updateData.ramo_atividade
 
     const { data, error } = await supabase
       .from('empresas')

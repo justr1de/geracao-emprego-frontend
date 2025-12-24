@@ -114,7 +114,7 @@ export default function AdminEmpresasPage() {
   const [cidadeFiltro, setCidadeFiltro] = useState('');
   const [ramoFiltro, setRamoFiltro] = useState('');
   const [cidades, setCidades] = useState<string[]>([]);
-  const [ramos, setRamos] = useState<string[]>([]);
+  const [ramos, setRamos] = useState<{id: number; nome: string}[]>([]);
   const [showFilters, setShowFilters] = useState(false);
 
   // Buscar lista de cidades e ramos para os filtros
@@ -151,7 +151,7 @@ export default function AdminEmpresasPage() {
         includeVagas: 'true',
         ...(search && { search }),
         ...(cidadeFiltro && { cidade: cidadeFiltro }),
-        ...(ramoFiltro && { ramo_atividade: ramoFiltro })
+        ...(ramoFiltro && { ramo_atuacao_id: ramoFiltro })
       });
 
       const response = await fetch(`/api/admin/empresas?${params}`);
@@ -482,7 +482,7 @@ export default function AdminEmpresasPage() {
               >
                 <option value="">Todas as áreas</option>
                 {ramos.map(ramo => (
-                  <option key={ramo} value={ramo}>{ramo}</option>
+                  <option key={ramo.id} value={ramo.id}>{ramo.nome}</option>
                 ))}
               </select>
             </div>
@@ -518,7 +518,7 @@ export default function AdminEmpresasPage() {
             )}
             {ramoFiltro && (
               <span className={styles.filterTag}>
-                Área: {ramoFiltro}
+                Área: {ramos.find(r => r.id === parseInt(ramoFiltro))?.nome || ramoFiltro}
                 <button onClick={() => setRamoFiltro('')}><X size={14} /></button>
               </span>
             )}
