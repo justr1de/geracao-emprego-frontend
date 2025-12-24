@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import styles from './page.module.css'
-import Link from 'next/link'
 
 interface Estatisticas {
   candidatos: {
@@ -66,9 +65,6 @@ export default function RelatoriosPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <Link href="/admin/dashboard" className={styles.backLink}>
-            ← Voltar ao Dashboard
-          </Link>
           <h1 className={styles.title}>Relatórios e Estatísticas</h1>
           <p className={styles.subtitle}>Visão geral do sistema Geração Emprego</p>
         </div>
