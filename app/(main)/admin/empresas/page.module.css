@@ -1085,3 +1085,212 @@
     margin-top: 0;
   }
 }
+
+
+/* Filtros */
+.filterToggleButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.filterToggleButton:hover {
+  border-color: #059669;
+  color: #059669;
+}
+
+.filterToggleButton.filterActive {
+  background: #ecfdf5;
+  border-color: #059669;
+  color: #059669;
+}
+
+.filterBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.filtersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.filterSelect {
+  padding: 0.625rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #374151;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filterSelect:hover {
+  border-color: #d1d5db;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+
+.clearFiltersButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: #fee2e2;
+  border: none;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-end;
+}
+
+.clearFiltersButton:hover {
+  background: #fecaca;
+}
+
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.activeFiltersLabel {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.filterTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.625rem;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #065f46;
+}
+
+.filterTag button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #059669;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.filterTag button:hover {
+  color: #dc2626;
+}
+
+.clearFiltersLink {
+  margin-top: 0.5rem;
+  color: #059669;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+.clearFiltersLink:hover {
+  color: #047857;
+}
+
+.empresaRamo {
+  flex: 1;
+  min-width: 100px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsivo para filtros */
+@media (max-width: 768px) {
+  .filtersContainer {
+    flex-direction: column;
+  }
+
+  .filterGroup {
+    min-width: 100%;
+  }
+
+  .clearFiltersButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .filterToggleButton {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .filterToggleButton span:last-child {
+    display: none;
+  }
+}

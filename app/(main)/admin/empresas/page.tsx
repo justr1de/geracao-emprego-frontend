@@ -27,7 +27,9 @@ import {
   MapPin,
   UserCheck,
   Target,
-  Star
+  Star,
+  Filter,
+  RotateCcw
 } from 'lucide-react';
 import styles from './page.module.css';
 
@@ -107,6 +109,38 @@ export default function AdminEmpresasPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [expandedEmpresas, setExpandedEmpresas] = useState<Set<string>>(new Set());
   const [expandedVagas, setExpandedVagas] = useState<Set<string>>(new Set());
+  
+  // Filtros
+  const [cidadeFiltro, setCidadeFiltro] = useState('');
+  const [ramoFiltro, setRamoFiltro] = useState('');
+  const [cidades, setCidades] = useState<string[]>([]);
+  const [ramos, setRamos] = useState<string[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Buscar lista de cidades e ramos para os filtros
+  useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        // Buscar cidades
+        const cidadesRes = await fetch('/api/admin/empresas?getCidades=true');
+        const cidadesData = await cidadesRes.json();
+        if (cidadesData.cidades) {
+          setCidades(cidadesData.cidades);
+        }
+
+        // Buscar ramos de atividade
+        const ramosRes = await fetch('/api/admin/empresas?getRamos=true');
+        const ramosData = await ramosRes.json();
+        if (ramosData.ramos) {
+          setRamos(ramosData.ramos);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar filtros:', error);
+      }
+    };
+
+    fetchFilters();
+  }, []);
 
   const fetchEmpresas = useCallback(async () => {
     setIsLoading(true);
@@ -115,7 +149,9 @@ export default function AdminEmpresasPage() {
         page: page.toString(),
         limit: '10',
         includeVagas: 'true',
-        ...(search && { search })
+        ...(search && { search }),
+        ...(cidadeFiltro && { cidade: cidadeFiltro }),
+        ...(ramoFiltro && { ramo_atividade: ramoFiltro })
       });
 
       const response = await fetch(`/api/admin/empresas?${params}`);
@@ -133,7 +169,7 @@ export default function AdminEmpresasPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [page, search]);
+  }, [page, search, cidadeFiltro, ramoFiltro]);
 
   useEffect(() => {
     fetchEmpresas();
@@ -143,6 +179,13 @@ export default function AdminEmpresasPage() {
     e.preventDefault();
     setPage(1);
     fetchEmpresas();
+  };
+
+  const handleClearFilters = () => {
+    setCidadeFiltro('');
+    setRamoFiltro('');
+    setSearch('');
+    setPage(1);
   };
 
   const handleEdit = (empresa: Empresa) => {
@@ -342,6 +385,8 @@ export default function AdminEmpresasPage() {
     return labels[escolaridade] || escolaridade || 'Não informado';
   };
 
+  const hasActiveFilters = cidadeFiltro || ramoFiltro || search;
+
   return (
     <div className={styles.page}>
       {/* Header */}
@@ -372,7 +417,7 @@ export default function AdminEmpresasPage() {
         </div>
       )}
 
-      {/* Search */}
+      {/* Search and Filters */}
       <div className={styles.searchSection}>
         <form onSubmit={handleSearch} className={styles.searchForm}>
           <div className={styles.searchInputWrapper}>
@@ -388,7 +433,97 @@ export default function AdminEmpresasPage() {
           <button type="submit" className={styles.searchButton}>
             Buscar
           </button>
+          <button 
+            type="button" 
+            className={`${styles.filterToggleButton} ${showFilters ? styles.filterActive : ''}`}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <Filter size={18} />
+            Filtros
+            {hasActiveFilters && <span className={styles.filterBadge}></span>}
+          </button>
         </form>
+
+        {/* Filtros Expandidos */}
+        {showFilters && (
+          <div className={styles.filtersContainer}>
+            <div className={styles.filterGroup}>
+              <label className={styles.filterLabel}>
+                <MapPin size={16} />
+                Cidade
+              </label>
+              <select 
+                value={cidadeFiltro} 
+                onChange={(e) => {
+                  setCidadeFiltro(e.target.value);
+                  setPage(1);
+                }}
+                className={styles.filterSelect}
+              >
+                <option value="">Todas as cidades</option>
+                {cidades.map(cidade => (
+                  <option key={cidade} value={cidade}>{cidade}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className={styles.filterGroup}>
+              <label className={styles.filterLabel}>
+                <Briefcase size={16} />
+                Área de Atuação
+              </label>
+              <select 
+                value={ramoFiltro} 
+                onChange={(e) => {
+                  setRamoFiltro(e.target.value);
+                  setPage(1);
+                }}
+                className={styles.filterSelect}
+              >
+                <option value="">Todas as áreas</option>
+                {ramos.map(ramo => (
+                  <option key={ramo} value={ramo}>{ramo}</option>
+                ))}
+              </select>
+            </div>
+
+            {hasActiveFilters && (
+              <button 
+                type="button" 
+                className={styles.clearFiltersButton}
+                onClick={handleClearFilters}
+              >
+                <RotateCcw size={16} />
+                Limpar filtros
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Tags de filtros ativos */}
+        {hasActiveFilters && (
+          <div className={styles.activeFilters}>
+            <span className={styles.activeFiltersLabel}>Filtros ativos:</span>
+            {search && (
+              <span className={styles.filterTag}>
+                Busca: "{search}"
+                <button onClick={() => setSearch('')}><X size={14} /></button>
+              </span>
+            )}
+            {cidadeFiltro && (
+              <span className={styles.filterTag}>
+                Cidade: {cidadeFiltro}
+                <button onClick={() => setCidadeFiltro('')}><X size={14} /></button>
+              </span>
+            )}
+            {ramoFiltro && (
+              <span className={styles.filterTag}>
+                Área: {ramoFiltro}
+                <button onClick={() => setRamoFiltro('')}><X size={14} /></button>
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Table */}
@@ -399,6 +534,11 @@ export default function AdminEmpresasPage() {
           <div className={styles.empty}>
             <Building2 size={48} />
             <p>Nenhuma empresa encontrada</p>
+            {hasActiveFilters && (
+              <button onClick={handleClearFilters} className={styles.clearFiltersLink}>
+                Limpar filtros e ver todas
+              </button>
+            )}
           </div>
         ) : (
           <div className={styles.empresasList}>
@@ -432,6 +572,9 @@ export default function AdminEmpresasPage() {
                   <div className={styles.empresaTelefone}>{empresa.telefone || '-'}</div>
                   <div className={styles.empresaCidade}>
                     {empresa.cidade ? `${empresa.cidade}/${empresa.estado}` : '-'}
+                  </div>
+                  <div className={styles.empresaRamo}>
+                    {empresa.ramo_atividade || '-'}
                   </div>
                   <div className={styles.empresaVagas}>
                     <span className={styles.vagasBadge}>

@@ -3,7 +3,14 @@ import { createClient } from '@/lib/supabase/server'
 
 /**
  * GET /api/admin/empresas
- * Lista todas as empresas com busca, paginação e vagas relacionadas
+ * Lista todas as empresas com busca, paginação, filtros e vagas relacionadas
+ * Query params:
+ * - search: busca por razão social, nome fantasia, CNPJ ou email
+ * - cidade: filtrar por cidade
+ * - ramo_atividade: filtrar por área de atuação/ramo de atividade
+ * - page: página atual (default: 1)
+ * - limit: itens por página (default: 10)
+ * - includeVagas: incluir vagas da empresa (true/false)
  */
 export async function GET(request: NextRequest) {
   try {
@@ -11,10 +18,50 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     
     const search = searchParams.get('search') || ''
+    const cidade = searchParams.get('cidade') || ''
+    const ramoAtividade = searchParams.get('ramo_atividade') || ''
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
     const includeVagas = searchParams.get('includeVagas') === 'true'
+    const getCidades = searchParams.get('getCidades') === 'true'
+    const getRamos = searchParams.get('getRamos') === 'true'
     const offset = (page - 1) * limit
+
+    // Se solicitado, retornar lista de cidades únicas
+    if (getCidades) {
+      const { data: cidadesData, error: cidadesError } = await supabase
+        .from('empresas')
+        .select('cidade')
+        .not('cidade', 'is', null)
+        .order('cidade')
+
+      if (cidadesError) {
+        console.error('Erro ao buscar cidades:', cidadesError)
+        return NextResponse.json({ cidades: [] })
+      }
+
+      // Extrair cidades únicas
+      const cidadesUnicas = [...new Set(cidadesData?.map(e => e.cidade).filter(Boolean))]
+      return NextResponse.json({ cidades: cidadesUnicas })
+    }
+
+    // Se solicitado, retornar lista de ramos de atividade únicos
+    if (getRamos) {
+      const { data: ramosData, error: ramosError } = await supabase
+        .from('empresas')
+        .select('ramo_atividade')
+        .not('ramo_atividade', 'is', null)
+        .order('ramo_atividade')
+
+      if (ramosError) {
+        console.error('Erro ao buscar ramos:', ramosError)
+        return NextResponse.json({ ramos: [] })
+      }
+
+      // Extrair ramos únicos
+      const ramosUnicos = [...new Set(ramosData?.map(e => e.ramo_atividade).filter(Boolean))]
+      return NextResponse.json({ ramos: ramosUnicos })
+    }
 
     let query = supabase
       .from('empresas')
@@ -23,6 +70,16 @@ export async function GET(request: NextRequest) {
     // Aplicar busca se fornecida
     if (search) {
       query = query.or(`razao_social.ilike.%${search}%,nome_fantasia.ilike.%${search}%,cnpj.ilike.%${search}%,email_contato.ilike.%${search}%`)
+    }
+
+    // Aplicar filtro por cidade
+    if (cidade) {
+      query = query.eq('cidade', cidade)
+    }
+
+    // Aplicar filtro por ramo de atividade
+    if (ramoAtividade) {
+      query = query.eq('ramo_atividade', ramoAtividade)
     }
 
     // Aplicar paginação
