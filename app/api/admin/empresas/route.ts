@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
     if (includeVagas && empresas && empresas.length > 0) {
       const empresaIds = empresas.map(e => e.id)
       
-      // Buscar vagas das empresas
+      // Buscar vagas das empresas - usando apenas campos que existem na tabela
       const { data: vagas, error: vagasError } = await supabase
         .from('vagas')
         .select(`
@@ -55,18 +55,19 @@ export async function GET(request: NextRequest) {
           salario_max,
           quantidade_vagas,
           beneficios,
-          requisitos,
-          escolaridade_minima,
-          experiencia_minima,
-          tipo_contrato,
-          jornada_trabalho,
           status_id,
           empresa_id,
           created_at,
-          area_id
+          area_id,
+          horario_trabalho,
+          vaga_pcd
         `)
         .in('empresa_id', empresaIds)
         .order('created_at', { ascending: false })
+
+      if (vagasError) {
+        console.error('Erro ao buscar vagas:', vagasError)
+      }
 
       if (!vagasError && vagas) {
         // Mapear status_id para string
