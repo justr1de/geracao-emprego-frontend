@@ -50,25 +50,21 @@ export async function GET() {
       .map(([genero, total]) => ({ genero, total }))
       .sort((a, b) => b.total - a.total)
 
-    // Total de empresas
+    // Total de empresas (todas são consideradas ativas se existem)
     const { count: totalEmpresas } = await supabase
       .from('empresas')
       .select('*', { count: 'exact', head: true })
-
-    const { count: empresasAtivas } = await supabase
-      .from('empresas')
-      .select('*', { count: 'exact', head: true })
-      .eq('ativo', true)
 
     // Total de vagas
     const { count: totalVagas } = await supabase
       .from('vagas')
       .select('*', { count: 'exact', head: true })
 
+    // Vagas abertas (status_id = 1 significa "Aberta")
     const { count: vagasAbertas } = await supabase
       .from('vagas')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'aberta')
+      .eq('status_id', 1)
 
     // Vagas por empresa
     const { data: vagasData } = await supabase
@@ -92,7 +88,7 @@ export async function GET() {
       },
       empresas: {
         total: totalEmpresas || 0,
-        ativas: empresasAtivas || 0
+        ativas: totalEmpresas || 0  // Todas as empresas cadastradas são consideradas ativas
       },
       vagas: {
         total: totalVagas || 0,
