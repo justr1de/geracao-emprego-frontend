@@ -1,0 +1,299 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 4rem;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.headerLeft {
+  flex: 1;
+}
+
+.backLink {
+  display: inline-block;
+  color: #28a745;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headerRight {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.periodoSelect {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: white;
+  cursor: pointer;
+}
+
+/* Cards de Resumo */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.cardIcon {
+  font-size: 2.5rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f9f0;
+  border-radius: 12px;
+}
+
+.cardContent {
+  flex: 1;
+}
+
+.cardValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #28a745;
+  margin: 0;
+}
+
+.cardLabel {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.25rem 0 0 0;
+}
+
+.cardSubtext {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* Gráficos/Tabelas */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.chartCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.chartTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.tableContainer {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.table th {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.table td {
+  color: #333;
+}
+
+.table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+/* Gênero Stats */
+.generoStats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.generoItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.generoIcon {
+  font-size: 1.5rem;
+  width: 40px;
+  text-align: center;
+}
+
+.generoInfo {
+  min-width: 120px;
+}
+
+.generoLabel {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.generoValue {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.generoBar {
+  flex: 1;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.generoBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #28a745, #20c997);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Export Buttons */
+.exportButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.exportBtn {
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.exportBtn:hover {
+  background: #e9ecef;
+  border-color: #28a745;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .cardIcon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+  }
+
+  .cardValue {
+    font-size: 1.5rem;
+  }
+}
