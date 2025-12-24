@@ -9,6 +9,8 @@ import {
   Trash2, 
   ChevronLeft, 
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   Building2,
   X,
   Save,
@@ -16,9 +18,35 @@ import {
   CheckCircle,
   ArrowLeft,
   CheckCircle2,
-  XCircle
+  XCircle,
+  Briefcase,
+  DollarSign,
+  Clock,
+  GraduationCap,
+  Users,
+  MapPin
 } from 'lucide-react';
 import styles from './page.module.css';
+
+interface Vaga {
+  id: string;
+  cargo: string;
+  descricao: string;
+  salario_min: number;
+  salario_max: number;
+  quantidade_vagas: number;
+  beneficios: string;
+  requisitos: string;
+  escolaridade_minima: string;
+  experiencia_minima: string;
+  tipo_contrato: string;
+  jornada_trabalho: string;
+  status_id: number;
+  status: string;
+  empresa_id: string;
+  created_at: string;
+  area_id: number;
+}
 
 interface Empresa {
   id: string;
@@ -37,6 +65,9 @@ interface Empresa {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  vagas?: Vaga[];
+  totalVagas?: number;
+  vagasAbertas?: number;
 }
 
 export default function AdminEmpresasPage() {
@@ -50,6 +81,7 @@ export default function AdminEmpresasPage() {
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [expandedEmpresas, setExpandedEmpresas] = useState<Set<string>>(new Set());
 
   const fetchEmpresas = useCallback(async () => {
     setIsLoading(true);
@@ -57,6 +89,7 @@ export default function AdminEmpresasPage() {
       const params = new URLSearchParams({
         page: page.toString(),
         limit: '10',
+        includeVagas: 'true',
         ...(search && { search })
       });
 
@@ -140,6 +173,18 @@ export default function AdminEmpresasPage() {
     }
   };
 
+  const toggleExpand = (empresaId: string) => {
+    setExpandedEmpresas(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(empresaId)) {
+        newSet.delete(empresaId);
+      } else {
+        newSet.add(empresaId);
+      }
+      return newSet;
+    });
+  };
+
   const formatDate = (dateString: string) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('pt-BR');
@@ -148,6 +193,40 @@ export default function AdminEmpresasPage() {
   const formatCNPJ = (cnpj: string) => {
     if (!cnpj) return '-';
     return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+  };
+
+  const formatSalario = (min: number, max: number) => {
+    if (!min && !max) return 'A combinar';
+    if (min && max) {
+      return `R$ ${min.toLocaleString('pt-BR')} - R$ ${max.toLocaleString('pt-BR')}`;
+    }
+    if (min) return `A partir de R$ ${min.toLocaleString('pt-BR')}`;
+    return `Até R$ ${max.toLocaleString('pt-BR')}`;
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case 'aberta': return styles.statusAberta;
+      case 'pausada': return styles.statusPausada;
+      case 'encerrada': return styles.statusEncerrada;
+      case 'inativa': return styles.statusInativa;
+      default: return styles.statusPendente;
+    }
+  };
+
+  const getEscolaridadeLabel = (escolaridade: string) => {
+    const labels: Record<string, string> = {
+      'fundamental_incompleto': 'Fundamental Incompleto',
+      'fundamental_completo': 'Fundamental Completo',
+      'medio_incompleto': 'Médio Incompleto',
+      'medio_completo': 'Médio Completo',
+      'superior_incompleto': 'Superior Incompleto',
+      'superior_completo': 'Superior Completo',
+      'pos_graduacao': 'Pós-Graduação',
+      'mestrado': 'Mestrado',
+      'doutorado': 'Doutorado'
+    };
+    return labels[escolaridade] || escolaridade || 'Não informado';
   };
 
   return (
@@ -209,33 +288,50 @@ export default function AdminEmpresasPage() {
             <p>Nenhuma empresa encontrada</p>
           </div>
         ) : (
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Empresa</th>
-                <th>CNPJ</th>
-                <th>E-mail</th>
-                <th>Telefone</th>
-                <th>Cidade</th>
-                <th>Status</th>
-                <th>Cadastro</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {empresas.map((empresa) => (
-                <tr key={empresa.id}>
-                  <td className={styles.nameCell}>
-                    <span className={styles.name}>{empresa.nome_fantasia || empresa.razao_social || '-'}</span>
-                    {empresa.nome_fantasia && empresa.razao_social && (
-                      <span className={styles.razaoSocial}>{empresa.razao_social}</span>
+          <div className={styles.empresasList}>
+            {empresas.map((empresa) => (
+              <div key={empresa.id} className={styles.empresaCard}>
+                {/* Empresa Header Row */}
+                <div className={styles.empresaRow}>
+                  <div className={styles.empresaInfo}>
+                    <button 
+                      className={styles.expandButton}
+                      onClick={() => toggleExpand(empresa.id)}
+                      title={expandedEmpresas.has(empresa.id) ? 'Recolher vagas' : 'Expandir vagas'}
+                    >
+                      {expandedEmpresas.has(empresa.id) ? (
+                        <ChevronUp size={20} />
+                      ) : (
+                        <ChevronDown size={20} />
+                      )}
+                    </button>
+                    <div className={styles.empresaDetails}>
+                      <span className={styles.empresaNome}>
+                        {empresa.nome_fantasia || empresa.razao_social || '-'}
+                      </span>
+                      {empresa.nome_fantasia && empresa.razao_social && (
+                        <span className={styles.razaoSocial}>{empresa.razao_social}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.empresaCnpj}>{formatCNPJ(empresa.cnpj)}</div>
+                  <div className={styles.empresaEmail}>{empresa.email || '-'}</div>
+                  <div className={styles.empresaTelefone}>{empresa.telefone || '-'}</div>
+                  <div className={styles.empresaCidade}>
+                    {empresa.cidade ? `${empresa.cidade}/${empresa.estado}` : '-'}
+                  </div>
+                  <div className={styles.empresaVagas}>
+                    <span className={styles.vagasBadge}>
+                      <Briefcase size={14} />
+                      {empresa.totalVagas || 0} vagas
+                    </span>
+                    {empresa.vagasAbertas > 0 && (
+                      <span className={styles.vagasAbertasBadge}>
+                        {empresa.vagasAbertas} abertas
+                      </span>
                     )}
-                  </td>
-                  <td>{formatCNPJ(empresa.cnpj)}</td>
-                  <td>{empresa.email || '-'}</td>
-                  <td>{empresa.telefone || '-'}</td>
-                  <td>{empresa.cidade ? `${empresa.cidade}/${empresa.estado}` : '-'}</td>
-                  <td>
+                  </div>
+                  <div className={styles.empresaStatus}>
                     <span className={`${styles.status} ${empresa.is_active !== false ? styles.active : styles.inactive}`}>
                       {empresa.is_active !== false ? (
                         <><CheckCircle2 size={14} /> Ativa</>
@@ -243,30 +339,123 @@ export default function AdminEmpresasPage() {
                         <><XCircle size={14} /> Inativa</>
                       )}
                     </span>
-                  </td>
-                  <td>{formatDate(empresa.created_at)}</td>
-                  <td>
-                    <div className={styles.actions}>
-                      <button
-                        onClick={() => handleEdit(empresa)}
-                        className={styles.editButton}
-                        title="Editar"
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(empresa.id)}
-                        className={styles.deleteButton}
-                        title="Desativar"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                  </div>
+                  <div className={styles.empresaCadastro}>{formatDate(empresa.created_at)}</div>
+                  <div className={styles.empresaAcoes}>
+                    <button
+                      onClick={() => handleEdit(empresa)}
+                      className={styles.editButton}
+                      title="Editar"
+                    >
+                      <Edit size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(empresa.id)}
+                      className={styles.deleteButton}
+                      title="Desativar"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Vagas Dropdown */}
+                {expandedEmpresas.has(empresa.id) && (
+                  <div className={styles.vagasDropdown}>
+                    <div className={styles.vagasHeader}>
+                      <Briefcase size={18} />
+                      <span>Vagas da Empresa ({empresa.vagas?.length || 0})</span>
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    
+                    {!empresa.vagas || empresa.vagas.length === 0 ? (
+                      <div className={styles.vagasEmpty}>
+                        <p>Nenhuma vaga cadastrada para esta empresa.</p>
+                      </div>
+                    ) : (
+                      <div className={styles.vagasGrid}>
+                        {empresa.vagas.map((vaga) => (
+                          <div key={vaga.id} className={styles.vagaCard}>
+                            <div className={styles.vagaHeader}>
+                              <h4 className={styles.vagaTitulo}>{vaga.cargo}</h4>
+                              <span className={`${styles.vagaStatus} ${getStatusColor(vaga.status)}`}>
+                                {vaga.status}
+                              </span>
+                            </div>
+                            
+                            <div className={styles.vagaInfo}>
+                              <div className={styles.vagaInfoItem}>
+                                <DollarSign size={16} />
+                                <span>{formatSalario(vaga.salario_min, vaga.salario_max)}</span>
+                              </div>
+                              <div className={styles.vagaInfoItem}>
+                                <Users size={16} />
+                                <span>{vaga.quantidade_vagas || 1} vaga(s)</span>
+                              </div>
+                              {vaga.tipo_contrato && (
+                                <div className={styles.vagaInfoItem}>
+                                  <Briefcase size={16} />
+                                  <span>{vaga.tipo_contrato}</span>
+                                </div>
+                              )}
+                              {vaga.jornada_trabalho && (
+                                <div className={styles.vagaInfoItem}>
+                                  <Clock size={16} />
+                                  <span>{vaga.jornada_trabalho}</span>
+                                </div>
+                              )}
+                            </div>
+
+                            {vaga.descricao && (
+                              <div className={styles.vagaDescricao}>
+                                <strong>Descrição:</strong>
+                                <p>{vaga.descricao.length > 150 ? vaga.descricao.substring(0, 150) + '...' : vaga.descricao}</p>
+                              </div>
+                            )}
+
+                            <div className={styles.vagaRequisitos}>
+                              <div className={styles.requisitoItem}>
+                                <GraduationCap size={16} />
+                                <span><strong>Escolaridade:</strong> {getEscolaridadeLabel(vaga.escolaridade_minima)}</span>
+                              </div>
+                              {vaga.experiencia_minima && (
+                                <div className={styles.requisitoItem}>
+                                  <Clock size={16} />
+                                  <span><strong>Experiência:</strong> {vaga.experiencia_minima}</span>
+                                </div>
+                              )}
+                            </div>
+
+                            {vaga.requisitos && (
+                              <div className={styles.vagaRequisitosTexto}>
+                                <strong>Requisitos:</strong>
+                                <p>{vaga.requisitos.length > 100 ? vaga.requisitos.substring(0, 100) + '...' : vaga.requisitos}</p>
+                              </div>
+                            )}
+
+                            {vaga.beneficios && (
+                              <div className={styles.vagaBeneficios}>
+                                <strong>Benefícios:</strong>
+                                <p>{vaga.beneficios}</p>
+                              </div>
+                            )}
+
+                            <div className={styles.vagaFooter}>
+                              <span className={styles.vagaData}>
+                                Publicada em {formatDate(vaga.created_at)}
+                              </span>
+                              <Link href={`/admin/vagas?id=${vaga.id}`} className={styles.vagaLink}>
+                                Ver detalhes
+                              </Link>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
@@ -363,61 +552,6 @@ export default function AdminEmpresasPage() {
                   />
                 </div>
                 <div className={styles.formGroup}>
-                  <label>Ramo de Atividade</label>
-                  <input
-                    type="text"
-                    value={editingEmpresa.ramo_atividade || ''}
-                    onChange={(e) => setEditingEmpresa({
-                      ...editingEmpresa,
-                      ramo_atividade: e.target.value
-                    })}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>CEP</label>
-                  <input
-                    type="text"
-                    value={editingEmpresa.cep || ''}
-                    onChange={(e) => setEditingEmpresa({
-                      ...editingEmpresa,
-                      cep: e.target.value
-                    })}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Endereço</label>
-                  <input
-                    type="text"
-                    value={editingEmpresa.endereco || ''}
-                    onChange={(e) => setEditingEmpresa({
-                      ...editingEmpresa,
-                      endereco: e.target.value
-                    })}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Número</label>
-                  <input
-                    type="text"
-                    value={editingEmpresa.numero || ''}
-                    onChange={(e) => setEditingEmpresa({
-                      ...editingEmpresa,
-                      numero: e.target.value
-                    })}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Bairro</label>
-                  <input
-                    type="text"
-                    value={editingEmpresa.bairro || ''}
-                    onChange={(e) => setEditingEmpresa({
-                      ...editingEmpresa,
-                      bairro: e.target.value
-                    })}
-                  />
-                </div>
-                <div className={styles.formGroup}>
                   <label>Cidade</label>
                   <input
                     type="text"
@@ -440,17 +574,15 @@ export default function AdminEmpresasPage() {
                   />
                 </div>
                 <div className={styles.formGroup}>
-                  <label>Status</label>
-                  <select
-                    value={editingEmpresa.is_active !== false ? 'true' : 'false'}
+                  <label>Ramo de Atividade</label>
+                  <input
+                    type="text"
+                    value={editingEmpresa.ramo_atividade || ''}
                     onChange={(e) => setEditingEmpresa({
                       ...editingEmpresa,
-                      is_active: e.target.value === 'true'
+                      ramo_atividade: e.target.value
                     })}
-                  >
-                    <option value="true">Ativa</option>
-                    <option value="false">Inativa</option>
-                  </select>
+                  />
                 </div>
               </div>
             </div>

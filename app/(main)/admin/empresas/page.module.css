@@ -480,3 +480,369 @@
     border-radius: 0;
   }
 }
+
+
+/* Empresas List - Nova estrutura com dropdown */
+.empresasList {
+  display: flex;
+  flex-direction: column;
+}
+
+.empresaCard {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.empresaCard:last-child {
+  border-bottom: none;
+}
+
+.empresaRow {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.5fr 1fr 1fr 1fr 0.8fr 0.8fr 0.8fr;
+  align-items: center;
+  padding: 1rem;
+  gap: 0.75rem;
+  background: white;
+  transition: background 0.2s;
+}
+
+.empresaRow:hover {
+  background: #f9fafb;
+}
+
+.empresaInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.expandButton {
+  background: #f3f4f6;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.expandButton:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.empresaDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.empresaNome {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.9rem;
+}
+
+.empresaCnpj,
+.empresaEmail,
+.empresaTelefone,
+.empresaCidade,
+.empresaCadastro {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.empresaVagas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.vagasBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.vagasAbertasBadge {
+  display: inline-flex;
+  padding: 0.125rem 0.375rem;
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.empresaStatus {
+  display: flex;
+  justify-content: center;
+}
+
+.empresaAcoes {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* Vagas Dropdown */
+.vagasDropdown {
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vagasHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.vagasEmpty {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.vagasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1rem;
+}
+
+/* Vaga Card */
+.vagaCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+}
+
+.vagaCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+}
+
+.vagaHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 0.75rem;
+}
+
+.vagaTitulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  flex: 1;
+}
+
+.vagaStatus {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.statusAberta {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statusPausada {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusEncerrada {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.statusInativa {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.statusPendente {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.vagaInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.vagaInfoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8rem;
+  color: #4b5563;
+  background: #f3f4f6;
+  padding: 0.375rem 0.625rem;
+  border-radius: 6px;
+}
+
+.vagaInfoItem svg {
+  color: #059669;
+}
+
+.vagaDescricao,
+.vagaRequisitosTexto,
+.vagaBeneficios {
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.vagaDescricao strong,
+.vagaRequisitosTexto strong,
+.vagaBeneficios strong {
+  display: block;
+  color: #374151;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.vagaDescricao p,
+.vagaRequisitosTexto p,
+.vagaBeneficios p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.vagaRequisitos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.requisitoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.requisitoItem svg {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.vagaFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 0.75rem;
+}
+
+.vagaData {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.vagaLink {
+  font-size: 0.8rem;
+  color: #059669;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.vagaLink:hover {
+  color: #047857;
+  text-decoration: underline;
+}
+
+/* Responsive para nova estrutura */
+@media (max-width: 1200px) {
+  .empresaRow {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 0.8fr 0.8fr;
+  }
+
+  .empresaEmail,
+  .empresaTelefone,
+  .empresaCadastro {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .empresaRow {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .empresaInfo {
+    order: 1;
+  }
+
+  .empresaVagas {
+    order: 2;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .empresaStatus {
+    order: 3;
+    justify-content: flex-start;
+  }
+
+  .empresaAcoes {
+    order: 4;
+    justify-content: flex-start;
+  }
+
+  .empresaCnpj,
+  .empresaCidade {
+    display: none;
+  }
+
+  .vagasGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .vagaInfo {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

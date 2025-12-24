@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 
 /**
  * GET /api/admin/empresas
- * Lista todas as empresas com busca e paginação
+ * Lista todas as empresas com busca, paginação e vagas relacionadas
  */
 export async function GET(request: NextRequest) {
   try {
@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search') || ''
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
+    const includeVagas = searchParams.get('includeVagas') === 'true'
     const offset = (page - 1) * limit
 
     let query = supabase
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Aplicar paginação
-    const { data, error, count } = await query
+    const { data: empresas, error, count } = await query
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
 
@@ -37,8 +38,69 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    // Se includeVagas for true, buscar vagas de cada empresa
+    let empresasComVagas = empresas || []
+    
+    if (includeVagas && empresas && empresas.length > 0) {
+      const empresaIds = empresas.map(e => e.id)
+      
+      // Buscar vagas das empresas
+      const { data: vagas, error: vagasError } = await supabase
+        .from('vagas')
+        .select(`
+          id,
+          cargo,
+          descricao,
+          salario_min,
+          salario_max,
+          quantidade_vagas,
+          beneficios,
+          requisitos,
+          escolaridade_minima,
+          experiencia_minima,
+          tipo_contrato,
+          jornada_trabalho,
+          status_id,
+          empresa_id,
+          created_at,
+          area_id
+        `)
+        .in('empresa_id', empresaIds)
+        .order('created_at', { ascending: false })
+
+      if (!vagasError && vagas) {
+        // Mapear status_id para string
+        const statusNames: Record<number, string> = {
+          1: 'Aberta',
+          2: 'Pausada',
+          3: 'Encerrada',
+          4: 'Inativa'
+        }
+
+        // Agrupar vagas por empresa
+        const vagasPorEmpresa: Record<string, any[]> = {}
+        vagas.forEach(vaga => {
+          if (!vagasPorEmpresa[vaga.empresa_id]) {
+            vagasPorEmpresa[vaga.empresa_id] = []
+          }
+          vagasPorEmpresa[vaga.empresa_id].push({
+            ...vaga,
+            status: statusNames[vaga.status_id] || 'Pendente'
+          })
+        })
+
+        // Adicionar vagas às empresas
+        empresasComVagas = empresas.map(empresa => ({
+          ...empresa,
+          vagas: vagasPorEmpresa[empresa.id] || [],
+          totalVagas: (vagasPorEmpresa[empresa.id] || []).length,
+          vagasAbertas: (vagasPorEmpresa[empresa.id] || []).filter(v => v.status_id === 1).length
+        }))
+      }
+    }
+
     return NextResponse.json({
-      empresas: data || [],
+      empresas: empresasComVagas,
       total: count || 0,
       page,
       limit,
@@ -73,6 +135,9 @@ export async function PUT(request: NextRequest) {
 
     // Remover campos que não devem ser atualizados
     delete updateData.created_at
+    delete updateData.vagas
+    delete updateData.totalVagas
+    delete updateData.vagasAbertas
 
     const { data, error } = await supabase
       .from('empresas')
