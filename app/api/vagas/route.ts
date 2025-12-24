@@ -13,6 +13,11 @@ export async function GET(request: NextRequest) {
     const tipo_contrato_id = searchParams.get('tipo_contrato_id')
     const modelo_trabalho_id = searchParams.get('modelo_trabalho_id')
     const empresa_id = searchParams.get('empresa_id')
+    const salario_min = searchParams.get('salario_min')
+    const salario_max = searchParams.get('salario_max')
+    const escolaridade_id = searchParams.get('escolaridade_id')
+    const sort_by = searchParams.get('sort_by') || 'created_at'
+    const sort_order = searchParams.get('sort_order') || 'desc'
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
     const offset = (page - 1) * limit
@@ -43,10 +48,13 @@ export async function GET(request: NextRequest) {
         modelos_trabalho:modelo_trabalho_id (
           id,
           nome
+        ),
+        niveis_escolaridade:escolaridade_minima_id (
+          id,
+          nome
         )
       `, { count: 'exact' })
       .eq('status', 'ativa')
-      .order('created_at', { ascending: false })
 
     // Aplicar filtros
     if (search) {
@@ -67,6 +75,21 @@ export async function GET(request: NextRequest) {
     if (empresa_id) {
       query = query.eq('empresa_id', empresa_id)
     }
+    if (salario_min) {
+      query = query.gte('salario_min', parseFloat(salario_min))
+    }
+    if (salario_max) {
+      query = query.lte('salario_max', parseFloat(salario_max))
+    }
+    if (escolaridade_id) {
+      query = query.eq('escolaridade_minima_id', escolaridade_id)
+    }
+
+    // Ordenação
+    const validSortFields = ['created_at', 'salario_min', 'salario_max', 'titulo']
+    const sortField = validSortFields.includes(sort_by) ? sort_by : 'created_at'
+    const ascending = sort_order === 'asc'
+    query = query.order(sortField, { ascending })
 
     // Paginação
     query = query.range(offset, offset + limit - 1)
