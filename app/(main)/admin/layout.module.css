@@ -153,3 +153,45 @@
     padding: 16px;
   }
 }
+
+
+/* Logo DATA-RO */
+.dataroLogo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.dataroLogo:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dataroLogoImg {
+  border-radius: 4px;
+  filter: brightness(1.1);
+}
+
+.dataroText {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.dataroLogo:hover .dataroText {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .dataroLogo {
+    display: none;
+  }
+}

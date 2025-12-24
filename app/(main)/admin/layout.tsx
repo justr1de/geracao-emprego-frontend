@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import styles from './layout.module.css'
 
@@ -48,6 +49,24 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <Link href="/" className={styles.backLink}>
             ← Voltar ao Site
           </Link>
+          
+          {/* Logo DATA-RO */}
+          <a 
+            href="https://dataro-it.com.br" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className={styles.dataroLogo}
+            title="Desenvolvido por DATA-RO Inteligência Territorial"
+          >
+            <Image 
+              src="/dataro-logo-small.png" 
+              alt="DATA-RO" 
+              width={40} 
+              height={40}
+              className={styles.dataroLogoImg}
+            />
+            <span className={styles.dataroText}>DATA-RO</span>
+          </a>
         </div>
       </aside>
 
