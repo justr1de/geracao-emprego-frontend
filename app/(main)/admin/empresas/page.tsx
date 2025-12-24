@@ -24,9 +24,31 @@ import {
   Clock,
   GraduationCap,
   Users,
-  MapPin
+  MapPin,
+  UserCheck,
+  Target,
+  Star
 } from 'lucide-react';
 import styles from './page.module.css';
+
+interface CandidatoMatch {
+  id: string;
+  nome_completo: string;
+  email: string;
+  telefone: string;
+  cidade: string;
+  estado: string;
+  score: number;
+  scoreLabel: string;
+  jaCandidatou: boolean;
+  criterios: {
+    localizacao: { match: boolean; candidato: string; vaga: string };
+    cnh: { requerido: boolean; match: boolean; candidato: string };
+    veiculo: { requerido: boolean; match: boolean; candidato: string };
+    pcd: { vagaPCD: boolean; candidatoPCD: boolean; match: boolean };
+    perfilCompleto: { percentual: number; completo: boolean };
+  };
+}
 
 interface Vaga {
   id: string;
@@ -46,6 +68,8 @@ interface Vaga {
   empresa_id: string;
   created_at: string;
   area_id: number;
+  candidatosMatch?: CandidatoMatch[];
+  loadingMatch?: boolean;
 }
 
 interface Empresa {
@@ -82,6 +106,7 @@ export default function AdminEmpresasPage() {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [expandedEmpresas, setExpandedEmpresas] = useState<Set<string>>(new Set());
+  const [expandedVagas, setExpandedVagas] = useState<Set<string>>(new Set());
 
   const fetchEmpresas = useCallback(async () => {
     setIsLoading(true);
@@ -185,6 +210,86 @@ export default function AdminEmpresasPage() {
     });
   };
 
+  const toggleVagaMatch = async (empresaId: string, vagaId: string) => {
+    const isExpanded = expandedVagas.has(vagaId);
+    
+    setExpandedVagas(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(vagaId)) {
+        newSet.delete(vagaId);
+      } else {
+        newSet.add(vagaId);
+      }
+      return newSet;
+    });
+
+    // Se está expandindo e ainda não tem dados de matching, buscar
+    if (!isExpanded) {
+      const empresa = empresas.find(e => e.id === empresaId);
+      const vaga = empresa?.vagas?.find(v => v.id === vagaId);
+      
+      if (vaga && !vaga.candidatosMatch) {
+        // Marcar como carregando
+        setEmpresas(prev => prev.map(e => {
+          if (e.id === empresaId) {
+            return {
+              ...e,
+              vagas: e.vagas?.map(v => {
+                if (v.id === vagaId) {
+                  return { ...v, loadingMatch: true };
+                }
+                return v;
+              })
+            };
+          }
+          return e;
+        }));
+
+        try {
+          const response = await fetch(`/api/admin/matching?vaga_id=${vagaId}&limit=5`);
+          const data = await response.json();
+
+          if (response.ok) {
+            setEmpresas(prev => prev.map(e => {
+              if (e.id === empresaId) {
+                return {
+                  ...e,
+                  vagas: e.vagas?.map(v => {
+                    if (v.id === vagaId) {
+                      return { 
+                        ...v, 
+                        candidatosMatch: data.candidatos,
+                        loadingMatch: false 
+                      };
+                    }
+                    return v;
+                  })
+                };
+              }
+              return e;
+            }));
+          }
+        } catch (error) {
+          console.error('Erro ao buscar matching:', error);
+          setEmpresas(prev => prev.map(e => {
+            if (e.id === empresaId) {
+              return {
+                ...e,
+                vagas: e.vagas?.map(v => {
+                  if (v.id === vagaId) {
+                    return { ...v, loadingMatch: false };
+                  }
+                  return v;
+                })
+              };
+            }
+            return e;
+          }));
+        }
+      }
+    }
+  };
+
   const formatDate = (dateString: string) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('pt-BR');
@@ -212,6 +317,14 @@ export default function AdminEmpresasPage() {
       case 'inativa': return styles.statusInativa;
       default: return styles.statusPendente;
     }
+  };
+
+  const getScoreColor = (score: number) => {
+    if (score >= 90) return styles.scoreExcelente;
+    if (score >= 75) return styles.scoreMuitoBom;
+    if (score >= 60) return styles.scoreBom;
+    if (score >= 40) return styles.scoreRegular;
+    return styles.scoreBaixo;
   };
 
   const getEscolaridadeLabel = (escolaridade: string) => {
@@ -438,6 +551,81 @@ export default function AdminEmpresasPage() {
                                 <p>{vaga.beneficios}</p>
                               </div>
                             )}
+
+                            {/* Botão de Matching */}
+                            <div className={styles.matchingSection}>
+                              <button 
+                                className={styles.matchingButton}
+                                onClick={() => toggleVagaMatch(empresa.id, vaga.id)}
+                              >
+                                <Target size={16} />
+                                {expandedVagas.has(vaga.id) ? 'Ocultar Candidatos' : 'Ver Candidatos Compatíveis'}
+                                {expandedVagas.has(vaga.id) ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                              </button>
+
+                              {/* Lista de Candidatos Matching */}
+                              {expandedVagas.has(vaga.id) && (
+                                <div className={styles.matchingList}>
+                                  {vaga.loadingMatch ? (
+                                    <div className={styles.matchingLoading}>
+                                      Buscando candidatos compatíveis...
+                                    </div>
+                                  ) : vaga.candidatosMatch && vaga.candidatosMatch.length > 0 ? (
+                                    <>
+                                      <div className={styles.matchingHeader}>
+                                        <UserCheck size={16} />
+                                        <span>Top 5 Candidatos Compatíveis</span>
+                                      </div>
+                                      {vaga.candidatosMatch.map((candidato, index) => (
+                                        <div key={candidato.id} className={styles.matchingItem}>
+                                          <div className={styles.matchingRank}>
+                                            #{index + 1}
+                                          </div>
+                                          <div className={styles.matchingInfo}>
+                                            <div className={styles.matchingNome}>
+                                              {candidato.nome_completo}
+                                              {candidato.jaCandidatou && (
+                                                <span className={styles.jaCandidatou}>Já candidatou</span>
+                                              )}
+                                            </div>
+                                            <div className={styles.matchingContato}>
+                                              {candidato.cidade && `${candidato.cidade}/${candidato.estado}`}
+                                              {candidato.telefone && ` • ${candidato.telefone}`}
+                                            </div>
+                                            <div className={styles.matchingCriterios}>
+                                              {candidato.criterios?.localizacao?.match && (
+                                                <span className={styles.criterioMatch}>
+                                                  <MapPin size={12} /> Localização
+                                                </span>
+                                              )}
+                                              {candidato.criterios?.perfilCompleto?.completo && (
+                                                <span className={styles.criterioMatch}>
+                                                  <CheckCircle size={12} /> Perfil Completo
+                                                </span>
+                                              )}
+                                              {candidato.criterios?.cnh?.match && candidato.criterios?.cnh?.requerido && (
+                                                <span className={styles.criterioMatch}>
+                                                  <CheckCircle size={12} /> CNH
+                                                </span>
+                                              )}
+                                            </div>
+                                          </div>
+                                          <div className={`${styles.matchingScore} ${getScoreColor(candidato.score)}`}>
+                                            <Star size={14} />
+                                            <span>{candidato.score}%</span>
+                                            <small>{candidato.scoreLabel}</small>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </>
+                                  ) : (
+                                    <div className={styles.matchingEmpty}>
+                                      Nenhum candidato encontrado para esta vaga.
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
 
                             <div className={styles.vagaFooter}>
                               <span className={styles.vagaData}>

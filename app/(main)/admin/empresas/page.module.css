@@ -846,3 +846,242 @@
     gap: 0.5rem;
   }
 }
+
+
+/* Matching Section */
+.matchingSection {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #e5e7eb;
+}
+
+.matchingButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+
+.matchingButton:hover {
+  background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.matchingList {
+  margin-top: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.matchingHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.matchingLoading {
+  text-align: center;
+  padding: 1.5rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.matchingEmpty {
+  text-align: center;
+  padding: 1.5rem;
+  color: #6b7280;
+}
+
+.matchingItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+}
+
+.matchingItem:hover {
+  border-color: #059669;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.1);
+}
+
+.matchingItem:last-child {
+  margin-bottom: 0;
+}
+
+.matchingRank {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.matchingInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.matchingNome {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.jaCandidatou {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+.matchingContato {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.matchingCriterios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.375rem;
+}
+
+.criterioMatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+.matchingScore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.matchingScore span {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.matchingScore small {
+  font-size: 0.65rem;
+  font-weight: 500;
+  margin-top: 0.125rem;
+}
+
+/* Score Colors */
+.scoreExcelente {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #065f46;
+}
+
+.scoreMuitoBom {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1d4ed8;
+}
+
+.scoreBom {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+}
+
+.scoreRegular {
+  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+  color: #9a3412;
+}
+
+.scoreBaixo {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+}
+
+/* Responsive para matching */
+@media (max-width: 768px) {
+  .matchingItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .matchingRank {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .matchingItem {
+    position: relative;
+    padding-right: 3rem;
+  }
+
+  .matchingScore {
+    width: 100%;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .matchingScore small {
+    margin-top: 0;
+  }
+}
