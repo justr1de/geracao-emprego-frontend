@@ -116,6 +116,7 @@ export default function AdminEmpresasPage() {
   const [cidades, setCidades] = useState<string[]>([]);
   const [ramos, setRamos] = useState<{id: number; nome: string}[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [statusVagaFiltro, setStatusVagaFiltro] = useState<{[key: string]: string}>({});
 
   // Buscar lista de cidades e ramos para os filtros
   useEffect(() => {
@@ -619,8 +620,24 @@ export default function AdminEmpresasPage() {
                 {expandedEmpresas.has(empresa.id) && (
                   <div className={styles.vagasDropdown}>
                     <div className={styles.vagasHeader}>
-                      <Briefcase size={18} />
-                      <span>Vagas da Empresa ({empresa.vagas?.length || 0})</span>
+                      <div className={styles.vagasHeaderLeft}>
+                        <Briefcase size={18} />
+                        <span>Vagas da Empresa ({empresa.vagas?.length || 0})</span>
+                      </div>
+                      <div className={styles.vagasHeaderRight}>
+                        <label className={styles.vagaFilterLabel}>Filtrar por status:</label>
+                        <select
+                          value={statusVagaFiltro[empresa.id] || ''}
+                          onChange={(e) => setStatusVagaFiltro(prev => ({...prev, [empresa.id]: e.target.value}))}
+                          className={styles.vagaFilterSelect}
+                        >
+                          <option value="">Todas</option>
+                          <option value="Aberta">Abertas</option>
+                          <option value="Pausada">Pausadas</option>
+                          <option value="Encerrada">Encerradas</option>
+                          <option value="Inativa">Inativas</option>
+                        </select>
+                      </div>
                     </div>
                     
                     {!empresa.vagas || empresa.vagas.length === 0 ? (
@@ -629,7 +646,9 @@ export default function AdminEmpresasPage() {
                       </div>
                     ) : (
                       <div className={styles.vagasGrid}>
-                        {empresa.vagas.map((vaga) => (
+                        {empresa.vagas
+                          .filter(vaga => !statusVagaFiltro[empresa.id] || vaga.status === statusVagaFiltro[empresa.id])
+                          .map((vaga) => (
                           <div key={vaga.id} className={styles.vagaCard}>
                             <div className={styles.vagaHeader}>
                               <h4 className={styles.vagaTitulo}>{vaga.cargo}</h4>
@@ -754,8 +773,24 @@ export default function AdminEmpresasPage() {
                                             </div>
                                           </div>
                                           <div className={`${styles.matchingScore} ${getScoreColor(candidato.score)}`}>
-                                            <Star size={14} />
-                                            <span>{candidato.score}%</span>
+                                            <div className={styles.scoreCircle}>
+                                              <svg viewBox="0 0 36 36" className={styles.scoreCircleSvg}>
+                                                <path
+                                                  className={styles.scoreCircleBg}
+                                                  d="M18 2.0845
+                                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                />
+                                                <path
+                                                  className={styles.scoreCircleProgress}
+                                                  strokeDasharray={`${candidato.score}, 100`}
+                                                  d="M18 2.0845
+                                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                />
+                                              </svg>
+                                              <span className={styles.scoreValue}>{candidato.score}%</span>
+                                            </div>
                                             <small>{candidato.scoreLabel}</small>
                                           </div>
                                         </div>

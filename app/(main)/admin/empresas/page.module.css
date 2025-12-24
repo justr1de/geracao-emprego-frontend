@@ -615,11 +615,50 @@
 .vagasHeader {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
   margin-bottom: 1rem;
   font-weight: 600;
   color: #374151;
   font-size: 0.95rem;
+}
+
+.vagasHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vagasHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vagaFilterLabel {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.vagaFilterSelect {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.vagaFilterSelect:hover {
+  border-color: #007a33;
+}
+
+.vagaFilterSelect:focus {
+  outline: none;
+  border-color: #007a33;
+  box-shadow: 0 0 0 2px rgba(0, 122, 51, 0.1);
 }
 
 .vagasEmpty {
@@ -1292,5 +1331,76 @@
 
   .filterToggleButton span:last-child {
     display: none;
+  }
+}
+
+
+/* Score Circular */
+.scoreCircle {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreCircleSvg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.scoreCircleBg {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.1);
+  stroke-width: 3;
+}
+
+.scoreCircleProgress {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.scoreValue {
+  font-size: 0.85rem;
+  font-weight: 700;
+  z-index: 1;
+}
+
+/* Cores do score circular */
+.scoreExcelente .scoreCircleProgress {
+  stroke: #059669;
+}
+
+.scoreMuitoBom .scoreCircleProgress {
+  stroke: #2563eb;
+}
+
+.scoreBom .scoreCircleProgress {
+  stroke: #d97706;
+}
+
+.scoreRegular .scoreCircleProgress {
+  stroke: #ea580c;
+}
+
+.scoreBaixo .scoreCircleProgress {
+  stroke: #dc2626;
+}
+
+/* Responsive para score circular */
+@media (max-width: 768px) {
+  .scoreCircle {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .scoreValue {
+    font-size: 0.75rem;
   }
 }
