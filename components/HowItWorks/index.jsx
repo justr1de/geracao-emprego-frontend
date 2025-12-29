@@ -28,7 +28,8 @@ const CANDIDATO_STEPS = [
       'Sem necessidade de currículo pronto',
       'Acesso imediato às vagas'
     ],
-    color: '#059669'
+    color: '#059669',
+    bgColor: 'rgba(5, 150, 105, 0.1)'
   },
   {
     icon: FileText,
@@ -39,7 +40,8 @@ const CANDIDATO_STEPS = [
       'Dicas para destacar seu perfil',
       'Visibilidade para empresas'
     ],
-    color: '#0284c7'
+    color: '#0284c7',
+    bgColor: 'rgba(2, 132, 199, 0.1)'
   },
   {
     icon: Search,
@@ -50,7 +52,8 @@ const CANDIDATO_STEPS = [
       'Filtros por salário e benefícios',
       'Vagas em todo o estado de Rondônia'
     ],
-    color: '#7c3aed'
+    color: '#7c3aed',
+    bgColor: 'rgba(124, 58, 237, 0.1)'
   },
   {
     icon: Send,
@@ -61,7 +64,8 @@ const CANDIDATO_STEPS = [
       'Histórico de candidaturas',
       'Notificações de visualização'
     ],
-    color: '#dc2626'
+    color: '#dc2626',
+    bgColor: 'rgba(220, 38, 38, 0.1)'
   }
 ];
 
@@ -75,7 +79,8 @@ const EMPREGADOR_STEPS = [
       'Perfil completo da empresa',
       'Visibilidade para candidatos'
     ],
-    color: '#059669'
+    color: '#059669',
+    bgColor: 'rgba(5, 150, 105, 0.1)'
   },
   {
     icon: Briefcase,
@@ -86,7 +91,8 @@ const EMPREGADOR_STEPS = [
       'Destaque para vagas urgentes',
       'Alcance em todas as cidades de RO'
     ],
-    color: '#0284c7'
+    color: '#0284c7',
+    bgColor: 'rgba(2, 132, 199, 0.1)'
   },
   {
     icon: Users,
@@ -97,7 +103,8 @@ const EMPREGADOR_STEPS = [
       'Mais de 15 filtros de qualificação',
       'Visualização completa do currículo'
     ],
-    color: '#7c3aed'
+    color: '#7c3aed',
+    bgColor: 'rgba(124, 58, 237, 0.1)'
   },
   {
     icon: Calendar,
@@ -108,7 +115,8 @@ const EMPREGADOR_STEPS = [
       'Agendamento de entrevistas',
       'Gestão de processo seletivo'
     ],
-    color: '#dc2626'
+    color: '#dc2626',
+    bgColor: 'rgba(220, 38, 38, 0.1)'
   }
 ];
 
@@ -121,10 +129,19 @@ const StepCard = memo(function StepCard({ step, index, isLast, animationDelay })
       className={styles.stepCard}
       style={{ '--animation-delay': animationDelay }}
     >
-      <div className={styles.stepNumber} style={{ '--step-color': step.color }}>
+      <div 
+        className={styles.stepNumber} 
+        style={{ backgroundColor: step.color }}
+      >
         {index + 1}
       </div>
-      <div className={styles.stepIconWrapper} style={{ '--step-color': step.color }}>
+      <div 
+        className={styles.stepIconWrapper} 
+        style={{ 
+          backgroundColor: step.bgColor,
+          color: step.color
+        }}
+      >
         <IconComponent size={32} />
       </div>
       <h3 className={styles.stepTitle}>{step.title}</h3>
@@ -132,7 +149,11 @@ const StepCard = memo(function StepCard({ step, index, isLast, animationDelay })
       <ul className={styles.stepFeatures}>
         {step.features.map((feature, idx) => (
           <li key={idx} className={styles.stepFeature}>
-            <CheckCircle size={16} className={styles.checkIcon} style={{ '--step-color': step.color }} />
+            <CheckCircle 
+              size={16} 
+              className={styles.checkIcon} 
+              style={{ color: step.color }} 
+            />
             <span>{feature}</span>
           </li>
         ))}
@@ -184,7 +205,7 @@ export default function HowItWorks() {
         requestAnimationFrame(() => {
           setIsAnimating(false);
         });
-      }, 250); // Reduzido de 300ms para 250ms
+      }, 250);
     });
   }, [activeTab, isAnimating]);
 

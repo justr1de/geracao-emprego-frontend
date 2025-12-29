@@ -199,7 +199,8 @@
   font-size: 0.875rem;
   font-weight: 700;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  background-color: var(--step-color, #059669);
+  /* Fallback color - will be overridden by inline style */
+  background-color: #059669;
 }
 
 .stepIconWrapper {
@@ -210,8 +211,13 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.25rem;
-  background-color: color-mix(in srgb, var(--step-color, #059669) 8%, transparent);
-  color: var(--step-color, #059669);
+  /* Fallback - will be overridden by inline style */
+  background-color: rgba(5, 150, 105, 0.1);
+}
+
+.stepIconWrapper svg {
+  /* Inherit color from parent wrapper */
+  color: inherit;
 }
 
 .stepTitle {
@@ -250,7 +256,8 @@
 .checkIcon {
   flex-shrink: 0;
   margin-top: 2px;
-  color: var(--step-color, #059669);
+  /* Fallback color - will be overridden by inline style */
+  color: #059669;
 }
 
 .stepConnector {
