@@ -1,6 +1,16 @@
+/* ============================================
+   HowItWorks Component - Optimized CSS
+   Performance optimizations:
+   - GPU-accelerated transforms
+   - will-change for predictable animations
+   - CSS custom properties for dynamic values
+   - Reduced animation complexity
+   ============================================ */
+
 .section {
   padding: 5rem 1.5rem;
   background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  contain: layout style;
 }
 
 .container {
@@ -8,15 +18,16 @@
   margin: 0 auto;
 }
 
-/* Header with animation */
+/* Header with optimized animation */
 .header {
   text-align: center;
   margin-bottom: 3rem;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 1;
+  transition: opacity 0.2s ease-out;
 }
 
 .headerAnimating {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .badge {
@@ -38,7 +49,6 @@
   color: #1e293b;
   margin-bottom: 1rem;
   line-height: 1.2;
-  transition: opacity 0.3s ease;
 }
 
 .subtitle {
@@ -47,10 +57,9 @@
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
-  transition: opacity 0.3s ease;
 }
 
-/* Tabs with sliding indicator */
+/* Tabs with GPU-accelerated sliding indicator */
 .tabs {
   display: flex;
   justify-content: center;
@@ -73,9 +82,13 @@
   height: calc(100% - 0.5rem);
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
   border-radius: 0.5rem;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* GPU acceleration with transform */
+  transform: translateX(var(--tab-position, 0));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 0;
   box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+  /* Hint browser about upcoming animation */
+  will-change: transform;
 }
 
 .tab {
@@ -91,7 +104,7 @@
   font-weight: 600;
   color: #64748b;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease-out;
   position: relative;
   z-index: 1;
   flex: 1;
@@ -109,44 +122,28 @@
   color: white;
 }
 
-/* Steps Container with animations */
+/* Steps Container with optimized animations */
 .stepsContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   margin-bottom: 3rem;
   position: relative;
+  /* Contain layout changes */
+  contain: layout;
 }
 
-/* Animation states */
+/* Optimized animation states using GPU-accelerated properties only */
 .stepsAnimatingOut {
-  animation: fadeSlideOut 0.3s ease forwards;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 }
 
 .stepsAnimatingIn {
-  animation: fadeSlideIn 0.4s ease forwards;
-}
-
-@keyframes fadeSlideOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes fadeSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
 }
 
 .stepCard {
@@ -155,45 +152,37 @@
   border-radius: 1rem;
   padding: 2rem 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
   border: 1px solid #e2e8f0;
-  animation: cardFadeIn 0.5s ease forwards;
+  /* GPU-accelerated transform for hover */
+  transform: translateY(0) translateZ(0);
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  /* Animation delay via CSS custom property */
+  animation: cardFadeIn 0.35s ease-out forwards;
+  animation-delay: var(--animation-delay, 0ms);
   opacity: 0;
+  /* Contain paint operations */
+  contain: layout style paint;
 }
 
 @keyframes cardFadeIn {
-  0% {
+  from {
     opacity: 0;
-    transform: translateY(20px) scale(0.98);
+    transform: translateY(12px) translateZ(0);
   }
-  100% {
+  to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) translateZ(0);
   }
-}
-
-.stepsAnimatingIn .stepCard {
-  animation: cardFadeIn 0.5s ease forwards;
 }
 
 .stepsAnimatingOut .stepCard {
-  animation: cardFadeOut 0.3s ease forwards;
-}
-
-@keyframes cardFadeOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.98);
-  }
+  animation: none;
+  opacity: 1;
 }
 
 .stepCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .stepNumber {
@@ -210,11 +199,7 @@
   font-size: 0.875rem;
   font-weight: 700;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-}
-
-.stepCard:hover .stepNumber {
-  transform: scale(1.1);
+  background-color: var(--step-color, #059669);
 }
 
 .stepIconWrapper {
@@ -225,11 +210,8 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.25rem;
-  transition: transform 0.3s ease;
-}
-
-.stepCard:hover .stepIconWrapper {
-  transform: scale(1.05);
+  background-color: color-mix(in srgb, var(--step-color, #059669) 8%, transparent);
+  color: var(--step-color, #059669);
 }
 
 .stepTitle {
@@ -259,11 +241,6 @@
   font-size: 0.85rem;
   color: #475569;
   margin-bottom: 0.5rem;
-  transition: transform 0.2s ease;
-}
-
-.stepFeature:hover {
-  transform: translateX(3px);
 }
 
 .stepFeature:last-child {
@@ -273,11 +250,7 @@
 .checkIcon {
   flex-shrink: 0;
   margin-top: 2px;
-  transition: transform 0.2s ease;
-}
-
-.stepFeature:hover .checkIcon {
-  transform: scale(1.2);
+  color: var(--step-color, #059669);
 }
 
 .stepConnector {
@@ -288,19 +261,10 @@
   transform: translateY(-50%);
   color: #cbd5e1;
   z-index: 1;
-  animation: pulse 2s infinite;
+  opacity: 0.6;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-/* CTA Section with animations */
+/* CTA Section with optimized animations */
 .ctaSection {
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
   border-radius: 1.5rem;
@@ -310,38 +274,18 @@
   justify-content: space-between;
   gap: 2rem;
   margin-bottom: 2rem;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  /* GPU-accelerated properties */
+  opacity: 1;
+  transform: translateZ(0);
+  transition: opacity 0.2s ease-out;
 }
 
 .ctaAnimatingOut {
-  animation: ctaFadeOut 0.3s ease forwards;
+  opacity: 0.8;
 }
 
 .ctaAnimatingIn {
-  animation: ctaFadeIn 0.4s ease forwards;
-  animation-delay: 0.2s;
-}
-
-@keyframes ctaFadeOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-}
-
-@keyframes ctaFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  opacity: 1;
 }
 
 .ctaContent {
@@ -377,13 +321,13 @@
   font-weight: 600;
   border-radius: 0.75rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transform: translateZ(0);
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out;
 }
 
 .ctaPrimary:hover {
   background: #f0fdf4;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px) translateZ(0);
 }
 
 .ctaSecondary {
@@ -397,13 +341,14 @@
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 0.75rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transform: translateZ(0);
+  transition: transform 0.15s ease-out, border-color 0.15s ease-out, background-color 0.15s ease-out;
 }
 
 .ctaSecondary:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: white;
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
 }
 
 /* Feedback Section */
@@ -419,24 +364,17 @@
   border: 2px dashed #e2e8f0;
   border-radius: 1rem;
   padding: 1.5rem 2rem;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease-out, border-style 0.2s ease-out;
 }
 
 .feedbackCard:hover {
   border-color: #059669;
   border-style: solid;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
 }
 
 .feedbackIcon {
   color: #059669;
   flex-shrink: 0;
-  transition: transform 0.3s ease;
-}
-
-.feedbackCard:hover .feedbackIcon {
-  transform: scale(1.1) rotate(-5deg);
 }
 
 .feedbackContent {
@@ -467,14 +405,13 @@
   font-size: 0.9rem;
   border-radius: 0.5rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out;
   flex-shrink: 0;
 }
 
 .feedbackLink:hover {
   background: #059669;
   color: white;
-  transform: translateX(3px);
 }
 
 /* Responsive */
@@ -555,21 +492,36 @@
   }
 }
 
-/* Reduce motion for accessibility */
+/* Accessibility: Reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  .header,
+  .tabIndicator,
   .stepCard,
   .ctaSection,
-  .tabIndicator,
   .stepsAnimatingOut,
   .stepsAnimatingIn,
   .ctaAnimatingOut,
-  .ctaAnimatingIn {
-    animation: none;
-    transition: none;
+  .ctaAnimatingIn,
+  .ctaPrimary,
+  .ctaSecondary,
+  .feedbackCard,
+  .feedbackLink {
+    animation: none !important;
+    transition: none !important;
   }
   
   .stepCard {
     opacity: 1;
+  }
+}
+
+/* Print styles - remove animations */
+@media print {
+  .tabIndicator,
+  .stepCard,
+  .ctaSection {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
