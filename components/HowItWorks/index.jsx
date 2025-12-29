@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Briefcase, 
   FileText, 
@@ -22,6 +22,8 @@ import styles from './index.module.css';
 
 export default function HowItWorks() {
   const [activeTab, setActiveTab] = useState('candidato');
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [displayedTab, setDisplayedTab] = useState('candidato');
 
   const candidatoSteps = [
     {
@@ -117,18 +119,34 @@ export default function HowItWorks() {
     }
   ];
 
-  const currentSteps = activeTab === 'candidato' ? candidatoSteps : empregadorSteps;
+  const handleTabChange = (newTab) => {
+    if (newTab === activeTab || isAnimating) return;
+    
+    setIsAnimating(true);
+    setActiveTab(newTab);
+    
+    // Aguardar a animação de saída antes de trocar o conteúdo
+    setTimeout(() => {
+      setDisplayedTab(newTab);
+      // Pequeno delay para garantir que o novo conteúdo seja renderizado antes da animação de entrada
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 50);
+    }, 300);
+  };
+
+  const currentSteps = displayedTab === 'candidato' ? candidatoSteps : empregadorSteps;
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={`${styles.header} ${isAnimating ? styles.headerAnimating : ''}`}>
           <span className={styles.badge}>Como Funciona</span>
           <h2 className={styles.title}>
-            Passo a passo para {activeTab === 'candidato' ? 'encontrar seu emprego' : 'encontrar o colaborador ideal'}
+            Passo a passo para {displayedTab === 'candidato' ? 'encontrar seu emprego' : 'encontrar o colaborador ideal'}
           </h2>
           <p className={styles.subtitle}>
-            {activeTab === 'candidato' 
+            {displayedTab === 'candidato' 
               ? 'Siga estes passos simples e comece sua jornada rumo ao emprego dos seus sonhos'
               : 'Encontre os melhores profissionais para sua empresa de forma rápida e eficiente'
             }
@@ -136,25 +154,37 @@ export default function HowItWorks() {
         </div>
 
         <div className={styles.tabs}>
+          <div 
+            className={styles.tabIndicator} 
+            style={{ 
+              transform: activeTab === 'candidato' ? 'translateX(0)' : 'translateX(100%)'
+            }} 
+          />
           <button 
             className={`${styles.tab} ${activeTab === 'candidato' ? styles.tabActive : ''}`}
-            onClick={() => setActiveTab('candidato')}
+            onClick={() => handleTabChange('candidato')}
           >
             <Search size={20} />
             <span>Busco Emprego</span>
           </button>
           <button 
             className={`${styles.tab} ${activeTab === 'empregador' ? styles.tabActive : ''}`}
-            onClick={() => setActiveTab('empregador')}
+            onClick={() => handleTabChange('empregador')}
           >
             <Building2 size={20} />
             <span>Busco Funcionário</span>
           </button>
         </div>
 
-        <div className={styles.stepsContainer}>
+        <div className={`${styles.stepsContainer} ${isAnimating ? styles.stepsAnimatingOut : styles.stepsAnimatingIn}`}>
           {currentSteps.map((step, index) => (
-            <div key={index} className={styles.stepCard}>
+            <div 
+              key={`${displayedTab}-${index}`} 
+              className={styles.stepCard}
+              style={{ 
+                animationDelay: isAnimating ? '0ms' : `${index * 100}ms`
+              }}
+            >
               <div className={styles.stepNumber} style={{ backgroundColor: step.color }}>
                 {index + 1}
               </div>
@@ -180,16 +210,16 @@ export default function HowItWorks() {
           ))}
         </div>
 
-        <div className={styles.ctaSection}>
+        <div className={`${styles.ctaSection} ${isAnimating ? styles.ctaAnimatingOut : styles.ctaAnimatingIn}`}>
           <div className={styles.ctaContent}>
             <h3 className={styles.ctaTitle}>
-              {activeTab === 'candidato' 
+              {displayedTab === 'candidato' 
                 ? 'Pronto para começar sua busca?' 
                 : 'Pronto para encontrar talentos?'
               }
             </h3>
             <p className={styles.ctaDescription}>
-              {activeTab === 'candidato'
+              {displayedTab === 'candidato'
                 ? 'Junte-se a mais de 163.000 profissionais cadastrados e encontre sua próxima oportunidade.'
                 : 'Junte-se a mais de 6.700 empresas que já encontraram os melhores profissionais conosco.'
               }
@@ -197,17 +227,17 @@ export default function HowItWorks() {
           </div>
           <div className={styles.ctaButtons}>
             <Link 
-              href={activeTab === 'candidato' ? '/cadastro' : '/cadastro-empresa'} 
+              href={displayedTab === 'candidato' ? '/cadastro' : '/cadastro-empresa'} 
               className={styles.ctaPrimary}
             >
-              {activeTab === 'candidato' ? 'Criar minha conta grátis' : 'Cadastrar minha empresa'}
+              {displayedTab === 'candidato' ? 'Criar minha conta grátis' : 'Cadastrar minha empresa'}
               <ArrowRight size={20} />
             </Link>
             <Link 
-              href={activeTab === 'candidato' ? '/vagas' : '/curriculos'} 
+              href={displayedTab === 'candidato' ? '/vagas' : '/curriculos'} 
               className={styles.ctaSecondary}
             >
-              {activeTab === 'candidato' ? 'Ver vagas disponíveis' : 'Buscar currículos'}
+              {displayedTab === 'candidato' ? 'Ver vagas disponíveis' : 'Buscar currículos'}
             </Link>
           </div>
         </div>
