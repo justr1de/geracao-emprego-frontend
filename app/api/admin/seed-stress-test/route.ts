@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import crypto from 'crypto'
 
 // =====================================================
@@ -366,7 +366,7 @@ function generateVaga(empresaId: string, cargo: any, areaId: number) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const { searchParams } = new URL(request.url)
     
     const numCandidatos = parseInt(searchParams.get('candidatos') || '10000')
@@ -384,57 +384,62 @@ export async function POST(request: NextRequest) {
     // =====================================================
     console.log(`Iniciando criação de ${numCandidatos} candidatos...`)
     
-    for (let i = 0; i < numCandidatos; i += batchSize) {
-      const candidatosBatch = []
-      const usersBatch = []
-      const end = Math.min(i + batchSize, numCandidatos)
+    // Processar candidatos um por um (necessário para criar usuário no Auth)
+    for (let i = 0; i < numCandidatos; i++) {
+      const candidatoData = generateCandidato(i)
       
-      for (let j = i; j < end; j++) {
-        const candidato = generateCandidato(j)
-        candidatosBatch.push(candidato)
-        // Criar usuário correspondente
-        usersBatch.push({
-          id: candidato.user_id,
-          email: candidato.email,
-          tipo: 'candidato',
-          is_active: true
+      try {
+        // 1. Criar usuário no Supabase Auth
+        const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+          email: candidatoData.email,
+          password: 'Senha@123', // Senha padrão para teste
+          email_confirm: true, // Auto-confirmar para teste
+          user_metadata: {
+            nome_completo: candidatoData.nome_completo,
+            tipo_usuario: 1,
+          }
         })
-      }
-      
-      // Primeiro inserir os usuários
-      const { error: userError } = await supabase
-        .from('users')
-        .insert(usersBatch)
-      
-      if (userError) {
-        console.error(`Erro ao criar users batch ${i}-${end}:`, userError.message)
-        if (results.candidatos.errors === 0) {
-          (results as any).firstCandidatoError = { message: 'Erro ao criar users: ' + userError.message, details: userError.details, hint: userError.hint, code: userError.code }
+        
+        if (authError) {
+          if (results.candidatos.errors === 0) {
+            (results as any).firstCandidatoError = { message: 'Auth error: ' + authError.message, code: authError.code }
+          }
+          results.candidatos.errors++
+          results.candidatos.total++
+          continue
         }
-        results.candidatos.errors += candidatosBatch.length
-        results.candidatos.total += candidatosBatch.length
-        continue
-      }
-      
-      // Depois inserir os candidatos
-      const { error } = await supabase
-        .from('candidatos')
-        .insert(candidatosBatch)
-      
-      if (error) {
-        console.error(`Erro no batch ${i}-${end}:`, error.message, error.details, error.hint)
-        // Retornar erro detalhado para debug
-        if (results.candidatos.errors === 0) {
-          (results as any).firstCandidatoError = { message: error.message, details: error.details, hint: error.hint, code: error.code }
+        
+        // 2. Inserir candidato com user_id do Auth
+        const { error: candidatoError } = await supabase
+          .from('candidatos')
+          .insert({
+            ...candidatoData,
+            user_id: authData.user.id
+          })
+        
+        if (candidatoError) {
+          // Rollback: deletar usuário do Auth
+          await supabase.auth.admin.deleteUser(authData.user.id)
+          if (results.candidatos.errors === 0) {
+            (results as any).firstCandidatoError = { message: candidatoError.message, details: candidatoError.details, hint: candidatoError.hint, code: candidatoError.code }
+          }
+          results.candidatos.errors++
+        } else {
+          results.candidatos.success++
         }
-        results.candidatos.errors += batch.length
-      } else {
-        results.candidatos.success += batch.length
+        results.candidatos.total++
+        
+        // Log de progresso a cada 100
+        if (results.candidatos.total % 100 === 0) {
+          console.log(`Candidatos: ${results.candidatos.total}/${numCandidatos}`)
+        }
+      } catch (err: any) {
+        if (results.candidatos.errors === 0) {
+          (results as any).firstCandidatoError = { message: err.message }
+        }
+        results.candidatos.errors++
+        results.candidatos.total++
       }
-      results.candidatos.total += batch.length
-      
-      // Log de progresso
-      console.log(`Candidatos: ${results.candidatos.total}/${numCandidatos}`)
     }
     
     // =====================================================
