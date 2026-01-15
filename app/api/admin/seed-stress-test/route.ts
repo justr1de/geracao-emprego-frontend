@@ -399,7 +399,11 @@ export async function POST(request: NextRequest) {
         .insert(batch)
       
       if (error) {
-        console.error(`Erro no batch ${i}-${end}:`, error.message)
+        console.error(`Erro no batch ${i}-${end}:`, error.message, error.details, error.hint)
+        // Retornar erro detalhado para debug
+        if (results.candidatos.errors === 0) {
+          (results as any).firstCandidatoError = { message: error.message, details: error.details, hint: error.hint, code: error.code }
+        }
         results.candidatos.errors += batch.length
       } else {
         results.candidatos.success += batch.length
@@ -434,7 +438,10 @@ export async function POST(request: NextRequest) {
           .insert(empresa)
         
         if (empresaError) {
-          console.error(`Erro ao criar empresa:`, empresaError.message)
+          console.error(`Erro ao criar empresa:`, empresaError.message, empresaError.details)
+          if (results.empresas.errors === 0) {
+            (results as any).firstEmpresaError = { message: empresaError.message, details: empresaError.details, hint: empresaError.hint, code: empresaError.code }
+          }
           results.empresas.errors++
         } else {
           results.empresas.success++
