@@ -490,7 +490,10 @@ export async function POST(request: NextRequest) {
             .insert(vagas)
           
           if (vagasError) {
-            console.error(`Erro ao criar vagas:`, vagasError.message)
+            console.error(`Erro ao criar vagas:`, vagasError.message, vagasError.details)
+            if (results.vagas.errors === 0) {
+              (results as any).firstVagaError = { message: vagasError.message, details: vagasError.details, hint: vagasError.hint, code: vagasError.code }
+            }
             results.vagas.errors += vagas.length
           } else {
             results.vagas.success += vagas.length
