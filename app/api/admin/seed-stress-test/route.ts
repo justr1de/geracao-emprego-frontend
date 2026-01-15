@@ -28,7 +28,7 @@ const RUAS = ['Rua das Flores', 'Rua São Paulo', 'Rua Amazonas', 'Rua Rondônia
 // Empresas por setor com nomes realistas
 const EMPRESAS_POR_SETOR = {
   comercio: {
-    ramo_id: 1,
+    ramo_id: 1, // Comércio Varejista
     prefixos: ['Supermercado', 'Mercado', 'Loja', 'Casa', 'Empório', 'Atacado', 'Varejo', 'Magazine', 'Center', 'Mega'],
     sufixos: ['Bom Preço', 'Econômico', 'Popular', 'da Família', 'do Povo', 'Norte', 'Rondônia', 'Amazônia', 'Central', 'Express', 'Plus', 'Max', 'Top', 'Prime', 'Gold'],
     cargos: [
@@ -45,7 +45,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   construcao: {
-    ramo_id: 2,
+    ramo_id: 2, // Construção Civil
     prefixos: ['Construtora', 'Engenharia', 'Construções', 'Edificações', 'Empreiteira'],
     sufixos: ['Norte Sul', 'Rondônia', 'Amazônia', 'Brasil', 'Nacional', 'Regional', 'Pioneira', 'Moderna', 'Técnica', 'Premium'],
     cargos: [
@@ -62,7 +62,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   saude: {
-    ramo_id: 3,
+    ramo_id: 3, // Saúde
     prefixos: ['Hospital', 'Clínica', 'Centro Médico', 'Laboratório', 'UBS', 'Consultório'],
     sufixos: ['São Lucas', 'Santa Casa', 'Vida', 'Saúde', 'Popular', 'Regional', 'Especializado', 'Diagnóstico', 'Bem Estar', 'Cuidar'],
     cargos: [
@@ -79,7 +79,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   alimentacao: {
-    ramo_id: 4,
+    ramo_id: 4, // Alimentação
     prefixos: ['Restaurante', 'Lanchonete', 'Pizzaria', 'Churrascaria', 'Padaria', 'Cafeteria', 'Bar', 'Bistrô'],
     sufixos: ['Sabor da Terra', 'Bom Gosto', 'Delícias', 'Regional', 'da Mamãe', 'do Chef', 'Tropical', 'Amazônico', 'Caseiro', 'Gourmet'],
     cargos: [
@@ -96,7 +96,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   tecnologia: {
-    ramo_id: 5,
+    ramo_id: 5, // Tecnologia da Informação
     prefixos: ['Tech', 'Digital', 'Info', 'Soft', 'Data', 'Net', 'Web', 'Cloud', 'Smart', 'Cyber'],
     sufixos: ['Solutions', 'Systems', 'RO', 'Norte', 'Amazônia', 'Brasil', 'Lab', 'Hub', 'Connect', 'Innovation'],
     cargos: [
@@ -113,7 +113,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   educacao: {
-    ramo_id: 6,
+    ramo_id: 6, // Serviços (educação)
     prefixos: ['Escola', 'Colégio', 'Instituto', 'Centro Educacional', 'Faculdade', 'Curso'],
     sufixos: ['Futuro', 'Saber', 'Conhecimento', 'Evolução', 'Progresso', 'Rondônia', 'Norte', 'Integrado', 'Técnico', 'Profissionalizante'],
     cargos: [
@@ -130,7 +130,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   industria: {
-    ramo_id: 7,
+    ramo_id: 1, // Usando Comércio Varejista (não existe indústria)
     prefixos: ['Indústria', 'Fábrica', 'Metalúrgica', 'Madeireira', 'Frigorífico', 'Laticínios'],
     sufixos: ['Rondônia', 'Norte', 'Amazônia', 'Brasil', 'Nacional', 'Regional', 'Industrial', 'Produção', 'Alimentos', 'Produtos'],
     cargos: [
@@ -147,7 +147,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   servicos: {
-    ramo_id: 8,
+    ramo_id: 6, // Serviços
     prefixos: ['Serviços', 'Assistência', 'Manutenção', 'Consultoria', 'Assessoria', 'Agência'],
     sufixos: ['Técnica', 'Especializada', 'Profissional', 'Express', 'Rápida', 'Completa', 'Total', 'Premium', 'Norte', 'Rondônia'],
     cargos: [
@@ -164,7 +164,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   agronegocio: {
-    ramo_id: 9,
+    ramo_id: 1, // Usando Comércio Varejista (não existe agronegócio)
     prefixos: ['Fazenda', 'Agropecuária', 'Agrícola', 'Rural', 'Agro', 'Pecuária'],
     sufixos: ['Rondônia', 'Norte', 'Amazônia', 'Brasil', 'Pioneira', 'Progresso', 'Esperança', 'Boa Vista', 'Santa Fé', 'São José'],
     cargos: [
@@ -181,7 +181,7 @@ const EMPRESAS_POR_SETOR = {
     ]
   },
   transporte: {
-    ramo_id: 10,
+    ramo_id: 6, // Usando Serviços (não existe transporte)
     prefixos: ['Transportadora', 'Logística', 'Expresso', 'Viação', 'Frete', 'Cargas'],
     sufixos: ['Rondônia', 'Norte', 'Amazônia', 'Brasil', 'Nacional', 'Regional', 'Express', 'Rápido', 'Seguro', 'Confiável'],
     cargos: [
@@ -281,10 +281,8 @@ function generateCandidato(index: number) {
   const possuiCnh = Math.random() < 0.6 // 60% com CNH
   const veiculoProprio = possuiCnh && Math.random() < 0.4 // 40% dos que têm CNH têm veículo
   
-  const id = crypto.randomUUID()
   return {
-    id: id,
-    user_id: id,
+    user_id: crypto.randomUUID(),
     nome_completo: `${nome} ${sobrenome1} ${sobrenome2}`,
     cpf: generateCPF(),
     genero: isFemale ? 'F' : 'M',
