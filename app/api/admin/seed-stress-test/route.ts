@@ -380,21 +380,46 @@ export async function POST(request: NextRequest) {
     }
     
     // =====================================================
-    // CRIAR CANDIDATOS
+    // CRIAR CANDIDATOS (com usuários)
     // =====================================================
     console.log(`Iniciando criação de ${numCandidatos} candidatos...`)
     
     for (let i = 0; i < numCandidatos; i += batchSize) {
-      const batch = []
+      const candidatosBatch = []
+      const usersBatch = []
       const end = Math.min(i + batchSize, numCandidatos)
       
       for (let j = i; j < end; j++) {
-        batch.push(generateCandidato(j))
+        const candidato = generateCandidato(j)
+        candidatosBatch.push(candidato)
+        // Criar usuário correspondente
+        usersBatch.push({
+          id: candidato.user_id,
+          email: candidato.email,
+          tipo: 'candidato',
+          is_active: true
+        })
       }
       
+      // Primeiro inserir os usuários
+      const { error: userError } = await supabase
+        .from('users')
+        .insert(usersBatch)
+      
+      if (userError) {
+        console.error(`Erro ao criar users batch ${i}-${end}:`, userError.message)
+        if (results.candidatos.errors === 0) {
+          (results as any).firstCandidatoError = { message: 'Erro ao criar users: ' + userError.message, details: userError.details, hint: userError.hint, code: userError.code }
+        }
+        results.candidatos.errors += candidatosBatch.length
+        results.candidatos.total += candidatosBatch.length
+        continue
+      }
+      
+      // Depois inserir os candidatos
       const { error } = await supabase
         .from('candidatos')
-        .insert(batch)
+        .insert(candidatosBatch)
       
       if (error) {
         console.error(`Erro no batch ${i}-${end}:`, error.message, error.details, error.hint)
