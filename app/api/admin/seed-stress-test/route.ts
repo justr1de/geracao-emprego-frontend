@@ -281,8 +281,10 @@ function generateCandidato(index: number) {
   const possuiCnh = Math.random() < 0.6 // 60% com CNH
   const veiculoProprio = possuiCnh && Math.random() < 0.4 // 40% dos que têm CNH têm veículo
   
+  const id = crypto.randomUUID()
   return {
-    user_id: crypto.randomUUID(),
+    id: id,
+    user_id: id,
     nome_completo: `${nome} ${sobrenome1} ${sobrenome2}`,
     cpf: generateCPF(),
     genero: isFemale ? 'F' : 'M',
