@@ -482,7 +482,7 @@ export async function POST(request: NextRequest) {
           for (let v = 0; v < numVagas && cargosDisponiveis.length > 0; v++) {
             const cargoIdx = randomInt(0, cargosDisponiveis.length - 1)
             const cargo = cargosDisponiveis.splice(cargoIdx, 1)[0]
-            vagas.push(generateVaga(empresa.id, cargo, randomInt(1, 10))) // area_id de 1 a 10
+            vagas.push(generateVaga(empresa.id, cargo, randomInt(1, 8))) // area_id de 1 a 8 (valores existentes)
           }
           
           const { error: vagasError } = await supabase
