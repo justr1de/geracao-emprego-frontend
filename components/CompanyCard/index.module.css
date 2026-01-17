@@ -1,56 +1,57 @@
 .card {
   background: white;
-  border: 3px solid #000;
-  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 4px 4px 0 #000;
-  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
   position: relative;
   cursor: pointer;
 }
 
 .card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 #000;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(22, 163, 74, 0.15);
+  border-color: #16a34a;
 }
 
 .topSection {
-  height: 100px;
-  background: linear-gradient(135deg, #1e40af 0%, #06b6d4 100%);
-  border-bottom: 3px solid #000;
+  height: 80px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
 }
 
 .logoWrapper {
   position: relative;
-  margin-top: -40px;
+  margin-top: -36px;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .logo {
-  width: 80px;
-  height: 80px;
-  border: 4px solid #000;
+  width: 72px;
+  height: 72px;
+  border: 3px solid white;
   border-radius: 50%;
   background: white;
   object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .content {
-  padding: 0 1.5rem 1.5rem;
+  padding: 0 1.25rem 1.25rem;
 }
 
 .name {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #111;
-  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .description {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #64748b;
   line-height: 1.5;
   margin-bottom: 1rem;
   text-align: center;
@@ -68,22 +69,22 @@
 }
 
 .categoryTag {
-  padding: 0.375rem 0.875rem;
-  background: #dbeafe;
-  border: 2px solid #1e40af;
-  border-radius: 16px;
+  padding: 0.25rem 0.75rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 9999px;
   font-size: 0.75rem;
-  font-weight: 700;
-  color: #1e40af;
+  font-weight: 600;
+  color: #16a34a;
 }
 
 .vacancyTag {
-  padding: 0.375rem 0.875rem;
+  padding: 0.25rem 0.75rem;
   background: white;
-  border: 2px solid #16a34a;
-  border-radius: 16px;
+  border: 1px solid #16a34a;
+  border-radius: 9999px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #16a34a;
 }
 
@@ -91,21 +92,22 @@
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  width: 40px;
-  height: 40px;
-  background: #1e40af;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
   color: white;
-  border: 3px solid #000;
+  border: none;
   border-radius: 50%;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
 }
 
 .actionButton:hover {
-  background: #1e3a8a;
+  background: linear-gradient(135deg, #15803d 0%, #166534 100%);
   transform: scale(1.1);
 }
