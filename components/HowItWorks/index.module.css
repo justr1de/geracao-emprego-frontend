@@ -10,7 +10,7 @@
 .section {
   padding: 5rem 1.5rem;
   background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-  contain: layout style;
+
 }
 
 .container {
@@ -129,8 +129,7 @@
   gap: 2rem;
   margin-bottom: 3rem;
   position: relative;
-  /* Contain layout changes */
-  contain: layout;
+  /* Layout changes */
 }
 
 /* Optimized animation states using GPU-accelerated properties only */
