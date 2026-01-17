@@ -28,7 +28,7 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          documento: formData.login,
+          documento: formData.login.replace(/\D/g, ''), // Remove formatação antes de enviar
           password: formData.password,
           tipo: loginType,
         }),
