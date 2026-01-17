@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 
 /**
  * POST /api/auth/login-documento
@@ -20,6 +20,9 @@ export async function POST(request: NextRequest) {
     // Remove formatação do documento
     const documentoLimpo = documento.replace(/\D/g, '')
 
+    // Usar adminClient para buscar candidato/empresa (bypassa RLS)
+    const adminClient = createAdminClient()
+    // Usar client normal para autenticação
     const supabase = await createClient()
     let email: string | null = null
     let tipoUsuario: number = 1
@@ -34,7 +37,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Buscar email do candidato pelo CPF
-      const { data: candidato, error: candidatoError } = await supabase
+      const { data: candidato, error: candidatoError } = await adminClient
         .from('candidatos')
         .select('email, user_id')
         .eq('cpf', documentoLimpo)
@@ -68,7 +71,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Buscar email da empresa pelo CNPJ
-      const { data: empresa, error: empresaError } = await supabase
+      const { data: empresa, error: empresaError } = await adminClient
         .from('empresas')
         .select('email_contato, user_id')
         .eq('cnpj', documentoLimpo)
