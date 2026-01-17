@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Eye, EyeOff, LogIn, ArrowLeft, Building2, User, Lock, AlertCircle } from 'lucide-react';
+import { getSupabaseClient } from '@/lib/supabase/client';
 import styles from './page.module.css';
 
 export default function LoginPage() {
@@ -22,6 +23,7 @@ export default function LoginPage() {
     setError(null);
     
     try {
+      // Primeiro, buscar o email do candidato/empresa pela API
       const response = await fetch('/api/auth/login-documento', {
         method: 'POST',
         headers: {
@@ -38,6 +40,20 @@ export default function LoginPage() {
 
       if (!response.ok) {
         setError(data.error || 'Erro ao fazer login');
+        setIsLoading(false);
+        return;
+      }
+
+      // Se a API retornou sucesso, fazer login via Supabase client para manter a sessão
+      const supabase = getSupabaseClient();
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: data.user.email,
+        password: formData.password,
+      });
+
+      if (signInError) {
+        console.error('Erro ao estabelecer sessão:', signInError);
+        setError('Erro ao estabelecer sessão. Tente novamente.');
         setIsLoading(false);
         return;
       }
