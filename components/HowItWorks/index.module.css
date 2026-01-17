@@ -126,7 +126,7 @@
 .stepsContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
   margin-bottom: 3rem;
   position: relative;
   /* Contain layout changes */
@@ -150,7 +150,7 @@
   position: relative;
   background: white;
   border-radius: 1rem;
-  padding: 2rem 1.25rem 1.5rem;
+  padding: 2.5rem 1.5rem 1.75rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid #e2e8f0;
   /* GPU-accelerated transform for hover */
@@ -163,7 +163,7 @@
   /* Ensure content is not clipped */
   overflow: visible;
   /* Minimum height to accommodate all content */
-  min-height: 320px;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
 }
