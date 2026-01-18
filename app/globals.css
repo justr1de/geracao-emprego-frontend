@@ -327,8 +327,8 @@
   body::after {
     content: '';
     position: fixed;
-    top: 80px; /* Abaixo do header */
-    bottom: 60px; /* Acima do footer aproximado */
+    top: 0;
+    bottom: 0;
     width: 200px;
     background-image: url('/images/rondonia-sidebar-bg.png');
     background-size: cover;
