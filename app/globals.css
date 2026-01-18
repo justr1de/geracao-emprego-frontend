@@ -347,15 +347,35 @@
     right: 0;
   }
 
-  /* Esconder em telas menores onde não há espaço lateral */
-  @media (max-width: 1400px) {
+  /* Responsividade para diferentes tamanhos de tela */
+  
+  /* Telas extra grandes (1600px+) */
+  @media (min-width: 1600px) {
     body::before,
     body::after {
-      width: 120px;
+      width: 250px;
     }
   }
 
-  @media (max-width: 1200px) {
+  /* Telas grandes (1400px - 1599px) */
+  @media (max-width: 1599px) and (min-width: 1400px) {
+    body::before,
+    body::after {
+      width: 180px;
+    }
+  }
+
+  /* Telas médias-grandes (1200px - 1399px) */
+  @media (max-width: 1399px) and (min-width: 1200px) {
+    body::before,
+    body::after {
+      width: 120px;
+      opacity: 0.40;
+    }
+  }
+
+  /* Telas médias (1024px - 1199px) */
+  @media (max-width: 1199px) and (min-width: 1024px) {
     body::before,
     body::after {
       width: 80px;
@@ -363,7 +383,8 @@
     }
   }
 
-  @media (max-width: 1024px) {
+  /* Tablets e telas menores (abaixo de 1024px) - esconder imagens laterais */
+  @media (max-width: 1023px) {
     body::before,
     body::after {
       display: none;
