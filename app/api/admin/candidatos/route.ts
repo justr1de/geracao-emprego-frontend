@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 
 /**
  * GET /api/admin/candidatos
  * Lista todos os candidatos com busca e paginação
+ * Usa o cliente admin para ignorar RLS
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const { searchParams } = new URL(request.url)
     
     const search = searchParams.get('search') || ''
@@ -64,10 +65,11 @@ export async function GET(request: NextRequest) {
 /**
  * PUT /api/admin/candidatos
  * Atualiza um candidato
+ * Usa o cliente admin para ignorar RLS
  */
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const body = await request.json()
     const { id, user_id, ...updateData } = body
 
@@ -117,10 +119,11 @@ export async function PUT(request: NextRequest) {
 /**
  * DELETE /api/admin/candidatos
  * Remove um candidato
+ * Usa o cliente admin para ignorar RLS
  */
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
 
