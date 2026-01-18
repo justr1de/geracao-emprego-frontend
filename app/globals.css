@@ -320,3 +320,53 @@
     }
   }
 }
+
+/* Imagem decorativa nas laterais - Rondônia */
+@layer base {
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    top: 80px; /* Abaixo do header */
+    bottom: 60px; /* Acima do footer aproximado */
+    width: 200px;
+    background-image: url('/images/rondonia-sidebar-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::before {
+    left: 0;
+  }
+
+  body::after {
+    right: 0;
+  }
+
+  /* Esconder em telas menores onde não há espaço lateral */
+  @media (max-width: 1400px) {
+    body::before,
+    body::after {
+      width: 120px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    body::before,
+    body::after {
+      width: 80px;
+      opacity: 0.05;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    body::before,
+    body::after {
+      display: none;
+    }
+  }
+}
