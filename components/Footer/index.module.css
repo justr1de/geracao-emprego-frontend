@@ -34,6 +34,35 @@
   }
 }
 
+/* Ajustar margens para respeitar as imagens laterais decorativas */
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding-left: 140px;
+    padding-right: 140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .container {
+    padding-left: 270px;
+    padding-right: 270px;
+  }
+}
+
 /* Grid de colunas */
 .grid {
   display: grid;

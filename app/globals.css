@@ -118,6 +118,40 @@
     overflow-x: hidden;
   }
 
+  /* Ajustar main content para respeitar as imagens laterais decorativas */
+  #main-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 1024px) {
+    #main-content {
+      padding-left: 100px;
+      padding-right: 100px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    #main-content {
+      padding-left: 140px;
+      padding-right: 140px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    #main-content {
+      padding-left: 200px;
+      padding-right: 200px;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    #main-content {
+      padding-left: 270px;
+      padding-right: 270px;
+    }
+  }
+
   main {
     min-height: 100vh;
   }
