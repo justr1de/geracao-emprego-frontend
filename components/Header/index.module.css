@@ -319,6 +319,101 @@
   }
 }
 
+/* Segunda linha de ações - centralizada */
+.actionsRow {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.375rem 1rem;
+  background: var(--background-alt);
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 1024px) {
+  .actionsRow {
+    display: flex;
+  }
+}
+
+/* Ajustar margens para respeitar as imagens laterais decorativas */
+@media (min-width: 1024px) {
+  .actionsRow {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .actionsRow {
+    padding-left: 140px;
+    padding-right: 140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .actionsRow {
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .actionsRow {
+    padding-left: 270px;
+    padding-right: 270px;
+  }
+}
+
+.loginBtnSmall {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.loginBtnSmall:hover {
+  color: var(--text-primary);
+  background: var(--background);
+}
+
+.signupBtnSmall {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-foreground);
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.signupBtnSmall:hover {
+  background: var(--primary-hover);
+}
+
+.profileBtnSmall {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.profileBtnSmall:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
 /* Botão Menu Mobile */
 .mobileMenuBtn {
   display: flex;

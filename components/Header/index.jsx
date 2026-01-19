@@ -50,6 +50,7 @@ export default function Header() {
       </a>
 
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+        {/* Primeira linha: Logos, Logo Principal e Navegação */}
         <div className={styles.container}>
           {/* Logos Institucionais */}
           <div className={styles.institutionalLogos}>
@@ -122,26 +123,6 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Ações */}
-          <div className={styles.actions}>
-            {isLogged ? (
-              <Link href="/perfil" className={styles.profileBtn} aria-label="Meu perfil">
-                <User size={20} />
-                <span className={styles.profileText}>Meu Perfil</span>
-              </Link>
-            ) : (
-              <>
-                <Link href="/login" className={styles.loginBtn}>
-                  <LogIn size={18} />
-                  <span>Entrar</span>
-                </Link>
-                <Link href="/tipo-cadastro" className={styles.signupBtn}>
-                  Cadastre-se
-                </Link>
-              </>
-            )}
-          </div>
-
           {/* Botão Menu Mobile */}
           <button
             className={styles.mobileMenuBtn}
@@ -151,6 +132,26 @@ export default function Header() {
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+        </div>
+
+        {/* Segunda linha: Botões de ação centralizados */}
+        <div className={styles.actionsRow}>
+          {isLogged ? (
+            <Link href="/perfil" className={styles.profileBtnSmall} aria-label="Meu perfil">
+              <User size={16} />
+              <span>Meu Perfil</span>
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className={styles.loginBtnSmall}>
+                <LogIn size={14} />
+                <span>Entrar</span>
+              </Link>
+              <Link href="/tipo-cadastro" className={styles.signupBtnSmall}>
+                Cadastre-se
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Menu Mobile */}
