@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import { LogOut } from 'lucide-react'
+import { LogOut, Lock } from 'lucide-react'
 import styles from './layout.module.css'
 
 interface AdminLayoutProps {
@@ -51,6 +51,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <span className={styles.welcomeText}>Painel Administrativo</span>
         </div>
         <button onClick={handleLogout} className={styles.logoutBtn}>
+          <Lock size={16} />
           <LogOut size={18} />
           <span>Sair</span>
         </button>
