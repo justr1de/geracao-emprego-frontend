@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Instagram, Facebook, MessageCircle, Mail, Phone, MapPin, ChevronRight } from 'lucide-react';
 import styles from './index.module.css';
 
@@ -131,9 +132,21 @@ export default function Footer() {
               Ícones feitos por <a href="https://www.flaticon.com" target="_blank" rel="noopener noreferrer">www.flaticon.com</a>
             </p>
           </div>
-          <div className={styles.badges}>
-            <span className={styles.badge}>SEDEC-RO</span>
-            <span className={styles.badge}>SINE</span>
+          <div className={styles.logos}>
+            <Image
+              src="/logos/sedec.png"
+              alt="SEDEC-RO - Secretaria de Estado do Desenvolvimento Econômico"
+              width={80}
+              height={40}
+              className={styles.logoImage}
+            />
+            <Image
+              src="/logos/sine.png"
+              alt="SINE - Sistema Nacional de Emprego"
+              width={80}
+              height={40}
+              className={styles.logoImage}
+            />
           </div>
         </div>
       </div>
