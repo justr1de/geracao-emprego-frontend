@@ -176,6 +176,22 @@ export default function AdminLoginPage() {
 
       {/* Copyright */}
       <footer className={styles.copyright}>
+        <a 
+          href="https://dataro-it.com.br" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className={styles.dataroLink}
+          aria-label="Desenvolvido por DATA-RO"
+        >
+          <Image
+            src="/logos/dataro-logo.png"
+            alt="DATA-RO"
+            width={24}
+            height={24}
+            className={styles.dataroLogo}
+          />
+          <span className={styles.dataroText}>Desenvolvido por DATA-RO</span>
+        </a>
         <p>© 2025 Geração Emprego - Painel Administrativo</p>
       </footer>
     </div>
