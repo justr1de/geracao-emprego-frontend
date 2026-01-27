@@ -30,6 +30,15 @@
   font-weight: 600;
 }
 
+.badge {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
 .logoutBtn {
   display: flex;
   align-items: center;
@@ -54,117 +63,127 @@
   display: inline;
 }
 
-/* Body do Admin (sidebar + content) */
-.adminBody {
+/* Navegação horizontal no corpo da página */
+.horizontalNav {
   display: flex;
-  flex: 1;
-}
-
-.sidebar {
-  width: 260px;
-  background: linear-gradient(180deg, #1a5632 0%, #0d3d1f 100%);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: 80px;
-  height: calc(100vh - 80px);
-  overflow-y: auto;
-  position: relative;
-}
-
-/* Imagem de fundo removida conforme solicitação */
-
-.sidebarHeader {
-  padding: 24px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.sidebarHeader h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0 0 8px 0;
-}
-
-.badge {
-  display: inline-block;
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.sidebarNav {
-  flex: 1;
-  padding: 16px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .navItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 8px;
+  padding: 10px 16px;
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #4a5568;
   text-decoration: none;
   transition: all 0.2s ease;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
 }
 
 .navItem:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+  background-color: #e6fffa;
+  border-color: #16a34a;
+  color: #16a34a;
 }
 
 .navItem.active {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #16a34a;
+  border-color: #16a34a;
   color: white;
   font-weight: 500;
 }
 
 .navIcon {
-  font-size: 1.2rem;
-  width: 24px;
-  text-align: center;
+  font-size: 1.1rem;
 }
 
 .navLabel {
-  flex: 1;
+  font-size: 0.875rem;
 }
 
-.sidebarFooter {
-  padding: 16px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.backLink {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
-
-.backLink:hover {
-  color: white;
-}
-
+/* Conteúdo principal */
 .mainContent {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
 }
 
+/* Rodapé do Admin */
+.adminFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4a5568;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: #16a34a;
+}
+
+/* Logo DATA-RO */
+.dataroLogo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.dataroLogo:hover {
+  opacity: 1;
+  border-color: #16a34a;
+}
+
+.dataroLogoImg {
+  border-radius: 4px;
+}
+
+.dataroText {
+  font-size: 0.7rem;
+  color: #4a5568;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.dataroLogo:hover .dataroText {
+  color: #16a34a;
+}
+
 /* Responsividade */
 @media (max-width: 1024px) {
-  .sidebar {
-    width: 220px;
+  .horizontalNav {
+    padding: 12px 16px;
+    gap: 6px;
+  }
+  
+  .navItem {
+    padding: 8px 12px;
   }
   
   .mainContent {
@@ -173,10 +192,6 @@
 }
 
 @media (max-width: 768px) {
-  .adminContainer {
-    flex-direction: column;
-  }
-
   .adminHeader {
     padding: 10px 16px;
     top: 0;
@@ -184,6 +199,10 @@
 
   .welcomeText {
     font-size: 0.875rem;
+  }
+
+  .badge {
+    display: none;
   }
 
   .logoutBtn {
@@ -195,84 +214,50 @@
     display: none;
   }
 
-  .adminBody {
-    flex-direction: column;
+  .horizontalNav {
+    padding: 10px 12px;
+    gap: 4px;
   }
-  
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    top: 0;
-  }
-  
-  .sidebarNav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 12px;
-  }
-  
+
   .navItem {
-    padding: 10px 14px;
+    padding: 8px 10px;
+    font-size: 0.8rem;
   }
-  
+
   .navLabel {
     display: none;
   }
-  
+
   .navIcon {
-    font-size: 1.4rem;
-  }
-  
-  .sidebarHeader,
-  .sidebarFooter {
-    display: none;
+    font-size: 1.2rem;
   }
   
   .mainContent {
     padding: 16px;
   }
-}
 
+  .adminFooter {
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
 
-/* Logo DATA-RO */
-.dataroLogo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  opacity: 0.6;
-}
-
-.dataroLogo:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.dataroLogoImg {
-  border-radius: 4px;
-  filter: brightness(1.1);
-}
-
-.dataroText {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-.dataroLogo:hover .dataroText {
-  color: white;
-}
-
-@media (max-width: 768px) {
   .dataroLogo {
-    display: none;
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .horizontalNav {
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .navItem {
+    padding: 6px 8px;
+  }
+
+  .navIcon {
+    font-size: 1rem;
   }
 }

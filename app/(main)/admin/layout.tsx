@@ -45,10 +45,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <div className={styles.adminContainer}>
-      {/* Header com botão de Logout */}
+      {/* Header com título e botão de Logout */}
       <header className={styles.adminHeader}>
         <div className={styles.headerLeft}>
           <span className={styles.welcomeText}>Painel Administrativo</span>
+          <span className={styles.badge}>Superadmin</span>
         </div>
         <button onClick={handleLogout} className={styles.logoutBtn}>
           <Lock size={16} />
@@ -57,55 +58,49 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </button>
       </header>
 
-      <div className={styles.adminBody}>
-        <aside className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <h2>Painel Admin</h2>
-          <span className={styles.badge}>Superadmin</span>
-        </div>
-        
-        <nav className={styles.sidebarNav}>
-          {menuItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`${styles.navItem} ${pathname === item.href ? styles.active : ''}`}
-            >
-              <span className={styles.navIcon}>{item.icon}</span>
-              <span className={styles.navLabel}>{item.label}</span>
-            </Link>
-          ))}
-        </nav>
-
-        <div className={styles.sidebarFooter}>
-          <Link href="/" className={styles.backLink}>
-            ← Voltar ao Site
-          </Link>
-          
-          {/* Logo DATA-RO */}
-          <a 
-            href="https://dataro-it.com.br" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className={styles.dataroLogo}
-            title="Desenvolvido por DATA-RO Inteligência Territorial"
+      {/* Navegação horizontal no corpo da página */}
+      <nav className={styles.horizontalNav}>
+        {menuItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`${styles.navItem} ${pathname === item.href ? styles.active : ''}`}
           >
-            <Image 
-              src="/dataro-logo-small.png" 
-              alt="DATA-RO" 
-              width={40} 
-              height={40}
-              className={styles.dataroLogoImg}
-            />
-            <span className={styles.dataroText}>DATA-RO</span>
-          </a>
-        </div>
-      </aside>
+            <span className={styles.navIcon}>{item.icon}</span>
+            <span className={styles.navLabel}>{item.label}</span>
+          </Link>
+        ))}
+      </nav>
 
-        <main className={styles.mainContent}>
-          {children}
-        </main>
-      </div>
+      {/* Conteúdo principal */}
+      <main className={styles.mainContent}>
+        {children}
+      </main>
+
+      {/* Rodapé com links */}
+      <footer className={styles.adminFooter}>
+        <Link href="/" className={styles.backLink}>
+          ← Voltar ao Site
+        </Link>
+        
+        {/* Logo DATA-RO */}
+        <a 
+          href="https://dataro-it.com.br" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className={styles.dataroLogo}
+          title="Desenvolvido por DATA-RO Inteligência Territorial"
+        >
+          <Image 
+            src="/dataro-logo-small.png" 
+            alt="DATA-RO" 
+            width={32} 
+            height={32}
+            className={styles.dataroLogoImg}
+          />
+          <span className={styles.dataroText}>DATA-RO</span>
+        </a>
+      </footer>
     </div>
   )
 }
