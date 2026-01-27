@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient, createAdminClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 // GET - Obter vaga específica (público)
 export async function GET(
@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const supabase = createAdminClient()
+    const supabase = await createClient()
 
     const { data: vaga, error } = await supabase
       .from('vagas')

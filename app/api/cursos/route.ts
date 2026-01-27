@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createAdminClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 // GET - Listar cursos (público)
 export async function GET(request: NextRequest) {
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10')
     const offset = (page - 1) * limit
 
-    const supabase = createAdminClient()
+    const supabase = await createClient()
 
     // Construir query
     let query = supabase
@@ -45,27 +45,40 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Erro ao listar cursos:', error)
-      return NextResponse.json(
-        { error: 'Erro ao buscar cursos' },
-        { status: 500 }
-      )
+      // Retornar array vazio em vez de erro
+      return NextResponse.json({
+        cursos: [],
+        pagination: {
+          page,
+          limit,
+          total: 0,
+          totalPages: 0
+        },
+        error: 'Erro ao buscar cursos'
+      })
     }
 
     return NextResponse.json({
-      cursos: data,
+      cursos: data || [],
       pagination: {
         page,
         limit,
-        total: count,
+        total: count || 0,
         totalPages: Math.ceil((count || 0) / limit)
       }
     })
 
   } catch (error) {
     console.error('Erro ao listar cursos:', error)
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({
+      cursos: [],
+      pagination: {
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 0
+      },
+      error: 'Erro interno do servidor'
+    })
   }
 }

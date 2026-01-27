@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createAdminClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 // GET - Listar currículos públicos (candidatos)
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createAdminClient()
+    const supabase = await createClient()
     const { searchParams } = new URL(request.url)
     
     // Parâmetros de busca e paginação
@@ -51,10 +51,17 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Erro ao buscar currículos:', error)
-      return NextResponse.json(
-        { error: 'Erro ao buscar currículos' },
-        { status: 500 }
-      )
+      // Retornar array vazio em vez de erro
+      return NextResponse.json({
+        curriculos: [],
+        pagination: {
+          page,
+          limit,
+          total: 0,
+          totalPages: 0
+        },
+        error: 'Erro ao buscar currículos'
+      })
     }
 
     // Calcular total de páginas
@@ -72,9 +79,15 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Erro ao buscar currículos:', error)
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({
+      curriculos: [],
+      pagination: {
+        page: 1,
+        limit: 12,
+        total: 0,
+        totalPages: 0
+      },
+      error: 'Erro interno do servidor'
+    })
   }
 }
