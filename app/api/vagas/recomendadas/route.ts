@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 
 interface CandidatoProfile {
   id: string;
@@ -170,45 +170,54 @@ export async function GET(request: NextRequest) {
     const minScore = parseInt(searchParams.get('min_score') || '30');
 
     const supabase = await createClient();
-    const adminClient = createAdminClient();
     
-    // Verificar autenticação
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    // Verificar autenticação (não obrigatório)
+    let user = null;
+    try {
+      const { data } = await supabase.auth.getUser();
+      user = data?.user;
+    } catch {
+      // Usuário não autenticado - continuar sem perfil
+    }
     
     let candidatoProfile: CandidatoProfile | null = null;
 
     // Se usuário está logado e é candidato, buscar perfil
     if (user && user.user_metadata?.tipo_usuario === 1) {
-      const { data: candidato } = await supabase
-        .from('candidatos')
-        .select(`
-          id,
-          area_interesse_id,
-          cidade,
-          estado,
-          salario_pretendido,
-          experiencia_anos,
-          escolaridade_id
-        `)
-        .eq('user_id', user.id)
-        .single();
+      try {
+        const { data: candidato } = await supabase
+          .from('candidatos')
+          .select(`
+            id,
+            area_interesse_id,
+            cidade,
+            estado,
+            salario_pretendido,
+            experiencia_anos,
+            escolaridade_id
+          `)
+          .eq('user_id', user.id)
+          .single();
 
-      if (candidato) {
-        // Buscar habilidades do candidato
-        const { data: habilidades } = await supabase
-          .from('candidato_habilidades')
-          .select('habilidade')
-          .eq('candidato_id', candidato.id);
+        if (candidato) {
+          // Buscar habilidades do candidato
+          const { data: habilidades } = await supabase
+            .from('candidato_habilidades')
+            .select('habilidade')
+            .eq('candidato_id', candidato.id);
 
-        candidatoProfile = {
-          ...candidato,
-          habilidades: habilidades?.map(h => h.habilidade) || [],
-        };
+          candidatoProfile = {
+            ...candidato,
+            habilidades: habilidades?.map(h => h.habilidade) || [],
+          };
+        }
+      } catch {
+        // Erro ao buscar perfil - continuar sem perfil
       }
     }
 
-    // Buscar vagas ativas
-    const { data: vagas, error: vagasError } = await adminClient
+    // Buscar vagas ativas (usando cliente normal - as vagas são públicas)
+    const { data: vagas, error: vagasError } = await supabase
       .from('vagas')
       .select(`
         *,
@@ -234,14 +243,26 @@ export async function GET(request: NextRequest) {
       `)
       .eq('status', 'ativa')
       .order('created_at', { ascending: false })
-      .limit(100); // Buscar mais vagas para ter opções de filtro
+      .limit(100);
 
     if (vagasError) {
       console.error('Erro ao buscar vagas:', vagasError);
-      return NextResponse.json(
-        { error: 'Erro ao buscar vagas recomendadas' },
-        { status: 500 }
-      );
+      // Retornar array vazio em vez de erro para não quebrar a UI
+      return NextResponse.json({
+        vagas: [],
+        hasProfile: false,
+        totalAnalyzed: 0,
+        error: 'Erro ao buscar vagas'
+      });
+    }
+
+    // Se não há vagas, retornar array vazio
+    if (!vagas || vagas.length === 0) {
+      return NextResponse.json({
+        vagas: [],
+        hasProfile: !!candidatoProfile,
+        totalAnalyzed: 0,
+      });
     }
 
     let vagasRecomendadas: VagaComScore[];
@@ -285,9 +306,12 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Erro ao buscar vagas recomendadas:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    // Retornar array vazio em vez de erro 500 para não quebrar a UI
+    return NextResponse.json({
+      vagas: [],
+      hasProfile: false,
+      totalAnalyzed: 0,
+      error: 'Erro interno do servidor'
+    });
   }
 }

@@ -11,7 +11,6 @@ import {
   TrendingUp,
   ArrowRight,
   RefreshCw,
-  AlertCircle,
   User
 } from 'lucide-react';
 import styles from './index.module.css';
@@ -61,26 +60,28 @@ export default function RecommendedJobs({
 }: RecommendedJobsProps) {
   const [vagas, setVagas] = useState<Vaga[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [hasProfile, setHasProfile] = useState(false);
 
   const fetchRecommendedJobs = async () => {
     setLoading(true);
-    setError(null);
     
     try {
       const response = await fetch(`/api/vagas/recomendadas?limit=${limit}`);
       const data = await response.json();
       
-      if (!response.ok) {
-        throw new Error(data.error || 'Erro ao buscar vagas');
-      }
-      
+      // A API sempre retorna 200 com vagas (pode ser array vazio)
       setVagas(data.vagas || []);
       setHasProfile(data.hasProfile || false);
+      
+      // Se houver erro na resposta mas com dados, apenas logar
+      if (data.error) {
+        console.warn('Aviso da API:', data.error);
+      }
     } catch (err) {
       console.error('Erro ao buscar vagas recomendadas:', err);
-      setError('Não foi possível carregar as vagas recomendadas');
+      // Em caso de erro de rede, mostrar array vazio
+      setVagas([]);
+      setHasProfile(false);
     } finally {
       setLoading(false);
     }
@@ -113,6 +114,7 @@ export default function RecommendedJobs({
     return 'Vaga disponível';
   };
 
+  // Estado de loading
   if (loading) {
     return (
       <section className={`${styles.section} ${className}`}>
@@ -141,23 +143,7 @@ export default function RecommendedJobs({
     );
   }
 
-  if (error) {
-    return (
-      <section className={`${styles.section} ${className}`}>
-        <div className={styles.container}>
-          <div className={styles.errorState}>
-            <AlertCircle size={48} />
-            <p>{error}</p>
-            <button onClick={fetchRecommendedJobs} className={styles.retryBtn}>
-              <RefreshCw size={18} />
-              Tentar novamente
-            </button>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
+  // Se não há vagas, mostrar estado vazio
   if (vagas.length === 0) {
     return (
       <section className={`${styles.section} ${className}`}>
@@ -184,6 +170,7 @@ export default function RecommendedJobs({
     );
   }
 
+  // Estado com vagas
   return (
     <section className={`${styles.section} ${className}`}>
       <div className={styles.container}>
