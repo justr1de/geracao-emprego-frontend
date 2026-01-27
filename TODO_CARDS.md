@@ -23,3 +23,22 @@
 - [x] Notificações de visualização (banner e indicadores visuais)
 - [x] Filtros por status na página de candidaturas
 - [x] Botão de atualização para verificar novos status
+
+
+---
+
+# Fase 1 - Engajamento Imediato
+
+## Sprint 1-2: Onboarding Guiado
+- [x] Criar componente OnboardingTour com tooltips e highlights
+- [x] Implementar passos do tour (busca, perfil, candidatura, notificações)
+- [x] Detectar usuário novo vs. retornante
+- [x] Opção de pular ou refazer o tour
+- [x] Salvar preferência do usuário no localStorage/banco
+
+## Sprint 3: Sistema de Recomendação de Vagas
+- [x] Criar algoritmo de matching perfil-vaga
+- [x] Implementar API /api/vagas/recomendadas
+- [x] Criar seção "Vagas para Você" na home
+- [x] Exibir score de compatibilidade nos cards
+- [x] Integrar com página de vagas

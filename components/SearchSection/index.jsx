@@ -93,7 +93,7 @@ export default function SearchSection() {
   ];
 
   return (
-    <section className={styles.section} aria-labelledby="search-title">
+    <section className={styles.section} aria-labelledby="search-title" data-tour="search">
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 id="search-title" className={styles.title}>

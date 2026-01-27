@@ -121,13 +121,14 @@ const EMPREGADOR_STEPS = [
 ];
 
 // Componente memoizado para cada card de passo
-const StepCard = memo(function StepCard({ step, index, isLast, animationDelay }) {
+const StepCard = memo(function StepCard({ step, index, isLast, animationDelay, dataTour }) {
   const IconComponent = step.icon;
   
   return (
     <div 
       className={styles.stepCard}
       style={{ '--animation-delay': animationDelay }}
+      data-tour={dataTour}
     >
       <div 
         className={styles.stepNumber} 
@@ -282,6 +283,7 @@ export default function HowItWorks() {
               index={index}
               isLast={index === currentSteps.length - 1}
               animationDelay={isAnimating ? '0ms' : `${index * 80}ms`}
+              dataTour={displayedTab === 'candidato' && index === 1 ? 'profile' : displayedTab === 'candidato' && index === 3 ? 'apply' : undefined}
             />
           ))}
         </div>

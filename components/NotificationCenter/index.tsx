@@ -222,7 +222,7 @@ export default function NotificationCenter({ className }: NotificationCenterProp
   if (!user) return null;
 
   return (
-    <div className={`${styles.container} ${className || ''}`} ref={dropdownRef}>
+    <div className={`${styles.container} ${className || ''}`} ref={dropdownRef} data-tour="notifications">
       <button
         className={styles.bellButton}
         onClick={() => setIsOpen(!isOpen)}
