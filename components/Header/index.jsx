@@ -134,25 +134,7 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Segunda linha: Botões de ação centralizados */}
-        <div className={styles.actionsRow}>
-          {isLogged ? (
-            <Link href="/perfil" className={styles.profileBtnSmall} aria-label="Meu perfil">
-              <User size={16} />
-              <span>Meu Perfil</span>
-            </Link>
-          ) : (
-            <>
-              <Link href="/login" className={styles.loginBtnSmall}>
-                <LogIn size={14} />
-                <span>Entrar</span>
-              </Link>
-              <Link href="/tipo-cadastro" className={styles.signupBtnSmall}>
-                Cadastre-se
-              </Link>
-            </>
-          )}
-        </div>
+        
 
         {/* Menu Mobile */}
         {mobileMenuOpen && (
