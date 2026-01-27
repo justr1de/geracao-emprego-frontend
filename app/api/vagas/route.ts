@@ -55,11 +55,11 @@ export async function GET(request: NextRequest) {
           nome
         )
       `, { count: 'exact' })
-      .eq('status', 'ativa')
+      .eq('status_id', 1)
 
     // Aplicar filtros
     if (search) {
-      query = query.or(`titulo.ilike.%${search}%,descricao.ilike.%${search}%`)
+      query = query.or(`cargo.ilike.%${search}%,descricao.ilike.%${search}%`)
     }
     if (area_id) {
       query = query.eq('area_id', area_id)
@@ -87,7 +87,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Ordenação
-    const validSortFields = ['created_at', 'salario_min', 'salario_max', 'titulo']
+    const validSortFields = ['created_at', 'salario_min', 'salario_max', 'cargo']
     const sortField = validSortFields.includes(sort_by) ? sort_by : 'created_at'
     const ascending = sort_order === 'asc'
     query = query.order(sortField, { ascending })
