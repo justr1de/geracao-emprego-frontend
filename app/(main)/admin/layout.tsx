@@ -15,6 +15,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const router = useRouter()
 
   const handleLogout = async () => {
+    // Confirmação antes de fazer logout
+    const confirmLogout = window.confirm('Confirmar logout?')
+    
+    if (!confirmLogout) {
+      return // Usuário cancelou
+    }
+
     try {
       await fetch('/api/auth/logout', { method: 'POST' })
       router.push('/admin')

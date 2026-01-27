@@ -355,15 +355,16 @@
   }
 }
 
-/* Imagem decorativa nas laterais - Rondônia */
+/* Imagem decorativa na lateral esquerda - Rondônia */
 @layer base {
-  body::before,
-  body::after {
+  /* Apenas lado esquerdo com imagem */
+  body::before {
     content: '';
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 200px;
+    left: 0;
+    width: 100px; /* Metade do tamanho original (200px / 2) */
     background-image: url('/images/rondonia-sidebar-bg.png');
     background-size: cover;
     background-position: center;
@@ -373,54 +374,46 @@
     z-index: 100;
   }
 
-  body::before {
-    left: 0;
-  }
-
+  /* Remover imagem do lado direito */
   body::after {
-    right: 0;
+    display: none;
   }
 
   /* Responsividade para diferentes tamanhos de tela */
   
   /* Telas extra grandes (1600px+) */
   @media (min-width: 1600px) {
-    body::before,
-    body::after {
-      width: 250px;
+    body::before {
+      width: 125px; /* Metade de 250px */
     }
   }
 
   /* Telas grandes (1400px - 1599px) */
   @media (max-width: 1599px) and (min-width: 1400px) {
-    body::before,
-    body::after {
-      width: 180px;
+    body::before {
+      width: 90px; /* Metade de 180px */
     }
   }
 
   /* Telas médias-grandes (1200px - 1399px) */
   @media (max-width: 1399px) and (min-width: 1200px) {
-    body::before,
-    body::after {
-      width: 120px;
+    body::before {
+      width: 60px; /* Metade de 120px */
       opacity: 0.40;
     }
   }
 
   /* Telas médias (1024px - 1199px) */
   @media (max-width: 1199px) and (min-width: 1024px) {
-    body::before,
-    body::after {
-      width: 80px;
+    body::before {
+      width: 40px; /* Metade de 80px */
       opacity: 0.30;
     }
   }
 
-  /* Tablets e telas menores (abaixo de 1024px) - esconder imagens laterais */
+  /* Tablets e telas menores (abaixo de 1024px) - esconder imagem lateral */
   @media (max-width: 1023px) {
-    body::before,
-    body::after {
+    body::before {
       display: none;
     }
   }
