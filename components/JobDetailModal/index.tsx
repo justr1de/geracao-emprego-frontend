@@ -1,12 +1,14 @@
 'use client';
 
-import { useId } from 'react';
+import { useId, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import ModalOverlay from '@/components/ModalOverlay';
-import { Briefcase, MapPin, Clock, DollarSign, CheckCircle2, Gift, Building2 } from 'lucide-react';
+import { useAuthContext as useAuth } from '@/contexts/AuthContext';
+import { Briefcase, MapPin, Clock, DollarSign, CheckCircle2, Gift, Building2, Loader2, Send, AlertCircle, CheckCircle } from 'lucide-react';
 import styles from './index.module.css';
 
 interface Job {
-  id: number;
+  id: string | number;
   title: string;
   company: string;
   location: string;
@@ -21,12 +23,82 @@ interface Job {
 interface JobDetailModalProps {
   job: Job;
   onClose: () => void;
+  onApplicationSuccess?: () => void;
 }
 
-export default function JobDetailModal({ job, onClose }: JobDetailModalProps) {
+export default function JobDetailModal({ job, onClose, onApplicationSuccess }: JobDetailModalProps) {
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+  const [applying, setApplying] = useState(false);
+  const [applied, setApplied] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
   // Gera IDs únicos para associar elementos via ARIA
   const titleId = useId();
   const descriptionId = useId();
+
+  // Função para candidatar-se com 1 clique
+  const handleApply = async () => {
+    // Se não estiver logado, redirecionar para login
+    if (!user) {
+      router.push(`/login?redirect=/vagas&vaga=${job.id}`);
+      return;
+    }
+
+    // Verificar se é candidato (tipo_usuario = 1)
+    if (user.user_metadata?.tipo_usuario !== 1) {
+      setError('Apenas candidatos podem se candidatar a vagas. Faça login com uma conta de candidato.');
+      return;
+    }
+
+    setApplying(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/candidaturas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          vaga_id: job.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 409) {
+          setError('Você já se candidatou a esta vaga.');
+          setApplied(true);
+        } else if (response.status === 404) {
+          setError('Complete seu perfil antes de se candidatar.');
+        } else {
+          setError(data.error || 'Erro ao enviar candidatura. Tente novamente.');
+        }
+        return;
+      }
+
+      setApplied(true);
+      
+      // Callback de sucesso
+      if (onApplicationSuccess) {
+        onApplicationSuccess();
+      }
+
+    } catch (err) {
+      console.error('Erro ao candidatar:', err);
+      setError('Erro de conexão. Verifique sua internet e tente novamente.');
+    } finally {
+      setApplying(false);
+    }
+  };
+
+  // Ir para minhas candidaturas
+  const goToApplications = () => {
+    router.push('/minhas-candidaturas');
+    onClose();
+  };
 
   return (
     <ModalOverlay 
@@ -129,14 +201,62 @@ export default function JobDetailModal({ job, onClose }: JobDetailModalProps) {
           </span>
         </footer>
 
-        {/* Botão de ação principal */}
-        <button 
-          className={styles.applyBtn}
-          type="button"
-          aria-label={`Candidatar-se para a vaga de ${job.title} na empresa ${job.company}`}
-        >
-          Candidatar-se
-        </button>
+        {/* Mensagem de erro */}
+        {error && (
+          <div className={styles.errorMessage} role="alert">
+            <AlertCircle size={16} />
+            <span>{error}</span>
+          </div>
+        )}
+
+        {/* Mensagem de sucesso */}
+        {applied && !error && (
+          <div className={styles.successMessage} role="status">
+            <CheckCircle size={16} />
+            <span>Candidatura enviada com sucesso!</span>
+          </div>
+        )}
+
+        {/* Botões de ação */}
+        <div className={styles.actions}>
+          {applied ? (
+            <button 
+              className={styles.viewApplicationsBtn}
+              type="button"
+              onClick={goToApplications}
+            >
+              <CheckCircle size={18} />
+              Ver Minhas Candidaturas
+            </button>
+          ) : (
+            <button 
+              className={styles.applyBtn}
+              type="button"
+              onClick={handleApply}
+              disabled={applying || authLoading}
+              aria-label={`Candidatar-se para a vaga de ${job.title} na empresa ${job.company}`}
+            >
+              {applying ? (
+                <>
+                  <Loader2 size={18} className={styles.spinner} />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  <Send size={18} />
+                  Candidatar-se com 1 Clique
+                </>
+              )}
+            </button>
+          )}
+        </div>
+
+        {/* Dica para não logados */}
+        {!user && !authLoading && (
+          <p className={styles.loginHint}>
+            Faça login ou cadastre-se para se candidatar instantaneamente
+          </p>
+        )}
       </article>
     </ModalOverlay>
   );

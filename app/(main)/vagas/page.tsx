@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, MapPin, Briefcase, Clock, DollarSign, Filter, ChevronDown, Loader2 } from 'lucide-react';
+import { Search, MapPin, Briefcase, Clock, DollarSign, Filter, ChevronDown, Loader2, Gift, Building2 } from 'lucide-react';
 import JobDetailModal from '@/components/JobDetailModal';
 import styles from './page.module.css';
 
@@ -42,6 +42,8 @@ interface Job {
   location: string;
   type: string;
   salary: string;
+  salaryMin: number | null;
+  salaryMax: number | null;
   description: string;
   requirements: string[];
   benefits: string[];
@@ -107,6 +109,31 @@ const cities = [
 
 const jobTypes = ['Todos os tipos', 'CLT', 'PJ', 'Temporário', 'Estágio', 'Jovem Aprendiz'];
 
+// Faixas salariais
+const salaryRanges = [
+  { label: 'Todas as faixas', min: null, max: null },
+  { label: 'Até R$ 1.500', min: 0, max: 1500 },
+  { label: 'R$ 1.500 - R$ 2.500', min: 1500, max: 2500 },
+  { label: 'R$ 2.500 - R$ 4.000', min: 2500, max: 4000 },
+  { label: 'R$ 4.000 - R$ 6.000', min: 4000, max: 6000 },
+  { label: 'R$ 6.000 - R$ 10.000', min: 6000, max: 10000 },
+  { label: 'Acima de R$ 10.000', min: 10000, max: null },
+];
+
+// Benefícios comuns
+const benefitOptions = [
+  'Vale Transporte',
+  'Vale Alimentação',
+  'Vale Refeição',
+  'Plano de Saúde',
+  'Plano Odontológico',
+  'Seguro de Vida',
+  'Participação nos Lucros',
+  'Gympass',
+  'Home Office',
+  'Auxílio Creche',
+];
+
 function formatSalary(min: number | null, max: number | null): string {
   if (!min && !max) return 'A combinar';
   if (min && max) {
@@ -139,6 +166,8 @@ function transformVagaToJob(vaga: Vaga): Job {
     location: vaga.cidade && vaga.estado ? `${vaga.cidade}, ${vaga.estado}` : 'Local não informado',
     type: vaga.tipos_contrato?.nome || 'CLT',
     salary: formatSalary(vaga.salario_min, vaga.salario_max),
+    salaryMin: vaga.salario_min,
+    salaryMax: vaga.salario_max,
     description: vaga.descricao || 'Descrição não disponível',
     requirements: vaga.requisitos ? vaga.requisitos.split('\n').filter(r => r.trim()) : [],
     benefits: vaga.beneficios ? vaga.beneficios.split(',').map(b => b.trim()).filter(b => b) : [],
@@ -157,7 +186,10 @@ export default function JobsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCity, setSelectedCity] = useState('Todas as cidades');
   const [selectedType, setSelectedType] = useState('Todos os tipos');
+  const [selectedSalaryRange, setSelectedSalaryRange] = useState(0);
+  const [selectedBenefits, setSelectedBenefits] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -191,6 +223,20 @@ export default function JobsPage() {
         }
       }
       
+      // Filtros de salário
+      const salaryRange = salaryRanges[selectedSalaryRange];
+      if (salaryRange.min !== null) {
+        params.set('salario_min', salaryRange.min.toString());
+      }
+      if (salaryRange.max !== null) {
+        params.set('salario_max', salaryRange.max.toString());
+      }
+      
+      // Filtros de benefícios
+      if (selectedBenefits.length > 0) {
+        params.set('beneficios', selectedBenefits.join(','));
+      }
+      
       const response = await fetch(`/api/vagas?${params.toString()}`);
       const data = await response.json();
       
@@ -198,12 +244,42 @@ export default function JobsPage() {
         throw new Error(data.error || 'Erro ao buscar vagas');
       }
       
-      setVagas(data.vagas || []);
-      setTotalVagas(data.pagination?.total || 0);
+      // Filtrar vagas por salário no frontend (caso a API não suporte)
+      let vagasFiltradas = data.vagas || [];
+      
+      if (salaryRange.min !== null || salaryRange.max !== null) {
+        vagasFiltradas = vagasFiltradas.filter((vaga: Vaga) => {
+          const vagaSalarioMin = vaga.salario_min || 0;
+          const vagaSalarioMax = vaga.salario_max || vagaSalarioMin;
+          
+          if (salaryRange.min !== null && salaryRange.max !== null) {
+            return vagaSalarioMax >= salaryRange.min && vagaSalarioMin <= salaryRange.max;
+          } else if (salaryRange.min !== null) {
+            return vagaSalarioMax >= salaryRange.min;
+          } else if (salaryRange.max !== null) {
+            return vagaSalarioMin <= salaryRange.max;
+          }
+          return true;
+        });
+      }
+      
+      // Filtrar por benefícios no frontend
+      if (selectedBenefits.length > 0) {
+        vagasFiltradas = vagasFiltradas.filter((vaga: Vaga) => {
+          if (!vaga.beneficios) return false;
+          const vagaBeneficios = vaga.beneficios.toLowerCase();
+          return selectedBenefits.some(benefit => 
+            vagaBeneficios.includes(benefit.toLowerCase())
+          );
+        });
+      }
+      
+      setVagas(vagasFiltradas);
+      setTotalVagas(data.pagination?.total || vagasFiltradas.length);
       setTotalPages(data.pagination?.totalPages || 1);
       
       // Calcular cidades únicas
-      const cidadesUnicas = new Set(data.vagas?.map((v: Vaga) => v.cidade).filter(Boolean));
+      const cidadesUnicas = new Set(vagasFiltradas.map((v: Vaga) => v.cidade).filter(Boolean));
       setTotalCidades(cidadesUnicas.size);
       
     } catch (err) {
@@ -217,12 +293,37 @@ export default function JobsPage() {
   // Buscar vagas quando filtros mudarem
   useEffect(() => {
     fetchVagas();
-  }, [page, searchTerm, selectedCity, selectedType]);
+  }, [page, searchTerm, selectedCity, selectedType, selectedSalaryRange, selectedBenefits]);
 
   // Reset página quando filtros mudarem
   useEffect(() => {
     setPage(1);
-  }, [searchTerm, selectedCity, selectedType]);
+  }, [searchTerm, selectedCity, selectedType, selectedSalaryRange, selectedBenefits]);
+
+  // Toggle benefício
+  const toggleBenefit = (benefit: string) => {
+    setSelectedBenefits(prev => 
+      prev.includes(benefit) 
+        ? prev.filter(b => b !== benefit)
+        : [...prev, benefit]
+    );
+  };
+
+  // Limpar todos os filtros
+  const clearAllFilters = () => {
+    setSearchTerm('');
+    setSelectedCity('Todas as cidades');
+    setSelectedType('Todos os tipos');
+    setSelectedSalaryRange(0);
+    setSelectedBenefits([]);
+  };
+
+  // Verificar se há filtros ativos
+  const hasActiveFilters = selectedCity !== 'Todas as cidades' || 
+    selectedType !== 'Todos os tipos' || 
+    searchTerm || 
+    selectedSalaryRange !== 0 ||
+    selectedBenefits.length > 0;
 
   const jobs = vagas.map(transformVagaToJob);
 
@@ -265,6 +366,12 @@ export default function JobsPage() {
             >
               <Filter size={20} />
               Filtros
+              {hasActiveFilters && <span className={styles.filterBadge}>{
+                (selectedCity !== 'Todas as cidades' ? 1 : 0) +
+                (selectedType !== 'Todos os tipos' ? 1 : 0) +
+                (selectedSalaryRange !== 0 ? 1 : 0) +
+                selectedBenefits.length
+              }</span>}
               <ChevronDown size={16} className={showFilters ? styles.rotated : ''} />
             </button>
           </div>
@@ -272,38 +379,88 @@ export default function JobsPage() {
           {/* Filtros Expandidos */}
           {showFilters && (
             <div className={styles.filters}>
-              <div className={styles.filterGroup}>
-                <label className={styles.filterLabel}>
-                  <MapPin size={16} />
-                  Cidade
-                </label>
-                <select
-                  className={styles.filterSelect}
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  aria-label="Filtrar por cidade"
-                >
-                  {cities.map((city) => (
-                    <option key={city} value={city}>{city}</option>
-                  ))}
-                </select>
+              {/* Filtros básicos */}
+              <div className={styles.filtersRow}>
+                <div className={styles.filterGroup}>
+                  <label className={styles.filterLabel}>
+                    <MapPin size={16} />
+                    Cidade
+                  </label>
+                  <select
+                    className={styles.filterSelect}
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                    aria-label="Filtrar por cidade"
+                  >
+                    {cities.map((city) => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.filterGroup}>
+                  <label className={styles.filterLabel}>
+                    <Briefcase size={16} />
+                    Tipo de Contrato
+                  </label>
+                  <select
+                    className={styles.filterSelect}
+                    value={selectedType}
+                    onChange={(e) => setSelectedType(e.target.value)}
+                    aria-label="Filtrar por tipo de contrato"
+                  >
+                    {jobTypes.map((type) => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.filterGroup}>
+                  <label className={styles.filterLabel}>
+                    <DollarSign size={16} />
+                    Faixa Salarial
+                  </label>
+                  <select
+                    className={styles.filterSelect}
+                    value={selectedSalaryRange}
+                    onChange={(e) => setSelectedSalaryRange(Number(e.target.value))}
+                    aria-label="Filtrar por faixa salarial"
+                  >
+                    {salaryRanges.map((range, index) => (
+                      <option key={index} value={index}>{range.label}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <div className={styles.filterGroup}>
-                <label className={styles.filterLabel}>
-                  <Briefcase size={16} />
-                  Tipo de Contrato
-                </label>
-                <select
-                  className={styles.filterSelect}
-                  value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  aria-label="Filtrar por tipo de contrato"
-                >
-                  {jobTypes.map((type) => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
-              </div>
+
+              {/* Botão para filtros avançados */}
+              <button
+                className={styles.advancedFiltersToggle}
+                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                type="button"
+              >
+                <Gift size={16} />
+                Filtrar por Benefícios
+                <ChevronDown size={14} className={showAdvancedFilters ? styles.rotated : ''} />
+              </button>
+
+              {/* Filtros de benefícios */}
+              {showAdvancedFilters && (
+                <div className={styles.benefitsFilter}>
+                  <p className={styles.benefitsLabel}>Selecione os benefícios desejados:</p>
+                  <div className={styles.benefitsGrid}>
+                    {benefitOptions.map((benefit) => (
+                      <label key={benefit} className={styles.benefitCheckbox}>
+                        <input
+                          type="checkbox"
+                          checked={selectedBenefits.includes(benefit)}
+                          onChange={() => toggleBenefit(benefit)}
+                        />
+                        <span className={styles.checkmark}></span>
+                        <span className={styles.benefitLabel}>{benefit}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -333,6 +490,13 @@ export default function JobsPage() {
               <span className={styles.statLabel}>Novas Vagas</span>
             </div>
           </div>
+          <div className={styles.statCard}>
+            <Building2 className={styles.statIcon} />
+            <div>
+              <span className={styles.statNumber}>52</span>
+              <span className={styles.statLabel}>Municípios</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -343,19 +507,49 @@ export default function JobsPage() {
             <h2 className={styles.jobsTitle}>
               {loading ? 'Carregando...' : `${jobs.length} ${jobs.length === 1 ? 'vaga encontrada' : 'vagas encontradas'}`}
             </h2>
-            {(selectedCity !== 'Todas as cidades' || selectedType !== 'Todos os tipos' || searchTerm) && (
+            {hasActiveFilters && (
               <button
                 className={styles.clearFilters}
-                onClick={() => {
-                  setSearchTerm('');
-                  setSelectedCity('Todas as cidades');
-                  setSelectedType('Todos os tipos');
-                }}
+                onClick={clearAllFilters}
               >
                 Limpar filtros
               </button>
             )}
           </div>
+
+          {/* Tags de filtros ativos */}
+          {hasActiveFilters && (
+            <div className={styles.activeFilters}>
+              {selectedCity !== 'Todas as cidades' && (
+                <span className={styles.filterTag}>
+                  <MapPin size={12} />
+                  {selectedCity}
+                  <button onClick={() => setSelectedCity('Todas as cidades')}>×</button>
+                </span>
+              )}
+              {selectedType !== 'Todos os tipos' && (
+                <span className={styles.filterTag}>
+                  <Briefcase size={12} />
+                  {selectedType}
+                  <button onClick={() => setSelectedType('Todos os tipos')}>×</button>
+                </span>
+              )}
+              {selectedSalaryRange !== 0 && (
+                <span className={styles.filterTag}>
+                  <DollarSign size={12} />
+                  {salaryRanges[selectedSalaryRange].label}
+                  <button onClick={() => setSelectedSalaryRange(0)}>×</button>
+                </span>
+              )}
+              {selectedBenefits.map(benefit => (
+                <span key={benefit} className={styles.filterTag}>
+                  <Gift size={12} />
+                  {benefit}
+                  <button onClick={() => toggleBenefit(benefit)}>×</button>
+                </span>
+              ))}
+            </div>
+          )}
 
           {loading ? (
             <div className={styles.loading}>
@@ -391,6 +585,12 @@ export default function JobsPage() {
                         {job.salary}
                       </span>
                     </div>
+                    {job.benefits.length > 0 && (
+                      <div className={styles.jobBenefits}>
+                        <Gift size={12} />
+                        <span>{job.benefits.slice(0, 3).join(' • ')}{job.benefits.length > 3 ? ` +${job.benefits.length - 3}` : ''}</span>
+                      </div>
+                    )}
                     <p className={styles.jobDescription}>{job.description}</p>
                     <div className={styles.jobFooter}>
                       <span className={styles.jobPosted}>

@@ -20,6 +20,10 @@
   color: #16a34a;
 }
 
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -28,6 +32,13 @@
 /* Header */
 .header {
   margin-bottom: 32px;
+}
+
+.headerContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .backLink {
@@ -56,6 +67,99 @@
   font-size: 16px;
   color: #6b7280;
   margin: 0;
+}
+
+.refreshButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refreshButton:hover:not(:disabled) {
+  background: #f9fafb;
+  color: #16a34a;
+  border-color: #16a34a;
+}
+
+.refreshButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Notification Banner */
+.notificationBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border: 1px solid #93c5fd;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notificationBanner svg {
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.notificationContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notificationContent strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.notificationContent span {
+  font-size: 13px;
+  color: #3b82f6;
+}
+
+.notificationClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: #3b82f6;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.notificationClose:hover {
+  background: rgba(59, 130, 246, 0.1);
 }
 
 /* Error Message */
@@ -128,9 +232,9 @@
 /* Stats */
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .statCard {
@@ -156,11 +260,68 @@
   margin-top: 4px;
 }
 
+/* Filter Bar */
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filterBar > svg {
+  color: #6b7280;
+}
+
+.filterLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.filterButtons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  padding: 6px 14px;
+  background: #f3f4f6;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filterBtn:hover {
+  background: #e5e7eb;
+}
+
+.filterBtn.active {
+  background: #16a34a;
+  color: white;
+}
+
 /* Candidaturas List */
 .candidaturasList {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.noResults {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  font-size: 14px;
 }
 
 .candidaturaCard {
@@ -169,10 +330,41 @@
   border-radius: 12px;
   overflow: hidden;
   transition: box-shadow 0.2s ease;
+  position: relative;
 }
 
 .candidaturaCard:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.candidaturaCard.newCard {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.newBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
 /* Card Header */
@@ -229,14 +421,15 @@
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
+  cursor: help;
 }
 
 /* Card Body */
 .cardBody {
   padding: 16px 20px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .infoRow {
@@ -249,6 +442,14 @@
 
 .infoRow svg {
   color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.statusDescription {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 4px 0 0 0;
+  font-style: italic;
 }
 
 /* Card Actions */
@@ -304,7 +505,56 @@
   cursor: not-allowed;
 }
 
+/* Notification Tip */
+.notificationTip {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.notificationTip svg {
+  color: #f59e0b;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.notificationTip p {
+  margin: 0;
+  font-size: 13px;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+.notificationTip strong {
+  font-weight: 600;
+}
+
 /* Responsive */
+@media (max-width: 768px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .filterBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .filterButtons {
+    width: 100%;
+  }
+  
+  .filterBtn {
+    flex: 1;
+    text-align: center;
+  }
+}
+
 @media (max-width: 640px) {
   .container {
     padding: 16px;
@@ -313,9 +563,22 @@
   .header h1 {
     font-size: 24px;
   }
+  
+  .headerContent {
+    flex-direction: column;
+  }
+  
+  .refreshButton {
+    align-self: flex-end;
+    margin-top: -48px;
+  }
 
   .stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .statNumber {
+    font-size: 24px;
   }
 
   .cardHeader {
@@ -326,10 +589,11 @@
   .statusBadge {
     align-self: flex-start;
   }
-
-  .cardBody {
-    flex-direction: column;
-    gap: 8px;
+  
+  .newBadge {
+    position: static;
+    margin-bottom: 12px;
+    align-self: flex-start;
   }
 
   .cardActions {
@@ -339,5 +603,16 @@
   .viewButton,
   .cancelButton {
     justify-content: center;
+  }
+  
+  .notificationBanner {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .notificationClose {
+    position: absolute;
+    top: 8px;
+    right: 8px;
   }
 }

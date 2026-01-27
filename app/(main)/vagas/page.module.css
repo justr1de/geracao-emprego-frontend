@@ -12,7 +12,7 @@
 }
 
 .heroContainer {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
 }
@@ -105,10 +105,25 @@
   border-radius: var(--radius);
   cursor: pointer;
   transition: all 0.2s;
+  position: relative;
 }
 
 .filterToggle:hover {
   background: var(--background-alt);
+}
+
+.filterBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  background: #ef4444;
+  border-radius: 999px;
 }
 
 .rotated {
@@ -126,8 +141,14 @@
   border-radius: var(--radius);
 }
 
+.filtersRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 @media (min-width: 640px) {
-  .filters {
+  .filtersRow {
     flex-direction: row;
   }
 }
@@ -157,6 +178,149 @@
   cursor: pointer;
 }
 
+/* Advanced Filters Toggle */
+.advancedFiltersToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.advancedFiltersToggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Benefits Filter */
+.benefitsFilter {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+}
+
+.benefitsLabel {
+  font-size: 0.875rem;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .benefitsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .benefitsGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.benefitCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.benefitCheckbox:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.benefitCheckbox input {
+  display: none;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.benefitCheckbox input:checked + .checkmark {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.benefitCheckbox input:checked + .checkmark::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.benefitLabel {
+  font-size: 0.8125rem;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Active Filters Tags */
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filterTag {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 999px;
+}
+
+.filterTag button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  font-size: 1rem;
+  color: var(--primary);
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 0.25rem;
+}
+
+.filterTag button:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 /* Stats Section */
 .stats {
   background: var(--background-alt);
@@ -165,7 +329,7 @@
 }
 
 .statsContainer {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -216,7 +380,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -300,7 +464,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .jobLocation,
@@ -310,6 +474,19 @@
   gap: 0.25rem;
   font-size: 0.875rem;
   color: var(--text-secondary);
+}
+
+.jobBenefits {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: #059669;
+  margin-bottom: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  background: #ecfdf5;
+  border-radius: var(--radius);
+  width: fit-content;
 }
 
 .jobDescription {
