@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { LogOut } from 'lucide-react'
 import styles from './layout.module.css'
 
 interface AdminLayoutProps {
@@ -11,6 +12,17 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      router.push('/admin')
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error)
+      router.push('/admin')
+    }
+  }
 
   const menuItems = [
     { href: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
@@ -26,7 +38,19 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <div className={styles.adminContainer}>
-      <aside className={styles.sidebar}>
+      {/* Header com botão de Logout */}
+      <header className={styles.adminHeader}>
+        <div className={styles.headerLeft}>
+          <span className={styles.welcomeText}>Painel Administrativo</span>
+        </div>
+        <button onClick={handleLogout} className={styles.logoutBtn}>
+          <LogOut size={18} />
+          <span>Sair</span>
+        </button>
+      </header>
+
+      <div className={styles.adminBody}>
+        <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
           <h2>Painel Admin</h2>
           <span className={styles.badge}>Superadmin</span>
@@ -70,9 +94,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
       </aside>
 
-      <main className={styles.mainContent}>
-        {children}
-      </main>
+        <main className={styles.mainContent}>
+          {children}
+        </main>
+      </div>
     </div>
   )
 }
