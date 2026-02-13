@@ -2,8 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
-import { LogOut, Lock } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import styles from './layout.module.css'
 
 interface AdminLayoutProps {
@@ -12,24 +11,6 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname()
-  const router = useRouter()
-
-  const handleLogout = async () => {
-    // Confirmação antes de fazer logout
-    const confirmLogout = window.confirm('Confirmar logout?')
-    
-    if (!confirmLogout) {
-      return // Usuário cancelou
-    }
-
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' })
-      router.push('/admin')
-    } catch (error) {
-      console.error('Erro ao fazer logout:', error)
-      router.push('/admin')
-    }
-  }
 
   const menuItems = [
     { href: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
@@ -45,17 +26,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <div className={styles.adminContainer}>
-      {/* Header com título e botão de Logout */}
+      {/* Header com título */}
       <header className={styles.adminHeader}>
         <div className={styles.headerLeft}>
           <span className={styles.welcomeText}>Painel Administrativo</span>
           <span className={styles.badge}>Superadmin</span>
         </div>
-        <button onClick={handleLogout} className={styles.logoutBtn}>
-          <Lock size={16} />
-          <LogOut size={18} />
-          <span>Sair</span>
-        </button>
+        <Link href="/" className={styles.logoutBtn}>
+          <span>← Voltar ao Site</span>
+        </Link>
       </header>
 
       {/* Navegação horizontal no corpo da página */}
